@@ -1,0 +1,18 @@
+/* Customizing Theme Colors */
+$primary: #a080e1;
+
+/* import the functions & variables */
+@import "~bootstrap/scss/_functions";
+@import "~bootstrap/scss/_variables";
+
+/* If we want to add colors to the bootstrap theme */
+$custom-theme-colors: (
+  "altlight": #f2ebfa,
+  "altdark": #522192,
+);
+
+/* Override theme-colors variable */
+$theme-colors: map-merge($custom-theme-colors, $theme-colors);
+
+/* import bootstrap to set changes */
+@import "~bootstrap/scss/bootstrap";
