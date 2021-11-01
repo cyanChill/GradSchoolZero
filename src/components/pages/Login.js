@@ -15,8 +15,8 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     setTimeout(() => {
-      setIsLoggedIn(!isLoggedIn);
       setLoading(false);
+      setIsLoggedIn(!isLoggedIn);
     }, 500);
   };
 
