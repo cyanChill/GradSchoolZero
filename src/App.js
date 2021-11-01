@@ -9,6 +9,7 @@ import Home from "./components/pages/Home";
 import About from "./components/pages/About";
 import Classes from "./components/pages/Classes";
 import Profile from "./components/pages/Profile";
+import Login from './components/pages/Login';
 
 const App = () => {
   return (
@@ -27,6 +28,9 @@ const App = () => {
           </Route>
           <Route path="/profile">
             <Profile />
+          </Route>
+           <Route path="/Login">
+            <Login />
           </Route>
         </Switch>
       </Container>

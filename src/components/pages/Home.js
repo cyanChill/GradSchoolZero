@@ -29,10 +29,19 @@ const Profile = () => {
         magnam quidem! Accusantium facere possimus quas recusandae provident.
       </p>
 
-      <Button variant={isLoggedIn ? "danger" : "success"} onClick={handleLogin}>
+      {/* <Button variant={isLoggedIn ? "danger" : "success"} onClick={handleLogin}>
         {isLoggedIn ? "Log Out" : "Log In"}
+      </Button> */}
+
+      
+         <Button>
+           Apply Now 
       </Button>
     </>
+
+ 
+
+
   );
 };
 

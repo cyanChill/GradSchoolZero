@@ -1,5 +1,10 @@
 import { useContext } from "react";
 import { GlobalContext } from "../GlobalContext";
+import MenuIcon from '@mui/icons-material/Menu';
+import Button from "react-bootstrap/Button";
+
+
+
 
 /* For routing */
 import { Link } from "react-router-dom";
@@ -10,13 +15,24 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from "react-bootstrap/Container";
 
+
+
+
+
 const NavBar = () => {
   const { isLoggedIn } = useContext(GlobalContext);
 
   return (
     <Navbar bg="primary" expand="md" fixed="top">
       <Container>
+        {/* <Link to= "/profile" >
+        <MenuIcon />
+         </Link> */}
+      
+
         <Navbar.Brand as={Link} to="/">
+         
+
           GradSchoolZero
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -31,12 +47,18 @@ const NavBar = () => {
             <Nav.Link as={Link} to="/about">
               About
             </Nav.Link>
+            <Nav.Link as={Link} to="/Login">
+              Log In
+            </Nav.Link>
+
             {!isLoggedIn ? null : (
               <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                 <NavDropdown.Item as={Link} to="/profile">
                   Profile
                 </NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="/">
+              
+   
                   Login-Only Item 2
                 </NavDropdown.Item>
               </NavDropdown>
