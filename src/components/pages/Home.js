@@ -1,21 +1,17 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { GlobalContext } from "../../GlobalContext";
 
-import Button from "react-bootstrap/Button";
+import { Button, Container } from "react-bootstrap";
 
 const Profile = () => {
   /* 
     How we access the values of the "GlobaContext" [we can specify what
     we want from the available values using object destructuring]:
   */
-  const { isLoggedIn, setIsLoggedIn } = useContext(GlobalContext);
-
-  const handleLogin = () => {
-    setIsLoggedIn(!isLoggedIn);
-  };
+  const { isLoggedIn } = useContext(GlobalContext);
 
   return (
-    <>
+    <Container>
       <h1>Welcome to GradSchoolZero</h1>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti hic sequi nobis, impedit
@@ -29,19 +25,13 @@ const Profile = () => {
         magnam quidem! Accusantium facere possimus quas recusandae provident.
       </p>
 
-      {/* <Button variant={isLoggedIn ? "danger" : "success"} onClick={handleLogin}>
-        {isLoggedIn ? "Log Out" : "Log In"}
-      </Button> */}
-
-      
-         <Button>
-           Apply Now 
-      </Button>
-    </>
-
- 
-
-
+      {isLoggedIn ? null : (
+        <div>
+          <h2>Applications are open for the Fall 2021 Semester for Students and Instructors!</h2>
+          <Button>Apply Now</Button>
+        </div>
+      )}
+    </Container>
   );
 };
 
