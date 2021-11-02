@@ -3,7 +3,9 @@ import { useState, useEffect, createContext } from "react";
 export const GlobalContext = createContext();
 
 export const GlobalProvider = (props) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    sessionStorage.getItem("loggedIn?") === "true" || false
+  );
   const [termInfo, setTermInfo] = useState({
     phase: "",
     semester: "",
@@ -19,8 +21,9 @@ export const GlobalProvider = (props) => {
       array argument
   */
   useEffect(() => {
-    /* Some async call */
-  }, []);
+    /* Some async calls */
+    sessionStorage.setItem("loggedIn?", isLoggedIn); // Temporary caching in session storage
+  }, [isLoggedIn]);
 
   /* 
     The values of "value" in "GlobalContext.Provider" is available to all

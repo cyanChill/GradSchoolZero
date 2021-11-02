@@ -1,5 +1,5 @@
 import "./styles/App.scss";
-import Container from "react-bootstrap/Container";
+import { Container } from "react-bootstrap";
 
 /* For page routing */
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -9,7 +9,8 @@ import Home from "./components/pages/Home";
 import About from "./components/pages/About";
 import Classes from "./components/pages/Classes";
 import Profile from "./components/pages/Profile";
-import Login from './components/pages/Login';
+import Login from "./components/pages/Login";
+import Logout from "./components/pages/Logout";
 
 const App = () => {
   return (
@@ -29,8 +30,11 @@ const App = () => {
           <Route path="/profile">
             <Profile />
           </Route>
-           <Route path="/Login">
+          <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/logout">
+            <Logout />
           </Route>
         </Switch>
       </Container>
