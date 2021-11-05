@@ -51,7 +51,7 @@ const UserInteract = ({ isLoggedIn }) => {
           Log In
         </Button>
 
-        <Button variant="warning" as={Link} to="/" className="m-1">
+        <Button variant="warning" as={Link} to="/apply" className="m-1">
           Apply
         </Button>
       </>
