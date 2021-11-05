@@ -1,11 +1,9 @@
-import { useContext, useState } from "react";
-import { GlobalContext } from "../../GlobalContext";
-import { Redirect } from "react-router";
+import { useState } from "react";
+import { Redirect } from "react-router-dom";
 
 import { Button, Form, Row, Col, Container } from "react-bootstrap";
 
 const Apply = () => {
-  const { isLoggedIn } = useContext(GlobalContext);
   const [loading, setLoading] = useState(false);
 
   const [formState, setFormState] = useState({
@@ -57,10 +55,6 @@ const Apply = () => {
         }}
       />
     );
-  }
-
-  if (isLoggedIn) {
-    return <Redirect to="/" />;
   }
 
   return (
@@ -162,18 +156,14 @@ const Apply = () => {
             </Form.Group>
           )}
 
-          <Row>
-            <Col>
-              <Button
-                style={{ width: "100%" }}
-                variant="primary"
-                type="submit"
-                disabled={loading ? true : false}
-              >
-                Submit Application
-              </Button>
-            </Col>
-          </Row>
+          <Button
+            style={{ width: "100%" }}
+            variant="primary"
+            type="submit"
+            disabled={loading ? true : false}
+          >
+            Submit Application
+          </Button>
         </Form>
       )}
     </Container>

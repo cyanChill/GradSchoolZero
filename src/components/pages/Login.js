@@ -14,15 +14,13 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     setLoading(true);
+    /* Do some checks for login and check server */
+
     setTimeout(() => {
       setLoading(false);
       setIsLoggedIn(!isLoggedIn);
     }, 500);
   };
-
-  if (isLoggedIn) {
-    return <Redirect to="/" />;
-  }
 
   return (
     <Container>
@@ -63,18 +61,14 @@ const Login = () => {
               </Col>
             </Form.Group>
 
-            <Row>
-              <Col>
-                <Button
-                  style={{ width: "100%" }}
-                  variant="primary"
-                  type="submit"
-                  disabled={loading ? true : false}
-                >
-                  Login
-                </Button>
-              </Col>
-            </Row>
+            <Button
+              style={{ width: "100%" }}
+              variant="primary"
+              type="submit"
+              disabled={loading ? true : false}
+            >
+              Login
+            </Button>
           </Form>
         </Card.Body>
       </Card>

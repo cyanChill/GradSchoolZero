@@ -4,13 +4,16 @@ import { Redirect } from "react-router";
 import { Spinner, Container } from "react-bootstrap";
 
 const Logout = () => {
-  const { setIsLoggedIn } = useContext(GlobalContext);
+  const { setIsLoggedIn, setUser } = useContext(GlobalContext);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    /* Also logout from the server */
+
     const timeout = setTimeout(() => {
-      setIsLoggedIn(false);
       setLoading(false);
+      setUser({});
+      setIsLoggedIn(false);
     }, 100);
 
     return () => {
@@ -20,7 +23,18 @@ const Logout = () => {
 
   return (
     <Container className="text-center">
-      {loading ? <Spinner animation="border" className="mx-auto mt-5" /> : <Redirect to="/" />}
+      {loading ? (
+        <Spinner animation="border" className="mx-auto mt-5" />
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/",
+            state: {
+              alert: { message: "You have successfully logged out.", type: "success" },
+            },
+          }}
+        />
+      )}
     </Container>
   );
 };
