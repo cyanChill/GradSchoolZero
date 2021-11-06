@@ -5,7 +5,7 @@ import useInstructorFetch from "../../hooks/useInstructorFetch";
 import { Button, Form, Card, Row, Col, Container, Alert } from "react-bootstrap";
 import { FaTrashAlt } from "react-icons/fa";
 
-import { convert23Time, isAfter } from "../../helpers/time";
+import { convert23Time, isAfter, checkConflicts, removeDupe } from "../../helpers/time";
 
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -74,20 +74,38 @@ const CreateCourse = () => {
 
   const handleCreate = (e) => {
     e.preventDefault();
-    /* Do form validations & add any erros to formErrors */
-    /* Check to see if times are conflicting */
+    setLoading(true);
+    const errors = [];
+    const noDupes = removeDupe(courseInfo.courseTimes);
+    const hasTimeConflicts = checkConflicts(noDupes);
 
-    setTimeout(() => {
+    if (!courseInfo.courseName) errors.push("Please enter in a course name");
+    if (!courseInfo.instructorId) errors.push("Please select an instructor");
+    if (courseInfo.courseTimes.length === 0) errors.push("Please enter at least 1 course time");
+    if (hasTimeConflicts) errors.push("There are time conflicts for this course");
+
+    if (errors.length > 0) {
+      setFormErrors(errors);
       setLoading(false);
-      /* Submit Form to server */
+    } else {
+      setTimeout(() => {
+        setLoading(false);
+        /* Submit Form to server */
 
-      setSuccess(true);
-    }, 500);
+        setSuccess(true);
+      }, 500);
+    }
   };
 
-  /* 
-    Check if current phase is course setup
-  */
+  /* Check if current phase is course setup */
+  if (termInfo.phase !== "set-up") {
+    return (
+      <Alert variant="danger" className="mt-5">
+        <span className="fw-bold">Error:</span> The program is not in the{" "}
+        <span className="font-monospace">Class Set-Up Period</span>.{" "}
+      </Alert>
+    );
+  }
 
   if (success) {
     return (
@@ -120,6 +138,8 @@ const CreateCourse = () => {
             ))}
           </ul>
         </Alert>
+
+        {/* Button back to course set-up page? */}
       </Container>
     );
   }
@@ -129,10 +149,15 @@ const CreateCourse = () => {
       <Card style={{ maxWidth: "50rem" }} className="mx-auto mt-5">
         <Card.Body>
           <h1 className="text-center">Create A Course</h1>
-          {/* 
-            Form error notificaitons
-          <Alert variant="danger">Test</Alert>
-          */}
+          {formErrors.length === 0 ? null : (
+            <Alert variant="danger">
+              <ul className="mb-0">
+                {formErrors.map((error, idx) => (
+                  <li key={idx}>{error}</li>
+                ))}
+              </ul>
+            </Alert>
+          )}
 
           <Form onSubmit={handleCreate}>
             <Form.Group className="mb-3" controlId="formHorizontalCourseName">
@@ -143,13 +168,12 @@ const CreateCourse = () => {
                 name="courseName"
                 value={courseInfo.courseName}
                 onChange={handleInputChange}
-                required
               />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formHorizontalInstructor">
               <Form.Label>Instructor</Form.Label>
-              <Form.Select name="instructorId" defaultValue="" onChange={handleInstructor} required>
+              <Form.Select name="instructorId" defaultValue="" onChange={handleInstructor}>
                 <option value="" disabled>
                   Select an Instructor
                 </option>
@@ -169,7 +193,6 @@ const CreateCourse = () => {
                 name="maxCapacity"
                 value={courseInfo.maxCapacity}
                 onChange={handleInputChange}
-                required
               />
             </Form.Group>
 

@@ -9,12 +9,19 @@ const Home = ({ history }) => {
     How we access the values of the "GlobaContext" [we can specify what
     we want from the available values using object destructuring]:
   */
-  const { isLoggedIn, user, setUser } = useContext(GlobalContext);
+  const { isLoggedIn, user, setUser, termInfo, setTermInfo } = useContext(GlobalContext);
 
   const clearAlert = () => {
     let state = { ...history.location.state };
     delete state.alert;
     history.replace({ ...history.location, state });
+  };
+
+  const setPhase = (phase) => {
+    setTermInfo({
+      ...termInfo,
+      phase,
+    });
   };
 
   return (
@@ -46,16 +53,55 @@ const Home = ({ history }) => {
       {!isLoggedIn ? null : (
         <>
           <h2>Temporary:</h2>
-          <div className="d-flex gap-3 flex-wrap justify-content-center align-items-center">
+          <div className="d-flex gap-3 flex-wrap justify-content-center align-items-center my-2">
             <Button onClick={() => setUser({ ...user, type: "" })}>Clear User Type</Button>
-            <Button onClick={() => setUser({ ...user, type: "student" })}>
+            <Button
+              onClick={() => setUser({ ...user, type: "student" })}
+              disabled={user.type === "student" ? true : false}
+            >
               Set User as Student
             </Button>
-            <Button onClick={() => setUser({ ...user, type: "instructor" })}>
+            <Button
+              onClick={() => setUser({ ...user, type: "instructor" })}
+              disabled={user.type === "instructor" ? true : false}
+            >
               Set User as Instructor
             </Button>
-            <Button onClick={() => setUser({ ...user, type: "registrar" })}>
+            <Button
+              onClick={() => setUser({ ...user, type: "registrar" })}
+              disabled={user.type === "registrar" ? true : false}
+            >
               Set User as Registrar
+            </Button>
+          </div>
+          <div className="d-flex gap-3 flex-wrap justify-content-center align-items-center my-2">
+            <Button
+              variant="secondary"
+              onClick={() => setPhase("set-up")}
+              disabled={termInfo.phase === "set-up" ? true : false}
+            >
+              Class Set-Up Period
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => setPhase("registration")}
+              disabled={termInfo.phase === "registration" ? true : false}
+            >
+              Course Registration period
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => setPhase("running")}
+              disabled={termInfo.phase === "running" ? true : false}
+            >
+              Class Running Period
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => setPhase("grading")}
+              disabled={termInfo.phase === "grading" ? true : false}
+            >
+              Grading Period
             </Button>
           </div>
         </>

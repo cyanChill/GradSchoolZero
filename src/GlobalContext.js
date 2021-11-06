@@ -13,11 +13,14 @@ export const GlobalProvider = (props) => {
     }
   );
 
-  const [termInfo, setTermInfo] = useState({
-    phase: "",
-    semester: "",
-    year: "",
-  });
+  /* phase can be: "set-up", "registration", "running", "grading" */
+  const [termInfo, setTermInfo] = useState(
+    JSON.parse(sessionStorage.getItem("termInfo")) || {
+      phase: "",
+      semester: "",
+      year: "",
+    }
+  );
 
   /* 
     Will be called on load - we can use this to fetch async data from our
@@ -36,6 +39,11 @@ export const GlobalProvider = (props) => {
     /* Some async calls */
     sessionStorage.setItem("user", JSON.stringify(user)); // Temporary caching in session storage
   }, [user]);
+
+  useEffect(() => {
+    /* Some async calls */
+    sessionStorage.setItem("termInfo", JSON.stringify(termInfo)); // Temporary caching in session storage
+  }, [termInfo]);
 
   /* 
     The values of "value" in "GlobalContext.Provider" is available to all

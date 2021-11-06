@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 const convert23Time = (time) => {
   let [hour, second] = time.split(":");
   const AMOrPM = parseInt(hour) >= 12 ? "PM" : "AM";
@@ -22,5 +24,32 @@ const isAfter = (start, end) => {
 };
 
 /* Function to check time conflicts */
+const checkConflicts = (timeArr) => {
+  if (timeArr.length <= 1) return false;
 
-export { convert23Time, isAfter };
+  return timeArr.every((curr, idx1, arr) => {
+    return arr.every((other, idx2) => {
+      if (idx1 === idx2 || curr.day !== other.day) return true;
+
+      if (
+        (isAfter(curr.start, other.start) && isAfter(other.end, curr.start)) ||
+        (isAfter(curr.end, other.start) && isAfter(other.end, curr.end))
+      ) {
+        return false;
+      }
+      return true;
+    });
+  });
+};
+
+const removeDupe = (arr) => {
+  return arr.filter((obj, idx, arr) => {
+    const newarr = arr.slice(0, idx);
+    if (newarr.length === 0) return true;
+    return newarr.every((obj2) => {
+      return !_.isEqual(obj, obj2);
+    });
+  });
+};
+
+export { convert23Time, isAfter, checkConflicts, removeDupe };
