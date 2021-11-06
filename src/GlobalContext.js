@@ -3,6 +3,9 @@ import { useState, useEffect, createContext } from "react";
 export const GlobalContext = createContext();
 
 export const GlobalProvider = (props) => {
+  /* 
+    Conver to custom hooks for credentials
+  */
   const [isLoggedIn, setIsLoggedIn] = useState(
     sessionStorage.getItem("loggedIn?") === "true" || false
   );
