@@ -18,7 +18,7 @@ import Login from "./components/pages/Login";
 import Logout from "./components/pages/Logout";
 import Apply from "./components/pages/Apply";
 import CreateUserForm from "./components/pages/CreateUserForm";
-import CreateCourse from "./components/pages/CreateCourse";
+import CreateCourseForm from "./components/pages/CreateCourseForm";
 import NotFound from "./components/pages/NotFound";
 
 const App = () => {
@@ -52,7 +52,7 @@ const App = () => {
             <CreateUserForm />
           </RegistrarRoute>
           <RegistrarRoute path="/create/course" isAuthenticated={isLoggedIn} user={user}>
-            <CreateCourse />
+            <CreateCourseForm />
           </RegistrarRoute>
 
           {/* Page not found */}
