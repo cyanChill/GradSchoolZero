@@ -64,10 +64,10 @@ const CreateUser = ({ name, email, type }) => {
             needed to log in and please make sure, once you log in, to change your password.:
             <br />
             <br />
-            <span className="fw-bold">Email:</span>{" "}
+            <span className="fw-bold">Email: </span>
             <span className="font-monospace">{userInfo.email}</span>
             <br />
-            <span className="fw-bold">Password:</span>{" "}
+            <span className="fw-bold">Password: </span>
             <span className="font-monospace">{userInfo.password}</span>
             <br />
             <br />

@@ -17,7 +17,7 @@ import Profile from "./components/pages/Profile";
 import Login from "./components/pages/Login";
 import Logout from "./components/pages/Logout";
 import Apply from "./components/pages/Apply";
-import CreateUser from "./components/pages/CreateUser";
+import CreateUserForm from "./components/pages/CreateUserForm";
 import CreateCourse from "./components/pages/CreateCourse";
 import NotFound from "./components/pages/NotFound";
 
@@ -49,7 +49,7 @@ const App = () => {
 
           {/* Registrar users only */}
           <RegistrarRoute path="/create/user" isAuthenticated={isLoggedIn} user={user}>
-            <CreateUser />
+            <CreateUserForm />
           </RegistrarRoute>
           <RegistrarRoute path="/create/course" isAuthenticated={isLoggedIn} user={user}>
             <CreateCourse />
