@@ -19,6 +19,8 @@ const useTermInfo = () => {
         - remove suspensions if they're over
         - Automatic honor student assignment
         - Automatic termination (gpa < 2 or failed the same course twice)
+
+        - Prevent going to course registration phase if there's no courses added from class set-up
       */
   };
 

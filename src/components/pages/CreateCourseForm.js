@@ -75,6 +75,8 @@ const CreateCourse = () => {
   const handleCreate = (e) => {
     e.preventDefault();
     setLoading(true);
+
+    /* Validations */
     const errors = [];
     const noDupes = removeDupe(courseInfo.courseTimes);
     const hasTimeConflicts = checkConflicts(noDupes);
