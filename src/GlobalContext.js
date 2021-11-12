@@ -3,14 +3,27 @@ import { useState, useEffect, createContext } from "react";
 export const GlobalContext = createContext();
 
 export const GlobalProvider = (props) => {
+  /* 
+    Conver to custom hooks for credentials
+  */
   const [isLoggedIn, setIsLoggedIn] = useState(
     sessionStorage.getItem("loggedIn?") === "true" || false
   );
-  const [termInfo, setTermInfo] = useState({
-    phase: "",
-    semester: "",
-    year: "",
-  });
+
+  const [user, setUser] = useState(
+    JSON.parse(sessionStorage.getItem("user")) || {
+      type: "",
+    }
+  );
+
+  /* phase can be: "set-up", "registration", "running", "grading" */
+  const [termInfo, setTermInfo] = useState(
+    JSON.parse(sessionStorage.getItem("termInfo")) || {
+      phase: "",
+      semester: "",
+      year: "",
+    }
+  );
 
   /* 
     Will be called on load - we can use this to fetch async data from our
@@ -25,12 +38,24 @@ export const GlobalProvider = (props) => {
     sessionStorage.setItem("loggedIn?", isLoggedIn); // Temporary caching in session storage
   }, [isLoggedIn]);
 
+  useEffect(() => {
+    /* Some async calls */
+    sessionStorage.setItem("user", JSON.stringify(user)); // Temporary caching in session storage
+  }, [user]);
+
+  useEffect(() => {
+    /* Some async calls */
+    sessionStorage.setItem("termInfo", JSON.stringify(termInfo)); // Temporary caching in session storage
+  }, [termInfo]);
+
   /* 
     The values of "value" in "GlobalContext.Provider" is available to all
     components that access "GlobalContext" via "useContext"
   */
   return (
-    <GlobalContext.Provider value={{ isLoggedIn, setIsLoggedIn, termInfo, setTermInfo }}>
+    <GlobalContext.Provider
+      value={{ isLoggedIn, setIsLoggedIn, termInfo, setTermInfo, user, setUser }}
+    >
       {props.children}
     </GlobalContext.Provider>
   );
