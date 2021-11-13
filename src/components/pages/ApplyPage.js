@@ -108,10 +108,10 @@ const ApplyPage = () => {
         </Alert>
       )}
 
-      {!formType ? null : (
+      {formType && (
         <Form onSubmit={handleApplication} className="mt-4">
           {/* Name Field */}
-          <Form.Group as={Row} className="mb-3" controlId="formHorizontalName">
+          <Form.Group as={Row} className="mb-3">
             <Form.Label column sm="auto">
               Name
             </Form.Label>
@@ -128,7 +128,7 @@ const ApplyPage = () => {
           </Form.Group>
 
           {/* Email Field -- verification if an existing application exists for that email already? */}
-          <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+          <Form.Group as={Row} className="mb-3">
             <Form.Label column sm="auto">
               Email
             </Form.Label>
@@ -141,15 +141,12 @@ const ApplyPage = () => {
                 onChange={handleInputChange}
                 required
               />
-              <Form.Control.Feedback type="invalid">
-                Please enter a valid email
-              </Form.Control.Feedback>
             </Col>
           </Form.Group>
 
           {/* GPA Field [Student Only] */}
-          {formType !== "student" ? null : (
-            <Form.Group as={Row} className="mb-3" controlId="formHorizontalGPA">
+          {formType === "student" && (
+            <Form.Group as={Row} className="mb-3">
               <Form.Label column sm="auto">
                 GPA
               </Form.Label>
@@ -164,16 +161,13 @@ const ApplyPage = () => {
                   onChange={handleInputChange}
                   required
                 />
-                <Form.Control.Feedback type="invalid">
-                  Please enter your GPA
-                </Form.Control.Feedback>
               </Col>
             </Form.Group>
           )}
 
           {/* Skills and Fields of Interest [Instructor Only] */}
-          {formType !== "instructor" ? null : (
-            <Form.Group className="mb-3" controlId="formHorizontalPassword">
+          {formType === "instructor" && (
+            <Form.Group className="mb-3">
               <Form.Label column sm="auto">
                 About Yourself
               </Form.Label>
@@ -183,11 +177,9 @@ const ApplyPage = () => {
                 name="interests"
                 value={formState.interests}
                 onChange={handleInputChange}
+                maxLength="1000"
                 required
               />
-              <Form.Control.Feedback type="invalid">
-                Please enter something about yourself
-              </Form.Control.Feedback>
             </Form.Group>
           )}
 
@@ -195,7 +187,7 @@ const ApplyPage = () => {
             style={{ width: "100%" }}
             variant="primary"
             type="submit"
-            disabled={loading ? true : false}
+            disabled={loading}
           >
             Submit Application
           </Button>

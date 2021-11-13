@@ -17,8 +17,10 @@ import Profile from "./components/pages/Profile";
 import Login from "./components/pages/Login";
 import Logout from "./components/pages/Logout";
 import ApplyPage from "./components/pages/ApplyPage";
-import CreateUserForm from "./components/pages/CreateUserForm";
+import CreateUserForm from "./components/RegisterView/Applications/CreateUserForm";
 import CreateCourseForm from "./components/pages/CreateCourseForm";
+import ApplicationsPage from "./components/RegisterView/Applications/ApplicationsPage";
+import Applicant from "./components/RegisterView/Applications/Applicant";
 import NotFound from "./components/pages/NotFound";
 
 const App = () => {
@@ -52,9 +54,8 @@ const App = () => {
             path="/create/user"
             isAuthenticated={isLoggedIn}
             user={user}
-          >
-            <CreateUserForm />
-          </RegistrarRoute>
+            component={CreateUserForm}
+          />
           <RegistrarRoute
             path="/create/course"
             isAuthenticated={isLoggedIn}
@@ -62,11 +63,24 @@ const App = () => {
           >
             <CreateCourseForm />
           </RegistrarRoute>
+          <RegistrarRoute
+            exact
+            path="/applications"
+            isAuthenticated={isLoggedIn}
+            user={user}
+          >
+            <ApplicationsPage />
+          </RegistrarRoute>
+          <RegistrarRoute
+            path="/applications/:id"
+            isAuthenticated={isLoggedIn}
+            user={user}
+          >
+            <Applicant />
+          </RegistrarRoute>
 
           {/* Page not found */}
-          <Route path="*">
-            <NotFound />
-          </Route>
+          <Route path="*" component={NotFound} />
         </Switch>
       </Container>
     </Router>
