@@ -52,6 +52,9 @@ const useApplicationFetch = () => {
     await fetch(`http://localhost:2543/applications/${applicationId}`, {
       method: "DELETE",
     });
+    setApplicationsList((prev) =>
+      prev.filter((application) => application.id !== applicationId)
+    );
   };
 
   const refreshApplicationsList = async () => {
