@@ -30,7 +30,11 @@ const CreateUser = ({ history }) => {
   /* Attempt to load information passed via history */
   useEffect(() => {
     if (history.location.state) {
-      const { applic, justification, reqJust } = history.location.state;
+      const {
+        application: applic,
+        justification,
+        reqJust,
+      } = history.location.state;
 
       const { id, name, email, type } = applic;
 
