@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 /* 
     Data is in the form of:
     {
@@ -11,14 +13,14 @@
 */
 
 const useApplicationFetch = () => {
+  const [applicationsList, setApplicationsList] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const checkEmailIsUsed = async (email) => {
     const formattedEmail = email.toLowerCase();
 
     const response = await fetch(
-      `http://localhost:2543/applications?email=${formattedEmail}`,
-      {
-        method: "GET",
-      }
+      `http://localhost:2543/applications?email=${formattedEmail}`
     );
     const data = await response.json();
 
@@ -38,8 +40,10 @@ const useApplicationFetch = () => {
     return res.status === 201;
   };
 
-  const getApplications = async () => {
-    const res = await fetch("http://localhost:2543/applications");
+  const getApplicationInfo = async (applicationId) => {
+    const res = await fetch(
+      `http://localhost:2543/applications/${applicationId}`
+    );
     const data = await res.json();
     return data;
   };
@@ -50,11 +54,26 @@ const useApplicationFetch = () => {
     });
   };
 
+  const refreshApplicationsList = async () => {
+    setLoading(true);
+    const res = await fetch("http://localhost:2543/applications");
+    const data = await res.json();
+    setApplicationsList(data);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    refreshApplicationsList();
+  }, []);
+
   return {
+    applicationsList,
+    loading,
     checkEmailIsUsed,
     addApplication,
-    getApplications,
+    getApplicationInfo,
     removeApplication,
+    refreshApplicationsList,
   };
 };
 
