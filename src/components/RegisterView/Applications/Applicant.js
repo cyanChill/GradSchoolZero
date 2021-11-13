@@ -131,69 +131,74 @@ const Applicant = () => {
   }
 
   return (
-    <Card className="mt-3">
-      <Card.Body>
-        <Card.Title>{application.name}</Card.Title>
-        <hr />
-        <ApplicationField
-          label="Application Type:"
-          description={application.type}
-        />
-
-        {application.type === "student" && (
-          <ApplicationField label="GPA:" description={application.gpa} />
-        )}
-        {application.type === "instructor" && (
+    <>
+      <Button as={Link} to="/applications" className="mt-3">
+        Back
+      </Button>
+      <Card className="mt-3">
+        <Card.Body>
+          <Card.Title>{application.name}</Card.Title>
+          <hr />
           <ApplicationField
-            label="Description:"
-            description={application.description}
+            label="Application Type:"
+            description={application.type}
           />
-        )}
-        <Form
-          noValidate
-          validated={validated && application.type === "student"}
-        >
-          <Form.Group as={Row} className="my-3">
-            <Form.Label column md="auto">
-              Justification:
-            </Form.Label>
-            <Col>
-              <Form.Control
-                type="text"
-                placeholder="Enter Justification"
-                value={justification}
-                minLength="75"
-                onChange={(e) => setJustification(e.target.value)}
-                ref={justificationField}
-              />
-              <Form.Control.Feedback type="invalid">
-                Justification is required.
-              </Form.Control.Feedback>
-            </Col>
-          </Form.Group>
-          <Row>
-            <Col>
-              <Button
-                variant="success"
-                style={{ width: "100%" }}
-                onClick={acceptHandler}
-              >
-                Accept
-              </Button>
-            </Col>
-            <Col>
-              <Button
-                variant="danger"
-                style={{ width: "100%" }}
-                onClick={rejectHandler}
-              >
-                Reject
-              </Button>
-            </Col>
-          </Row>
-        </Form>
-      </Card.Body>
-    </Card>
+
+          {application.type === "student" && (
+            <ApplicationField label="GPA:" description={application.gpa} />
+          )}
+          {application.type === "instructor" && (
+            <ApplicationField
+              label="Description:"
+              description={application.description}
+            />
+          )}
+          <Form
+            noValidate
+            validated={validated && application.type === "student"}
+          >
+            <Form.Group as={Row} className="my-3">
+              <Form.Label column md="auto">
+                Justification:
+              </Form.Label>
+              <Col>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Justification"
+                  value={justification}
+                  minLength="75"
+                  onChange={(e) => setJustification(e.target.value)}
+                  ref={justificationField}
+                />
+                <Form.Control.Feedback type="invalid">
+                  Justification is required.
+                </Form.Control.Feedback>
+              </Col>
+            </Form.Group>
+            <Row>
+              <Col>
+                <Button
+                  variant="success"
+                  style={{ width: "100%" }}
+                  onClick={acceptHandler}
+                >
+                  Accept
+                </Button>
+              </Col>
+              <Col>
+                <Button
+                  variant="danger"
+                  style={{ width: "100%" }}
+                  onClick={rejectHandler}
+                >
+                  Reject
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Card.Body>
+      </Card>
+    </>
   );
 };
 

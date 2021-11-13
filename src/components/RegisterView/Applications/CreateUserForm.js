@@ -111,7 +111,14 @@ const CreateUser = ({ history }) => {
 
   return (
     <Container>
-      <Card style={{ maxWidth: "50rem" }} className="mx-auto mt-5">
+      <Button
+        as={Link}
+        to={`/applications/${inputInfo.applic ? inputInfo.id : ""}`}
+        className="mt-3"
+      >
+        Back
+      </Button>
+      <Card style={{ maxWidth: "50rem" }} className="mx-auto mt-3">
         <Card.Body>
           <h1 className="text-center">Create An Account For a New User</h1>
 
