@@ -1,0 +1,42 @@
+{
+  "users": [],
+  "courses": [],
+  "applications": [
+    {
+      "id": "e1d83619-5297-468c-9b7b-5e7946097560",
+      "type": "student",
+      "name": "Christopher Johnson",
+      "email": "christopherjohnson01@example.com",
+      "gpa": "3.60"
+    },
+    {
+      "id": "d2430223-9daf-45b1-92e0-bd284f1d9aa6",
+      "type": "student",
+      "name": "David Miller",
+      "email": "davidmiller01@example.com",
+      "gpa": "3.70"
+    },
+    {
+      "id": "3fdcbc32-7cae-4503-b1e5-0e5d5b0e8c63",
+      "type": "instructor",
+      "name": "Peter Brown",
+      "email": "peterbrowb01@example.com",
+      "description": "I'm interested in becoming an instructor for your program."
+    },
+    {
+      "id": "43e8e667-3ca8-4fb3-a8db-7e254ce3af0c",
+      "type": "student",
+      "name": "Test Student",
+      "email": "teststudent01@example.com",
+      "gpa": "3.6"
+    },
+    {
+      "id": "f1022f3a-c8a4-4b64-89f2-c617dace9222",
+      "type": "instructor",
+      "name": "Test Instructor",
+      "email": "testinstructor01@example.com",
+      "description": "Hi, I'm an instructor and I'm interested in teaching in the CS program."
+    }
+  ],
+  "complaints": []
+}
