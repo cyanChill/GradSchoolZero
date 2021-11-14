@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
 import { GlobalContext } from "../../GlobalContext";
-
 import { Button, Container, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { Grid, Paper } from '@mui/material';
+
 
 const Home = ({ history }) => {
   /* 
@@ -37,18 +38,15 @@ const Home = ({ history }) => {
         </Alert>
       ) : null}
 
-      <h1 className="mt-2">Welcome to GradSchoolZero</h1>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti hic sequi nobis, impedit
-        corporis ut quod. Repellat aut ratione dolorem provident error maiores repudiandae minus
-        asperiores, temporibus et est quae deserunt fuga neque officia facere perspiciatis optio
-        obcaecati enim. Necessitatibus explicabo dolores optio nobis quibusdam non aliquam omnis
-        tempore accusamus at blanditiis reprehenderit distinctio, repellendus, laboriosam modi
-        similique rem voluptatibus commodi error recusandae eaque ipsam veniam iste! Error id, quis
-        iste a quisquam non, debitis, atque repudiandae voluptate sequi dolorem perferendis
-        cupiditate placeat quia beatae suscipit temporibus similique animi quos minus voluptatum
-        magnam quidem! Accusantium facere possimus quas recusandae provident.
-      </p>
+
+      <div style={{display: 'flex',  justifyContent:'center'}}>
+        <h1>
+        <marquee direction="down" height="50" width="550" bgcolor="" color="blue">Welcome to GradSchoolZero</marquee>
+        </h1>
+
+      </div>
+   
+
 
       {!isLoggedIn ? null : (
         <>
@@ -106,8 +104,9 @@ const Home = ({ history }) => {
           </div>
         </>
       )}
-
-      {isLoggedIn ? null : (
+                   <Grid>
+          <Paper sx={{ textAlign: "center", padding: "2%", minHeight: "8vh", width: "100%", minWidth: "40px" }}  >
+             {isLoggedIn ? null : (
         <div>
           <h2>Applications are open for the Fall 2021 Semester for Students and Instructors!</h2>
           <Button as={Link} to="/apply">
@@ -115,6 +114,31 @@ const Home = ({ history }) => {
           </Button>
         </div>
       )}
+          </Paper>
+        </Grid>
+   
+       <Grid container display="grid" gridAutoFlow="column" spacing={0}>
+       <Grid>
+           <Paper sx={{ textAlign: "center", padding: "2%", minHeight: "70vh", width: "100%", minWidth: "400px" }} >
+          a
+          </Paper>
+          </Grid>
+
+          <Grid>
+          <Paper sx={{ textAlign: "center", padding: "2%", minHeight: "70vh", width: "100%", minWidth: "400px" }}  >
+          b
+          </Paper>
+        </Grid>
+
+  </Grid>
+
+           <Grid>
+          <Paper sx={{ textAlign: "center", padding: "2%", minHeight: "8vh", width: "100%", minWidth: "40px" }}  >
+          c
+          </Paper>
+        </Grid>
+
+
     </Container>
   );
 };
