@@ -5,7 +5,21 @@
       "type": "registrar",
       "name": "registrar",
       "email": "registrar@gradschoolzero.edu",
-      "password": "registrarpassword"
+      "password": "password"
+    },
+    {
+      "id": "246e6e2a-2e98-4408-9866-f723869e912b",
+      "type": "instructor",
+      "name": "instructor",
+      "email": "instructor@gradschoolzero.edu",
+      "password": "password"
+    },
+    {
+      "id": "37798a5b-413a-4c1e-9e32-34a57f71d17e",
+      "type": "student",
+      "name": "student",
+      "email": "student@gradschoolzero.edu",
+      "password": "password"
     }
   ],
   "courses": [],

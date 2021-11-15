@@ -1,20 +1,33 @@
 import { useState, useEffect, createContext } from "react";
+import useUserFetch from "./hooks/useUserFetch";
+
+const defaultUserInfo = {
+  name: "",
+  email: "",
+  type: "",
+  suspended: false,
+  graduated: false,
+};
 
 export const GlobalContext = createContext();
 
 export const GlobalProvider = (props) => {
-  /* 
-    Conver to custom hooks for credentials
-  */
+  const {
+    login: checkLogin,
+    logout: checkLogout,
+    fetchUserInfo,
+  } = useUserFetch();
+
   const [isLoggedIn, setIsLoggedIn] = useState(
-    sessionStorage.getItem("loggedIn?") === "true" || false
+    sessionStorage.getItem("isLoggedIn") ? true : false
   );
 
   const [user, setUser] = useState(
-    JSON.parse(sessionStorage.getItem("user")) || {
-      type: "",
-    }
+    sessionStorage.getItem("user")
+      ? JSON.parse(sessionStorage.getItem("user"))
+      : defaultUserInfo
   );
+  const [userId, setUserId] = useState(null);
 
   /* phase can be: "set-up", "registration", "running", "grading" */
   const [termInfo, setTermInfo] = useState(
@@ -25,6 +38,27 @@ export const GlobalProvider = (props) => {
     }
   );
 
+  const login = async (email, password) => {
+    const { success, userId: id } = await checkLogin(email, password);
+
+    if (success) {
+      setIsLoggedIn(true);
+      setUserId(id);
+      const userInfo = await fetchUserInfo(id);
+      setUser(userInfo);
+      return true;
+    }
+
+    return false;
+  };
+
+  const logout = () => {
+    checkLogout();
+    setIsLoggedIn(false);
+    setUser(defaultUserInfo);
+    sessionStorage.removeItem("user");
+  };
+
   /* 
     Will be called on load - we can use this to fetch async data from our
     database [ie: fill in termInfo]
@@ -33,10 +67,6 @@ export const GlobalProvider = (props) => {
     - If we want to update on a change of some state, we put the state in the
       array argument
   */
-  useEffect(() => {
-    /* Some async calls */
-    sessionStorage.setItem("loggedIn?", isLoggedIn); // Temporary caching in session storage
-  }, [isLoggedIn]);
 
   useEffect(() => {
     /* Some async calls */
@@ -54,7 +84,16 @@ export const GlobalProvider = (props) => {
   */
   return (
     <GlobalContext.Provider
-      value={{ isLoggedIn, setIsLoggedIn, termInfo, setTermInfo, user, setUser }}
+      value={{
+        login,
+        logout,
+        isLoggedIn,
+        setIsLoggedIn,
+        termInfo,
+        setTermInfo,
+        user,
+        setUser,
+      }}
     >
       {props.children}
     </GlobalContext.Provider>

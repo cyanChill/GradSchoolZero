@@ -1,16 +1,4 @@
-import { useState, useEffect } from "react";
-
 const useUserFetch = () => {
-  const [user, setUser] = useState({
-    name: "",
-    email: "",
-    password: "",
-    type: "",
-    suspended: false,
-    graduated: false,
-  });
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   /* 
     Also have functions to get other info on the user such as: 
     - classes currently taking
@@ -47,37 +35,47 @@ const useUserFetch = () => {
     return res.status === 201;
   };
 
-  const login = (email, password) => {
-    /* 
-        Attempt Login With Credentials 
-        - Send login request to server
-        - Return error if fails
-        - Returns msg success if success
-      */
+  const login = async (email, password) => {
+    const formattedEmail = email.toLowerCase();
+
+    const response = await fetch(
+      `http://localhost:2543/users?email=${formattedEmail}`
+    );
+    const data = await response.json();
+
+    if (data.length === 0) return { success: false };
+
+    if (data[0].password === password) {
+      sessionStorage.setItem("isLoggedIn", true);
+      sessionStorage.setItem("userId", data[0].id);
+      return { success: true, userId: data[0].id };
+    }
+    return { success: false };
   };
 
   const logout = () => {
-    /* 
-      Attempt Logout With Credentials 
-      - Send logout request to server (clear user access to server)
-      - Return error if fails
-      - Returns msg success if success
-    */
+    sessionStorage.removeItem("isLoggedIn");
+    sessionStorage.removeItem("userId");
+    return true;
   };
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      /* 
-            Fetch user for server and update user object
-        */
-    } else {
-      /* 
-            Clear user object
-        */
-    }
-  }, [isLoggedIn]);
+  const fetchUserInfo = async (userId) => {
+    const response = await fetch(`http://localhost:2543/users/${userId}`);
+    const data = await response.json();
 
-  return { login, logout, user, checkEmailIsUsed, createUser };
+    const userInfo = { ...data };
+    delete userInfo.password;
+
+    return userInfo;
+  };
+
+  return {
+    login,
+    logout,
+    fetchUserInfo,
+    checkEmailIsUsed,
+    createUser,
+  };
 };
 
 export default useUserFetch;
