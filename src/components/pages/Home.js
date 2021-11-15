@@ -39,12 +39,12 @@ const Home = ({ history }) => {
       ) : null}
 
 
-      <div style={{display: 'flex',  justifyContent:'center'}}>
+      {/* <div style={{display: 'flex',  justifyContent:'center'}}>
         <h1>
         <marquee direction="down" height="50" width="550" bgcolor="" color="blue">Welcome to GradSchoolZero</marquee>
         </h1>
 
-      </div>
+      </div> */}
    
 
 
@@ -104,10 +104,15 @@ const Home = ({ history }) => {
           </div>
         </>
       )}
-                   <Grid>
-          <Paper sx={{ textAlign: "center", padding: "2%", minHeight: "8vh", width: "100%", minWidth: "40px" }}  >
+
+
+   <Grid>
+          <Paper sx={{ textAlign: "center", justifyContent:'center', alignItems: "center", padding: "20%", minHeight: "70vh", width: "100%", minWidth: "40px", border: "1px solid black" }}  >
              {isLoggedIn ? null : (
         <div>
+      
+                  <h1><marquee direction="down" height="50" width="550" bgcolor="" color="blue">Welcome to GradSchoolZero</marquee>  </h1>
+       
           <h2>Applications are open for the Fall 2021 Semester for Students and Instructors!</h2>
           <Button as={Link} to="/apply">
             Apply Now
@@ -115,28 +120,29 @@ const Home = ({ history }) => {
         </div>
       )}
           </Paper>
-        </Grid>
+    </Grid>
+
    
-       <Grid container display="grid" gridAutoFlow="column" spacing={0}>
+    <Grid container display="grid" gridAutoFlow="column" spacing={0}>
        <Grid>
-           <Paper sx={{ textAlign: "center", padding: "2%", minHeight: "70vh", width: "100%", minWidth: "400px" }} >
+           <Paper sx={{ textAlign: "center", padding: "2%", minHeight: "20vh", width: "100%", minWidth: "40px", border: "1px solid black" }} >
           a
           </Paper>
           </Grid>
 
           <Grid>
-          <Paper sx={{ textAlign: "center", padding: "2%", minHeight: "70vh", width: "100%", minWidth: "400px" }}  >
+          <Paper sx={{ textAlign: "center", padding: "2%", minHeight: "20vh", width: "100%", minWidth: "40px", border:"1px solid black" }}  >
           b
           </Paper>
         </Grid>
-
-  </Grid>
-
-           <Grid>
-          <Paper sx={{ textAlign: "center", padding: "2%", minHeight: "8vh", width: "100%", minWidth: "40px" }}  >
+       <Grid>
+          <Paper sx={{ textAlign: "center", padding: "2%", minHeight: "20vh", width: "100%", minWidth: "40px", border:"1px solid black" }}  >
           c
           </Paper>
         </Grid>
+  </Grid>
+
+  
 
 
     </Container>
