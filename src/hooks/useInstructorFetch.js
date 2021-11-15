@@ -5,43 +5,45 @@ const useInstructorFetch = () => {
   const [nonSuspsendedInstructors, setNonSuspendedInstructors] = useState([]);
   const [suspendedInstructors, setSuspendedInstructors] = useState([]);
 
-  useEffect(() => {
-    /* Fetch instructor names, id from server */
-    const dummyData = [
-      {
-        id: 1,
-        name: "John Doe",
-        suspended: false,
-      },
-      {
-        id: 2,
-        name: "Jane Doe",
-        suspended: false,
-      },
-      {
-        id: 3,
-        name: "John Smith",
-        suspended: true,
-      },
-    ];
+  const refreshInstructorsList = async () => {
+    const response = await fetch(`http://localhost:2543/users?type=instructor`);
+    const data = await response.json();
 
-    setInstructorList(dummyData);
+    setInstructorList(data);
+  };
+
+  useEffect(() => {
+    refreshInstructorsList();
   }, []);
 
   useEffect(() => {
-    const newNonSuspdIns = instructorList.filter((instructor) => !instructor.suspended);
-    const newSuspdIns = instructorList.filter((instructor) => instructor.suspended);
+    const newNonSuspdIns = instructorList.filter(
+      (instructor) => !instructor.suspended
+    );
+    const newSuspdIns = instructorList.filter(
+      (instructor) => instructor.suspended
+    );
     setNonSuspendedInstructors(newNonSuspdIns);
     setSuspendedInstructors(newSuspdIns);
   }, [instructorList]);
 
   // Should run this if we "fire" an instructor
   const removeInstructor = (instructorId) => {
-    const newInstructorList = instructorList.filter((instructor) => instructor.id !== instructorId);
+    const newInstructorList = instructorList.filter(
+      (instructor) => instructor.id !== instructorId
+    );
     setInstructorList(newInstructorList);
+
+    /* Update instructors in database to indicate they're fired? instead of just deletion*/
   };
 
-  return { instructorList, nonSuspsendedInstructors, suspendedInstructors, removeInstructor };
+  return {
+    instructorList,
+    nonSuspsendedInstructors,
+    suspendedInstructors,
+    refreshInstructorsList,
+    removeInstructor,
+  };
 };
 
 export default useInstructorFetch;
