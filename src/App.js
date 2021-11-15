@@ -31,6 +31,7 @@ const App = () => {
           <Route path="/classes" component={Classes} />
           <Route path="/about" component={About} />
           <Route path="/profile" component={Profile} />
+          <Route path="/logout" component={Logout} />
 
           {/* Not logged in users only*/}
           <PublicRoute path="/apply">
@@ -41,9 +42,6 @@ const App = () => {
           </PublicRoute>
 
           {/* Logged in users only */}
-          <ProtectedRoute path="/logout">
-            <Logout />
-          </ProtectedRoute>
 
           {/* Registrar users only */}
           <RegistrarRoute path="/create/user">
