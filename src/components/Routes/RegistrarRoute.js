@@ -1,13 +1,16 @@
+import { useContext, cloneElement } from "react";
 import { Route, Redirect } from "react-router-dom";
+import { GlobalContext } from "../../GlobalContext";
 
-const RegistrarRoute = ({ children, isAuthenticated, user, ...rest }) => {
+const RegistrarRoute = ({ children, location, ...rest }) => {
+  const { isLoggedIn, user } = useContext(GlobalContext);
   /* Only allow registrar users to access*/
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        isAuthenticated && user.type === "registrar" ? (
-          children
+        isLoggedIn && user.type === "registrar" ? (
+          cloneElement(children, { ...children.props, location })
         ) : (
           <Redirect
             to={{

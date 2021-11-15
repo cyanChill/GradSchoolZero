@@ -7,7 +7,7 @@ import FormAlerts from "../../UI/FormAlerts/FormAlerts";
 import useApplicationFetch from "../../../hooks/useApplicationFetch";
 import useUserFetch from "../../../hooks/useUserFetch";
 
-const CreateUser = ({ history }) => {
+const CreateUser = ({ location }) => {
   const [inputInfo, setInputInfo] = useState({
     applic: undefined,
     id: uuidv4(),
@@ -29,16 +29,12 @@ const CreateUser = ({ history }) => {
 
   /* Attempt to load information passed via history */
   useEffect(() => {
-    if (history.location.state) {
-      const {
-        application: applic,
-        justification,
-        reqJust,
-      } = history.location.state;
+    if (location.state) {
+      const { application: applic, justification, reqJust } = location.state;
 
       const { id, name, email, type } = applic;
 
-      if (history.location.state) {
+      if (location.state) {
         setInputInfo({ applic, id, name, email, type, justification, reqJust });
         setUserInfo((prev) => ({
           ...prev,
@@ -89,9 +85,6 @@ const CreateUser = ({ history }) => {
     } else if (userInfo.applic) {
       await removeApplication(inputInfo.id);
     }
-
-    // Removing data from state
-    history.replace({ ...history.location, state: undefined });
 
     setLoading(false);
     setSuccess(creationStatus);

@@ -1,13 +1,16 @@
+import { useContext, cloneElement } from "react";
 import { Route, Redirect } from "react-router-dom";
+import { GlobalContext } from "../../GlobalContext";
 
-const PublicRoute = ({ children, isAuthenticated, ...rest }) => {
+const PublicRoute = ({ children, location, ...rest }) => {
+  const { isLoggedIn } = useContext(GlobalContext);
   /* Only allow outside users to access*/
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        !isAuthenticated ? (
-          children
+        isLoggedIn ? (
+          cloneElement(children, { ...children.props, location })
         ) : (
           <Redirect
             to={{
