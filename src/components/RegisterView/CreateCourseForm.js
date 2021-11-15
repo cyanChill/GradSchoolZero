@@ -21,6 +21,7 @@ import {
   checkConflicts,
   removeDupe,
 } from "../../helpers/time";
+import BackButton from "../UI/BackButton";
 
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -171,14 +172,15 @@ const CreateCourseForm = () => {
           </ul>
         </Alert>
 
-        {/* Button back to course set-up page? */}
+        <BackButton to="/registrar" btnLabel="Back to Management Page" />
       </Container>
     );
   }
 
   return (
-    <Container>
-      <Card style={{ maxWidth: "50rem" }} className="mx-auto mt-5">
+    <>
+      <BackButton />
+      <Card style={{ maxWidth: "50rem" }} className="mx-auto mt-3">
         <Card.Body>
           <h1 className="text-center">Create A Course</h1>
           {formErrors.length !== 0 && <FormAlerts errors={formErrors} />}
@@ -229,7 +231,6 @@ const CreateCourseForm = () => {
 
             <Form.Group className="mb-3">
               <Form.Label>Course Times</Form.Label>
-
               {courseInfo.courseTimes.map((time, idx) => (
                 <div key={idx}>
                   <Row className="d-flex align-items-center my-1">
@@ -249,7 +250,7 @@ const CreateCourseForm = () => {
                 </div>
               ))}
               {/* Add course time row */}
-              <Row className="d-flex mt-3 align-items-center">
+              <Row className="d-flex align-items-center">
                 <Col>
                   <Row className="d-flex mt-2 align-items-center">
                     <Col className="my-1">
@@ -314,7 +315,7 @@ const CreateCourseForm = () => {
           </Form>
         </Card.Body>
       </Card>
-    </Container>
+    </>
   );
 };
 

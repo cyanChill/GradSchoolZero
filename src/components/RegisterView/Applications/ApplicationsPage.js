@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Container, Spinner, Button } from "react-bootstrap";
 import useApplicationFetch from "../../../hooks/useApplicationFetch";
 import classes from "./ApplicationsPage.module.css";
+import BackButton from "../../UI/BackButton";
 
 const ApplicationsPage = () => {
   const { applicationsList, loading, refreshApplicationsList } =
@@ -26,7 +27,12 @@ const ApplicationsPage = () => {
 
   return (
     <Container className="d-flex flex-column align-items-center">
-      <h1 className="text-center mt-3">Applications</h1>
+      <BackButton
+        className="align-self-start"
+        to="/registrar"
+        btnLabel="Back to Management Page"
+      />
+      <h1 className="text-center mt-2 mb-3">Applications</h1>
       {applicants.length > 0 && applicants}
       {loading && (
         <div className="my-3">

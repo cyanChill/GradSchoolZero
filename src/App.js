@@ -16,10 +16,10 @@ import Login from "./components/pages/Login";
 import Logout from "./components/pages/Logout";
 import ApplyPage from "./components/pages/ApplyPage";
 import CreateUserForm from "./components/RegisterView/Applications/CreateUserForm";
-import CreateCourseForm from "./components/pages/CreateCourseForm";
+import CreateCourseForm from "./components/RegisterView/CreateCourseForm";
 import ApplicationsPage from "./components/RegisterView/Applications/ApplicationsPage";
 import Applicant from "./components/RegisterView/Applications/Applicant";
-import RegistrarMangementPage from "./components/RegisterView/RegistrarManagementPage";
+import RegistrarMangementPage from "./components/RegisterView/Mangement/RegistrarManagementPage";
 import NotFound from "./components/pages/NotFound";
 
 const App = () => {

@@ -12,6 +12,7 @@ import {
   Spinner,
 } from "react-bootstrap";
 import useApplicationFetch from "../../../hooks/useApplicationFetch";
+import BackButton from "../../UI/BackButton";
 
 const Applicant = () => {
   const { id } = useParams();
@@ -132,9 +133,11 @@ const Applicant = () => {
 
   return (
     <>
-      <Button as={Link} to="/applications" className="mt-3">
-        Back
-      </Button>
+      <BackButton
+        to="/applications"
+        className="mt-3"
+        btnLabel="Back to Applications"
+      />
       <Card className="mt-3">
         <Card.Body>
           <Card.Title>{application.name}</Card.Title>
@@ -261,9 +264,7 @@ const ApplicationRejectionAlert = ({
         </p>
       </Alert>
 
-      <Button as={Link} to="/applications">
-        Back to Application Page
-      </Button>
+      <BackButton to="/applications" btnLabel="Back to Application Page" />
     </Container>
   );
 };

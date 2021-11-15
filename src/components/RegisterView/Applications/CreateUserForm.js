@@ -6,6 +6,7 @@ import { Button, Form, Card, Container, Alert } from "react-bootstrap";
 import FormAlerts from "../../UI/FormAlerts/FormAlerts";
 import useApplicationFetch from "../../../hooks/useApplicationFetch";
 import useUserFetch from "../../../hooks/useUserFetch";
+import BackButton from "../../UI/BackButton";
 
 const CreateUserForm = ({ location }) => {
   const [inputInfo, setInputInfo] = useState({
@@ -104,13 +105,7 @@ const CreateUserForm = ({ location }) => {
 
   return (
     <Container>
-      <Button
-        as={Link}
-        to={`/applications/${inputInfo.applic ? inputInfo.id : ""}`}
-        className="mt-3"
-      >
-        Back
-      </Button>
+      <BackButton />
       <Card style={{ maxWidth: "50rem" }} className="mx-auto mt-3">
         <Card.Body>
           <h1 className="text-center">Create An Account For a New User</h1>
@@ -237,9 +232,7 @@ const SuccessfulCreationAlert = ({
         </p>
       </Alert>
 
-      <Button as={Link} to="/applications">
-        Back to Application Page
-      </Button>
+      <BackButton to="/applications" btnLabel="Back to Application Page" />
     </Container>
   );
 };
