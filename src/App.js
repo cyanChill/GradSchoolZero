@@ -19,6 +19,7 @@ import CreateUserForm from "./components/RegisterView/Applications/CreateUserFor
 import CreateCourseForm from "./components/pages/CreateCourseForm";
 import ApplicationsPage from "./components/RegisterView/Applications/ApplicationsPage";
 import Applicant from "./components/RegisterView/Applications/Applicant";
+import RegistrarMangementPage from "./components/RegisterView/RegistrarManagementPage";
 import NotFound from "./components/pages/NotFound";
 
 const App = () => {
@@ -44,6 +45,9 @@ const App = () => {
           {/* Logged in users only */}
 
           {/* Registrar users only */}
+          <RegistrarRoute path="/registrar">
+            <RegistrarMangementPage />
+          </RegistrarRoute>
           <RegistrarRoute path="/create/user">
             <CreateUserForm />
           </RegistrarRoute>
