@@ -9,7 +9,7 @@ const PublicRoute = ({ children, location, ...rest }) => {
     <Route
       {...rest}
       render={({ location }) =>
-        isLoggedIn ? (
+        !isLoggedIn ? (
           cloneElement(children, { ...children.props, location })
         ) : (
           <Redirect
