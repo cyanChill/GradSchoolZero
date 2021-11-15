@@ -24,7 +24,7 @@ import {
 
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-const CreateCourse = () => {
+const CreateCourseForm = () => {
   const { termInfo } = useContext(GlobalContext);
   const { nonSuspsendedInstructors: instructors } = useInstructorFetch();
 
@@ -318,4 +318,4 @@ const CreateCourse = () => {
   );
 };
 
-export default CreateCourse;
+export default CreateCourseForm;

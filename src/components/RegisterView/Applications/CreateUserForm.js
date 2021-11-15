@@ -7,7 +7,7 @@ import FormAlerts from "../../UI/FormAlerts/FormAlerts";
 import useApplicationFetch from "../../../hooks/useApplicationFetch";
 import useUserFetch from "../../../hooks/useUserFetch";
 
-const CreateUser = ({ location }) => {
+const CreateUserForm = ({ location }) => {
   const [inputInfo, setInputInfo] = useState({
     applic: undefined,
     id: uuidv4(),
@@ -244,4 +244,4 @@ const SuccessfulCreationAlert = ({
   );
 };
 
-export default CreateUser;
+export default CreateUserForm;
