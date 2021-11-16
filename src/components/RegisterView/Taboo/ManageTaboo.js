@@ -25,7 +25,7 @@ const ManageTaboo = () => {
   };
 
   const tabooWords = tabooList.map((word) => (
-    <Col key={word} sm="6" md="4" lg="3">
+    <Col key={word} sm="6" md="4" lg="3" className="my-2">
       <Widget word={word} deleteTaboo={deleteTabooWord} />
     </Col>
   ));
@@ -70,9 +70,9 @@ export default ManageTaboo;
 
 const Widget = ({ word, deleteTaboo }) => {
   return (
-    <Card className={`my-3 ${classes.widget}`}>
+    <Card className={classes.widget}>
       <Card.Body className="d-flex justify-content-between align-items-center">
-        <p className="p-0 m-0">{word}</p>
+        <p className={classes.word}>{word}</p>
         <FaTimes onClick={() => deleteTaboo(word)} />
       </Card.Body>
     </Card>

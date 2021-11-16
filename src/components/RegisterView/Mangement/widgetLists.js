@@ -6,6 +6,7 @@ import {
   FaTasks,
   FaGraduationCap,
   FaClipboard,
+  FaGavel,
 } from "react-icons/fa";
 
 const widgetLists = [
@@ -43,6 +44,11 @@ const widgetLists = [
     icon: <FaCommentSlash />,
     label: "Manage Taboo Words",
     linkTo: "/taboo",
+  },
+  {
+    icon: <FaGavel />,
+    label: "User Infractions",
+    linkTo: "/infractions",
   },
 ];
 

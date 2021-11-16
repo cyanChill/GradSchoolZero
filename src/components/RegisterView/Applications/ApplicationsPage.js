@@ -21,10 +21,6 @@ const ApplicationsPage = () => {
     </Link>
   ));
 
-  useEffect(() => {
-    refreshApplicationsList();
-  }, []);
-
   return (
     <Container className="d-flex flex-column align-items-center">
       <BackButton
