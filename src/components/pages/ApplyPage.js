@@ -1,13 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 import { Button, Form, Row, Col, Container, Alert } from "react-bootstrap";
-
-import useApplicationFetch from "../../hooks/useApplicationFetch";
+import { GlobalContext } from "../../GlobalContext";
 
 const ApplyPage = () => {
-  const { checkEmailIsUsed, addApplication } = useApplicationFetch();
+  const { checkAppEmailIsUsed, addApplication } = useContext(GlobalContext);
 
   const [loading, setLoading] = useState(false);
 
@@ -34,7 +33,7 @@ const ApplyPage = () => {
     e.preventDefault();
     setLoading(true);
 
-    const usedEmail = await checkEmailIsUsed(formState.email);
+    const usedEmail = await checkAppEmailIsUsed(formState.email);
 
     // Check if email used in application has been already used
     if (usedEmail) {

@@ -1,13 +1,13 @@
-import { useEffect } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Container, Spinner, Button } from "react-bootstrap";
-import useApplicationFetch from "../../../hooks/useApplicationFetch";
+import { GlobalContext } from "../../../GlobalContext";
 import classes from "./ApplicationsPage.module.css";
 import BackButton from "../../UI/BackButton";
 
 const ApplicationsPage = () => {
   const { applicationsList, loading, refreshApplicationsList } =
-    useApplicationFetch();
+    useContext(GlobalContext);
 
   const applicants = applicationsList.map((application) => (
     <Link

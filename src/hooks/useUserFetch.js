@@ -1,4 +1,23 @@
+import { useState, useEffect } from "react";
+
+const defaultUserInfo = {
+  name: "",
+  email: "",
+  type: "",
+  suspended: false,
+  graduated: false,
+};
+
 const useUserFetch = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    sessionStorage.getItem("isLoggedIn") ? true : false
+  );
+  const [user, setUser] = useState(
+    sessionStorage.getItem("user")
+      ? JSON.parse(sessionStorage.getItem("user"))
+      : defaultUserInfo
+  );
+
   /* 
     Also have functions to get other info on the user such as: 
     - classes currently taking
@@ -11,7 +30,7 @@ const useUserFetch = () => {
     - rating
   */
 
-  const checkEmailIsUsed = async (email) => {
+  const checkUserEmailIsUsed = async (email) => {
     const formattedEmail = email.toLowerCase();
 
     const response = await fetch(
@@ -43,37 +62,40 @@ const useUserFetch = () => {
     );
     const data = await response.json();
 
-    if (data.length === 0) return { success: false };
+    if (data.length === 0) return false;
 
     if (data[0].password === password) {
+      setIsLoggedIn(true);
       sessionStorage.setItem("isLoggedIn", true);
-      sessionStorage.setItem("userId", data[0].id);
-      return { success: true, userId: data[0].id };
+      setUserInfo(data[0]);
+      return true;
     }
-    return { success: false };
+    return false;
   };
 
   const logout = () => {
+    setIsLoggedIn(false);
+    setUser(defaultUserInfo);
     sessionStorage.removeItem("isLoggedIn");
-    sessionStorage.removeItem("userId");
     return true;
   };
 
-  const fetchUserInfo = async (userId) => {
-    const response = await fetch(`http://localhost:2543/users/${userId}`);
-    const data = await response.json();
-
+  const setUserInfo = (data) => {
     const userInfo = { ...data };
     delete userInfo.password;
-
-    return userInfo;
+    setUser(userInfo);
   };
 
+  useEffect(() => {
+    sessionStorage.setItem("user", JSON.stringify(user));
+  }, [user]);
+
   return {
+    isLoggedIn,
+    user,
     login,
     logout,
-    fetchUserInfo,
-    checkEmailIsUsed,
+    checkUserEmailIsUsed,
     createUser,
   };
 };

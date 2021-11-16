@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { useParams } from "react-router";
 import { Redirect, Link } from "react-router-dom";
 import {
@@ -11,14 +11,14 @@ import {
   Alert,
   Spinner,
 } from "react-bootstrap";
-import useApplicationFetch from "../../../hooks/useApplicationFetch";
+import { GlobalContext } from "../../../GlobalContext";
 import BackButton from "../../UI/BackButton";
 
 const Applicant = () => {
   const { id } = useParams();
   const justificationField = useRef();
   const { loading, getApplicationInfo, removeApplication } =
-    useApplicationFetch();
+    useContext(GlobalContext);
 
   const [validated, setValidated] = useState(false);
   const [application, setApplication] = useState({

@@ -16,7 +16,7 @@ const useApplicationFetch = () => {
   const [applicationsList, setApplicationsList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const checkEmailIsUsed = async (email) => {
+  const checkAppEmailIsUsed = async (email) => {
     const formattedEmail = email.toLowerCase();
 
     const response = await fetch(
@@ -36,6 +36,7 @@ const useApplicationFetch = () => {
       },
       body: JSON.stringify(application),
     });
+    setApplicationsList((prev) => [...prev, application]);
 
     return res.status === 201;
   };
@@ -72,7 +73,7 @@ const useApplicationFetch = () => {
   return {
     applicationsList,
     loading,
-    checkEmailIsUsed,
+    checkAppEmailIsUsed,
     addApplication,
     getApplicationInfo,
     removeApplication,

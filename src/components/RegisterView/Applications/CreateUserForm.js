@@ -1,11 +1,9 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
 import { generate } from "generate-password";
 import { v4 as uuidv4 } from "uuid";
 import { Button, Form, Card, Container, Alert } from "react-bootstrap";
 import FormAlerts from "../../UI/FormAlerts/FormAlerts";
-import useApplicationFetch from "../../../hooks/useApplicationFetch";
-import useUserFetch from "../../../hooks/useUserFetch";
+import { GlobalContext } from "../../../GlobalContext";
 import BackButton from "../../UI/BackButton";
 
 const CreateUserForm = ({ location }) => {
@@ -19,8 +17,8 @@ const CreateUserForm = ({ location }) => {
     reqJust: false,
   });
 
-  const { removeApplication } = useApplicationFetch();
-  const { checkEmailIsUsed, createUser } = useUserFetch();
+  const { removeApplication, checkUserEmailIsUsed, createUser } =
+    useContext(GlobalContext);
 
   const [userInfo, setUserInfo] = useState({
     email: "@gradschoolzero.edu",
@@ -62,7 +60,7 @@ const CreateUserForm = ({ location }) => {
     e.preventDefault();
     setLoading(true);
 
-    const usedEmail = await checkEmailIsUsed(userInfo.email);
+    const usedEmail = await checkUserEmailIsUsed(userInfo.email);
 
     // Check if email used for a different student
     if (usedEmail) {
