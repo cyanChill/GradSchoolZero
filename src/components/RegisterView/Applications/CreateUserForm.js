@@ -82,7 +82,7 @@ const CreateUser = ({ location }) => {
 
     if (!creationStatus) {
       setError("Failed to create user account.");
-    } else if (userInfo.applic) {
+    } else if (inputInfo.applic) {
       await removeApplication(inputInfo.id);
     }
 
