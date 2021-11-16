@@ -51,29 +51,6 @@ const Home = ({ history }) => {
         <>
           <h2>Temporary:</h2>
           <div className="d-flex gap-3 flex-wrap justify-content-center align-items-center my-2">
-            <Button onClick={() => setUser({ ...user, type: "" })}>
-              Clear User Type
-            </Button>
-            <Button
-              onClick={() => setUser({ ...user, type: "student" })}
-              disabled={user.type === "student" ? true : false}
-            >
-              Set User as Student
-            </Button>
-            <Button
-              onClick={() => setUser({ ...user, type: "instructor" })}
-              disabled={user.type === "instructor" ? true : false}
-            >
-              Set User as Instructor
-            </Button>
-            <Button
-              onClick={() => setUser({ ...user, type: "registrar" })}
-              disabled={user.type === "registrar" ? true : false}
-            >
-              Set User as Registrar
-            </Button>
-          </div>
-          <div className="d-flex gap-3 flex-wrap justify-content-center align-items-center my-2">
             <Button
               variant="secondary"
               onClick={() => setPhase("set-up")}
@@ -107,7 +84,7 @@ const Home = ({ history }) => {
       )}
 
       <Grid
-        className="HomeP text-center"
+        className="HomeP"
         sx={{
           textAlign: "center",
           justifyContent: "center",
@@ -123,9 +100,10 @@ const Home = ({ history }) => {
           <div>
             <h1>
               <marquee
+                className="text-center"
                 direction="down"
                 height="50"
-                width="550"
+                width="100%"
                 bgcolor=""
                 color="blue"
               >
