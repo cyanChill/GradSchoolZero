@@ -1,8 +1,6 @@
 import "./styles/App.scss";
 import { Container } from "react-bootstrap";
 
-import { useContext } from "react";
-import { GlobalContext } from "./GlobalContext";
 /* For page routing */
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PublicRoute from "./components/Routes/PublicRoute";
@@ -16,14 +14,14 @@ import Classes from "./components/pages/Classes";
 import Profile from "./components/pages/Profile";
 import Login from "./components/pages/Login";
 import Logout from "./components/pages/Logout";
-import Apply from "./components/pages/Apply";
-import CreateUserForm from "./components/pages/CreateUserForm";
+import ApplyPage from "./components/pages/ApplyPage";
+import CreateUserForm from "./components/RegisterView/Applications/CreateUserForm";
 import CreateCourseForm from "./components/pages/CreateCourseForm";
+import ApplicationsPage from "./components/RegisterView/Applications/ApplicationsPage";
+import Applicant from "./components/RegisterView/Applications/Applicant";
 import NotFound from "./components/pages/NotFound";
 
 const App = () => {
-  const { isLoggedIn, user } = useContext(GlobalContext);
-
   return (
     <Router>
       <NavBar />
@@ -33,32 +31,34 @@ const App = () => {
           <Route path="/classes" component={Classes} />
           <Route path="/about" component={About} />
           <Route path="/profile" component={Profile} />
+          <Route path="/logout" component={Logout} />
 
           {/* Not logged in users only*/}
-          <PublicRoute path="/apply" isAuthenticated={isLoggedIn}>
-            <Apply />
+          <PublicRoute path="/apply">
+            <ApplyPage />
           </PublicRoute>
-          <PublicRoute path="/login" isAuthenticated={isLoggedIn}>
+          <PublicRoute path="/login">
             <Login />
           </PublicRoute>
 
           {/* Logged in users only */}
-          <ProtectedRoute path="/logout" isAuthenticated={isLoggedIn}>
-            <Logout />
-          </ProtectedRoute>
 
           {/* Registrar users only */}
-          <RegistrarRoute path="/create/user" isAuthenticated={isLoggedIn} user={user}>
+          <RegistrarRoute path="/create/user">
             <CreateUserForm />
           </RegistrarRoute>
-          <RegistrarRoute path="/create/course" isAuthenticated={isLoggedIn} user={user}>
+          <RegistrarRoute path="/create/course">
             <CreateCourseForm />
+          </RegistrarRoute>
+          <RegistrarRoute exact path="/applications">
+            <ApplicationsPage />
+          </RegistrarRoute>
+          <RegistrarRoute path="/applications/:id">
+            <Applicant />
           </RegistrarRoute>
 
           {/* Page not found */}
-          <Route path="*">
-            <NotFound />
-          </Route>
+          <Route path="*" component={NotFound} />
         </Switch>
       </Container>
     </Router>

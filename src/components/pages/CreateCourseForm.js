@@ -2,10 +2,25 @@ import { useContext, useState } from "react";
 import { GlobalContext } from "../../GlobalContext";
 import useInstructorFetch from "../../hooks/useInstructorFetch";
 
-import { Button, Form, Card, Row, Col, Container, Alert } from "react-bootstrap";
+import FormAlerts from "../UI/FormAlerts/FormAlerts";
+
+import {
+  Button,
+  Form,
+  Card,
+  Row,
+  Col,
+  Container,
+  Alert,
+} from "react-bootstrap";
 import { FaTrashAlt } from "react-icons/fa";
 
-import { convert23Time, isAfter, checkConflicts, removeDupe } from "../../helpers/time";
+import {
+  convert23Time,
+  isAfter,
+  checkConflicts,
+  removeDupe,
+} from "../../helpers/time";
 
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -29,17 +44,28 @@ const CreateCourse = () => {
   const [success, setSuccess] = useState(false);
 
   const removeTime = (idx) => {
-    const newTimes = courseInfo.courseTimes.filter((time, tIdx) => tIdx !== idx);
+    const newTimes = courseInfo.courseTimes.filter(
+      (time, tIdx) => tIdx !== idx
+    );
     setCourseInfo({ ...courseInfo, courseTimes: newTimes });
   };
 
   const addTime = () => {
     const validTime = isAfter(courseInfo.newStart, courseInfo.newEnd);
 
-    if (courseInfo.newDay && courseInfo.newStart && courseInfo.newEnd && validTime) {
+    if (
+      courseInfo.newDay &&
+      courseInfo.newStart &&
+      courseInfo.newEnd &&
+      validTime
+    ) {
       const newTimes = [
         ...courseInfo.courseTimes,
-        { day: courseInfo.newDay, start: courseInfo.newStart, end: courseInfo.newEnd },
+        {
+          day: courseInfo.newDay,
+          start: courseInfo.newStart,
+          end: courseInfo.newEnd,
+        },
       ];
       setAddTimeError(false);
       setCourseInfo({
@@ -83,8 +109,10 @@ const CreateCourse = () => {
 
     if (!courseInfo.courseName) errors.push("Please enter in a course name");
     if (!courseInfo.instructorId) errors.push("Please select an instructor");
-    if (courseInfo.courseTimes.length === 0) errors.push("Please enter at least 1 course time");
-    if (hasTimeConflicts) errors.push("There are time conflicts for this course");
+    if (courseInfo.courseTimes.length === 0)
+      errors.push("Please enter at least 1 course time");
+    if (hasTimeConflicts)
+      errors.push("There are time conflicts for this course");
 
     if (errors.length > 0) {
       setFormErrors(errors);
@@ -115,7 +143,8 @@ const CreateCourse = () => {
         <Alert variant="success" className="mx-auto mt-5">
           <Alert.Heading>Success!</Alert.Heading>
           <p>
-            Successfully created course for the {termInfo.semester} {termInfo.year} semster:
+            Successfully created course for the {termInfo.semester}{" "}
+            {termInfo.year} semster:
           </p>
           <hr />
           <p className="mb-0">
@@ -135,7 +164,8 @@ const CreateCourse = () => {
           <ul className="m-0">
             {courseInfo.courseTimes.map((time, idx) => (
               <li className="my-1" key={idx}>
-                {time.day} | {convert23Time(time.start)} - {convert23Time(time.end)}
+                {time.day} | {convert23Time(time.start)} -{" "}
+                {convert23Time(time.end)}
               </li>
             ))}
           </ul>
@@ -151,18 +181,10 @@ const CreateCourse = () => {
       <Card style={{ maxWidth: "50rem" }} className="mx-auto mt-5">
         <Card.Body>
           <h1 className="text-center">Create A Course</h1>
-          {formErrors.length === 0 ? null : (
-            <Alert variant="danger">
-              <ul className="mb-0">
-                {formErrors.map((error, idx) => (
-                  <li key={idx}>{error}</li>
-                ))}
-              </ul>
-            </Alert>
-          )}
+          {formErrors.length !== 0 && <FormAlerts errors={formErrors} />}
 
           <Form onSubmit={handleCreate}>
-            <Form.Group className="mb-3" controlId="formHorizontalCourseName">
+            <Form.Group className="mb-3">
               <Form.Label>Course Name</Form.Label>
               <Form.Control
                 type="text"
@@ -173,21 +195,28 @@ const CreateCourse = () => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formHorizontalInstructor">
+            <Form.Group className="mb-3">
               <Form.Label>Instructor</Form.Label>
-              <Form.Select name="instructorId" defaultValue="" onChange={handleInstructor}>
+              <Form.Select
+                name="instructorId"
+                defaultValue=""
+                onChange={handleInstructor}
+              >
                 <option value="" disabled>
                   Select an Instructor
                 </option>
                 {instructors.map((instructor) => (
-                  <option key={instructor.id} value={`${instructor.id},${instructor.name}`}>
+                  <option
+                    key={instructor.id}
+                    value={`${instructor.id},${instructor.name}`}
+                  >
                     {instructor.name}
                   </option>
                 ))}
               </Form.Select>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formHorizontalMaxCapacity">
+            <Form.Group className="mb-3">
               <Form.Label>Course Max Capacity</Form.Label>
               <Form.Control
                 type="number"
@@ -198,7 +227,7 @@ const CreateCourse = () => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formHorizontalTimes">
+            <Form.Group className="mb-3">
               <Form.Label>Course Times</Form.Label>
 
               {courseInfo.courseTimes.map((time, idx) => (
@@ -278,7 +307,7 @@ const CreateCourse = () => {
               style={{ width: "100%" }}
               variant="primary"
               type="submit"
-              disabled={loading ? true : false}
+              disabled={loading}
             >
               Create Course
             </Button>
