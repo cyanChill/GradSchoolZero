@@ -67,5 +67,18 @@
       "gpa": "3"
     }
   ],
-  "complaints": []
+  "complaints": [],
+  "tabooWords": [
+    {
+      "id": "taboolist",
+      "tabooList": [
+        "fuck",
+        "shit",
+        "simp",
+        "dick",
+        "ass",
+        "bitch"
+      ]
+    }
+  ]
 }

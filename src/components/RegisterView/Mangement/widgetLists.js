@@ -2,6 +2,8 @@ import {
   FaClipboardList,
   FaUserPlus,
   FaChalkboardTeacher,
+  FaCommentSlash,
+  FaTasks,
 } from "react-icons/fa";
 
 const widgetLists = [
@@ -19,6 +21,16 @@ const widgetLists = [
     icon: <FaChalkboardTeacher />,
     label: "Create Course",
     linkTo: "/create/course",
+  },
+  {
+    icon: <FaCommentSlash />,
+    label: "Manage Taboo Words",
+    linkTo: "/taboo",
+  },
+  {
+    icon: <FaTasks />,
+    label: "Semester Management",
+    linkTo: "/semester",
   },
 ];
 

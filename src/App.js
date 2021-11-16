@@ -21,6 +21,7 @@ import ApplicationsPage from "./components/RegisterView/Applications/Application
 import Applicant from "./components/RegisterView/Applications/Applicant";
 import RegistrarMangementPage from "./components/RegisterView/Mangement/RegistrarManagementPage";
 import NotFound from "./components/pages/NotFound";
+import ManageTaboo from "./components/RegisterView/Taboo/ManageTaboo";
 
 const App = () => {
   return (
@@ -59,6 +60,9 @@ const App = () => {
           </RegistrarRoute>
           <RegistrarRoute path="/applications/:id">
             <Applicant />
+          </RegistrarRoute>
+          <RegistrarRoute path="/taboo">
+            <ManageTaboo />
           </RegistrarRoute>
 
           {/* Page not found */}
