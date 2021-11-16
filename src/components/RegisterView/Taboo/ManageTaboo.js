@@ -1,11 +1,20 @@
 import { useState } from "react";
-import { Container, Form, Row, Col, Button, Card } from "react-bootstrap";
+import {
+  Container,
+  Form,
+  Row,
+  Col,
+  Button,
+  Card,
+  Spinner,
+} from "react-bootstrap";
 import { FaTimes } from "react-icons/fa";
 import useTabooFetch from "../../../hooks/useTabooFetch";
+import BackButton from "../../UI/BackButton";
 import classes from "./ManageTaboo.module.css";
 
 const ManageTaboo = () => {
-  const { tabooList, addTabooWord, deleteTabooWord } = useTabooFetch();
+  const { tabooList, loading, addTabooWord, deleteTabooWord } = useTabooFetch();
   const [wordField, setWordField] = useState("");
 
   const submitHandler = async (e) => {
@@ -23,7 +32,8 @@ const ManageTaboo = () => {
 
   return (
     <Container>
-      <h1 className="my-3 text-center">Manage Taboo Words</h1>
+      <BackButton to="/registrar" btnLabel="Back to Management Page" />
+      <h1 className="mt-2 mb-3 text-center">Manage Taboo Words</h1>
       <Card>
         <Card.Body>
           <Form onSubmit={submitHandler}>
@@ -47,6 +57,11 @@ const ManageTaboo = () => {
         </Card.Body>
       </Card>
       <Row>{tabooWords}</Row>
+      {loading && (
+        <div className="d-flex justify-content-center mt-3">
+          <Spinner animation="border" />
+        </div>
+      )}
     </Container>
   );
 };

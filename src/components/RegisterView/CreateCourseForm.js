@@ -131,10 +131,13 @@ const CreateCourseForm = () => {
   /* Check if current phase is course setup */
   if (termInfo.phase !== "set-up") {
     return (
-      <Alert variant="danger" className="mt-5">
-        <span className="fw-bold">Error:</span> The program is not in the{" "}
-        <span className="font-monospace">Class Set-Up Period</span>.{" "}
-      </Alert>
+      <>
+        <BackButton />
+        <Alert variant="danger" className="mt-3">
+          <span className="fw-bold">Error:</span> The program is not in the{" "}
+          <span className="font-monospace">Class Set-Up Period</span>.{" "}
+        </Alert>
+      </>
     );
   }
 
