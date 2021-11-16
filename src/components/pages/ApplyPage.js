@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
-import { Button, Form, Row, Col, Container } from "react-bootstrap";
+import { Button, Form, Row, Col, Container, Alert } from "react-bootstrap";
 
-const Apply = () => {
+import useApplicationFetch from "../../hooks/useApplicationFetch";
+
+const ApplyPage = () => {
+  const { checkEmailIsUsed, addApplication } = useApplicationFetch();
+
   const [loading, setLoading] = useState(false);
 
   const [formState, setFormState] = useState({
@@ -15,6 +20,7 @@ const Apply = () => {
 
   const [formType, setFormType] = useState("");
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -24,24 +30,42 @@ const Apply = () => {
     }));
   };
 
-  const handleApplication = (e) => {
+  const handleApplication = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    /* Perform Form Checks */
-    const success = true; // Simulate successful application
+    const usedEmail = await checkEmailIsUsed(formState.email);
 
-    if (success) {
-      setTimeout(() => {
-        setLoading(false);
-        /* Submit Form to server */
-
-        setSuccess(true);
-      }, 500);
-    } else {
-      /* Indicate Form Erros */
+    // Check if email used in application has been already used
+    if (usedEmail) {
+      setError("The application email used has been already used.");
       setLoading(false);
+      return;
     }
+
+    // Submitting Application:
+    const formattedEmail = formState.email.toLowerCase();
+
+    let application = {
+      id: uuidv4(),
+      type: formType,
+      name: formState.name,
+      email: formattedEmail,
+    };
+
+    if (formType === "student") {
+      application = { ...application, gpa: formState.GPA };
+    } else {
+      application = { ...application, description: formState.interests };
+    }
+
+    const submissionStatus = await addApplication(application);
+    if (!submissionStatus) {
+      setError("Your application failed to submit.");
+    }
+
+    setLoading(false);
+    setSuccess(submissionStatus);
   };
 
   if (success) {
@@ -50,7 +74,10 @@ const Apply = () => {
         to={{
           pathname: "/",
           state: {
-            alert: { message: "Your application has been submitted.", type: "success" },
+            alert: {
+              message: "Your application has been submitted.",
+              type: "success",
+            },
           },
         }}
       />
@@ -75,10 +102,16 @@ const Apply = () => {
         </Button>
       </div>
 
-      {!formType ? null : (
-        <Form onSubmit={handleApplication} className="mt-5">
+      {error && (
+        <Alert variant="danger" className="mt-4">
+          {error}
+        </Alert>
+      )}
+
+      {formType && (
+        <Form onSubmit={handleApplication} className="mt-4">
           {/* Name Field */}
-          <Form.Group as={Row} className="mb-3" controlId="formHorizontalName">
+          <Form.Group as={Row} className="mb-3">
             <Form.Label column sm="auto">
               Name
             </Form.Label>
@@ -95,7 +128,7 @@ const Apply = () => {
           </Form.Group>
 
           {/* Email Field -- verification if an existing application exists for that email already? */}
-          <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+          <Form.Group as={Row} className="mb-3">
             <Form.Label column sm="auto">
               Email
             </Form.Label>
@@ -108,15 +141,12 @@ const Apply = () => {
                 onChange={handleInputChange}
                 required
               />
-              <Form.Control.Feedback type="invalid">
-                Please enter a valid email
-              </Form.Control.Feedback>
             </Col>
           </Form.Group>
 
           {/* GPA Field [Student Only] */}
-          {formType !== "student" ? null : (
-            <Form.Group as={Row} className="mb-3" controlId="formHorizontalGPA">
+          {formType === "student" && (
+            <Form.Group as={Row} className="mb-3">
               <Form.Label column sm="auto">
                 GPA
               </Form.Label>
@@ -131,14 +161,13 @@ const Apply = () => {
                   onChange={handleInputChange}
                   required
                 />
-                <Form.Control.Feedback type="invalid">Please enter your GPA</Form.Control.Feedback>
               </Col>
             </Form.Group>
           )}
 
           {/* Skills and Fields of Interest [Instructor Only] */}
-          {formType !== "instructor" ? null : (
-            <Form.Group className="mb-3" controlId="formHorizontalPassword">
+          {formType === "instructor" && (
+            <Form.Group className="mb-3">
               <Form.Label column sm="auto">
                 About Yourself
               </Form.Label>
@@ -148,11 +177,9 @@ const Apply = () => {
                 name="interests"
                 value={formState.interests}
                 onChange={handleInputChange}
+                maxLength="1000"
                 required
               />
-              <Form.Control.Feedback type="invalid">
-                Please enter something about yourself
-              </Form.Control.Feedback>
             </Form.Group>
           )}
 
@@ -160,7 +187,7 @@ const Apply = () => {
             style={{ width: "100%" }}
             variant="primary"
             type="submit"
-            disabled={loading ? true : false}
+            disabled={loading}
           >
             Submit Application
           </Button>
@@ -170,4 +197,4 @@ const Apply = () => {
   );
 };
 
-export default Apply;
+export default ApplyPage;

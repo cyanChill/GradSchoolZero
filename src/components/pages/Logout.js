@@ -1,41 +1,35 @@
-import { useContext, useState, useEffect } from "react";
-import { GlobalContext } from "../../GlobalContext";
+import { useState, useEffect, useContext } from "react";
 import { Redirect } from "react-router";
-import { Spinner, Container } from "react-bootstrap";
+
+import { GlobalContext } from "../../GlobalContext";
 
 const Logout = () => {
-  const { setIsLoggedIn, setUser } = useContext(GlobalContext);
-  const [loading, setLoading] = useState(true);
+  const { isLoggedIn, logout } = useContext(GlobalContext);
+  const [validLogout, setValidLogout] = useState(false);
 
   useEffect(() => {
-    /* Also logout from the server */
-
-    const timeout = setTimeout(() => {
-      setLoading(false);
-      setUser({});
-      setIsLoggedIn(false);
-    }, 100);
-
-    return () => {
-      clearTimeout(timeout);
-    };
+    if (isLoggedIn) {
+      logout();
+      setValidLogout(true);
+    }
   }, []);
 
+  if (!isLoggedIn && validLogout) {
+    return <Redirect to="/" />;
+  }
+
   return (
-    <Container className="text-center">
-      {loading ? (
-        <Spinner animation="border" className="mx-auto mt-5" />
-      ) : (
-        <Redirect
-          to={{
-            pathname: "/",
-            state: {
-              alert: { message: "You have successfully logged out.", type: "success" },
-            },
-          }}
-        />
-      )}
-    </Container>
+    <Redirect
+      to={{
+        pathname: "/",
+        state: {
+          alert: {
+            message: "You have successfully logged out.",
+            type: "success",
+          },
+        },
+      }}
+    />
   );
 };
 

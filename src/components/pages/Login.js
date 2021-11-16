@@ -2,25 +2,36 @@ import { useContext, useState } from "react";
 import { GlobalContext } from "../../GlobalContext";
 import { Redirect } from "react-router";
 
-import { Button, Form, Card, Row, Col, Container } from "react-bootstrap";
+import {
+  Button,
+  Form,
+  Card,
+  Row,
+  Col,
+  Container,
+  Alert,
+} from "react-bootstrap";
 
 const Login = () => {
-  const { isLoggedIn, setIsLoggedIn } = useContext(GlobalContext);
-  const [loading, setLoading] = useState(false);
+  const { login, isLoggedIn } = useContext(GlobalContext);
 
   const [email, setEmail] = useState("@gradschoolzero.edu");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    /* Do some checks for login and check server */
 
-    setTimeout(() => {
-      setLoading(false);
-      setIsLoggedIn(!isLoggedIn);
-    }, 500);
+    const didLogin = await login(email, password);
+
+    if (!didLogin) {
+      setError("Invalid Login Credentials");
+    }
   };
+
+  if (isLoggedIn) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Container>
@@ -28,8 +39,18 @@ const Login = () => {
         <Card.Body>
           <h1 className="text-center">Login</h1>
 
+          {error && (
+            <Alert variant="danger" className="my-3">
+              {error}
+            </Alert>
+          )}
+
           <Form onSubmit={handleLogin}>
-            <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+            <Form.Group
+              as={Row}
+              className="mb-3"
+              controlId="formHorizontalEmail"
+            >
               <Form.Label column sm="auto">
                 Email
               </Form.Label>
@@ -40,13 +61,14 @@ const Login = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                <Form.Control.Feedback type="invalid">
-                  Please enter a valid email
-                </Form.Control.Feedback>
               </Col>
             </Form.Group>
 
-            <Form.Group as={Row} className="mb-3" controlId="formHorizontalPassword">
+            <Form.Group
+              as={Row}
+              className="mb-3"
+              controlId="formHorizontalPassword"
+            >
               <Form.Label column sm="auto">
                 Password
               </Form.Label>
@@ -57,16 +79,10 @@ const Login = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-                <Form.Control.Feedback type="invalid">Incorrect password</Form.Control.Feedback>
               </Col>
             </Form.Group>
 
-            <Button
-              style={{ width: "100%" }}
-              variant="primary"
-              type="submit"
-              disabled={loading ? true : false}
-            >
+            <Button style={{ width: "100%" }} variant="primary" type="submit">
               Login
             </Button>
           </Form>
