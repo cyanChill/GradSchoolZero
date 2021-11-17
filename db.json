@@ -71,14 +71,15 @@
   "tabooWords": [
     {
       "id": "taboolist",
-      "tabooList": [
-        "fuck",
-        "shit",
-        "simp",
-        "dick",
-        "ass",
-        "bitch"
-      ]
+      "tabooList": ["simp", "ass"]
+    }
+  ],
+  "term": [
+    {
+      "id": "terminfo",
+      "phase": "set-up",
+      "semester": "Fall",
+      "year": "2021"
     }
   ]
 }
