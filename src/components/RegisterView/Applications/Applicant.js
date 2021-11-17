@@ -132,7 +132,7 @@ const Applicant = () => {
   }
 
   return (
-    <>
+    <Container>
       <BackButton
         to="/applications"
         className="mt-3"
@@ -200,7 +200,7 @@ const Applicant = () => {
           </Form>
         </Card.Body>
       </Card>
-    </>
+    </Container>
   );
 };
 

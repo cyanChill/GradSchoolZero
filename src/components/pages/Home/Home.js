@@ -17,18 +17,7 @@ const Home = ({ history }) => {
   };
 
   return (
-    <Container>
-      {history.location.state && history.location.state.alert ? (
-        <Alert
-          variant={history.location.state.alert.type}
-          className="mt-2"
-          dismissible
-          onClose={clearAlert}
-        >
-          {history.location.state.alert.message}
-        </Alert>
-      ) : null}
-
+    <>
       {/* <div style={{display: 'flex',  justifyContent:'center'}}>
         <h1>
         <marquee direction="down" height="50" width="550" bgcolor="" color="blue">Welcome to GradSchoolZero</marquee>
@@ -46,9 +35,19 @@ const Home = ({ history }) => {
           minHeight: "90vh",
           width: "100%",
           minWidth: "50px",
-          border: "1px solid black",
         }}
       >
+        {history.location.state && history.location.state.alert ? (
+          <Alert
+            variant={history.location.state.alert.type}
+            className="mt-2"
+            dismissible
+            onClose={clearAlert}
+          >
+            {history.location.state.alert.message}
+          </Alert>
+        ) : null}
+
         {isLoggedIn ? null : (
           <div>
             <h1>
@@ -74,8 +73,6 @@ const Home = ({ history }) => {
           </div>
         )}
       </Grid>
-
-      <></>
 
       {/* <Grid container display="grid" gridAutoFlow="column" spacing={1}>
        <Grid>
@@ -103,7 +100,7 @@ const Home = ({ history }) => {
     </Grid>
   ))}
 </Grid> */}
-    </Container>
+    </>
   );
 };
 

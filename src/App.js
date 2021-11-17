@@ -28,51 +28,50 @@ const App = () => {
   return (
     <Router>
       <NavBar />
-      <Container>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/classes" component={Classes} />
-          <Route path="/about" component={About} />
-          <Route path="/profile" component={Profile} />
-          <Route path="/logout" component={Logout} />
 
-          {/* Not logged in users only*/}
-          <PublicRoute path="/apply">
-            <ApplyPage />
-          </PublicRoute>
-          <PublicRoute path="/login">
-            <Login />
-          </PublicRoute>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/classes" component={Classes} />
+        <Route path="/about" component={About} />
+        <Route path="/profile" component={Profile} />
+        <Route path="/logout" component={Logout} />
 
-          {/* Logged in users only */}
+        {/* Not logged in users only*/}
+        <PublicRoute path="/apply">
+          <ApplyPage />
+        </PublicRoute>
+        <PublicRoute path="/login">
+          <Login />
+        </PublicRoute>
 
-          {/* Registrar users only */}
-          <RegistrarRoute path="/registrar">
-            <RegistrarMangementPage />
-          </RegistrarRoute>
-          <RegistrarRoute path="/create/user">
-            <CreateUserForm />
-          </RegistrarRoute>
-          <RegistrarRoute path="/create/course">
-            <CreateCourseForm />
-          </RegistrarRoute>
-          <RegistrarRoute exact path="/applications">
-            <ApplicationsPage />
-          </RegistrarRoute>
-          <RegistrarRoute path="/applications/:id">
-            <Applicant />
-          </RegistrarRoute>
-          <RegistrarRoute path="/taboo">
-            <ManageTaboo />
-          </RegistrarRoute>
-          <RegistrarRoute path="/semester">
-            <SemesterManagement />
-          </RegistrarRoute>
+        {/* Logged in users only */}
 
-          {/* Page not found */}
-          <Route path="*" component={NotFound} />
-        </Switch>
-      </Container>
+        {/* Registrar users only */}
+        <RegistrarRoute path="/registrar">
+          <RegistrarMangementPage />
+        </RegistrarRoute>
+        <RegistrarRoute path="/create/user">
+          <CreateUserForm />
+        </RegistrarRoute>
+        <RegistrarRoute path="/create/course">
+          <CreateCourseForm />
+        </RegistrarRoute>
+        <RegistrarRoute exact path="/applications">
+          <ApplicationsPage />
+        </RegistrarRoute>
+        <RegistrarRoute path="/applications/:id">
+          <Applicant />
+        </RegistrarRoute>
+        <RegistrarRoute path="/taboo">
+          <ManageTaboo />
+        </RegistrarRoute>
+        <RegistrarRoute path="/semester">
+          <SemesterManagement />
+        </RegistrarRoute>
+
+        {/* Page not found */}
+        <Route path="*" component={NotFound} />
+      </Switch>
     </Router>
   );
 };

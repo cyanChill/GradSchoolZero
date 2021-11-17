@@ -53,8 +53,6 @@ const useTabooFetch = () => {
       (tabooword) => tabooword !== formattedWord
     );
 
-    console.log(newTabooList);
-
     await fetch(`http://localhost:2543/tabooWords/taboolist`, {
       method: "PATCH",
       headers: {

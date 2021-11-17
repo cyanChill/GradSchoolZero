@@ -132,13 +132,13 @@ const CreateCourseForm = () => {
   /* Check if current phase is course setup */
   if (termInfo.phase !== "set-up") {
     return (
-      <>
+      <Container>
         <BackButton />
         <Alert variant="danger" className="mt-3">
           <span className="fw-bold">Error:</span> The program is not in the{" "}
           <span className="font-monospace">Class Set-Up Period</span>.{" "}
         </Alert>
-      </>
+      </Container>
     );
   }
 
@@ -182,7 +182,7 @@ const CreateCourseForm = () => {
   }
 
   return (
-    <>
+    <Container>
       <BackButton />
       <Card style={{ maxWidth: "50rem" }} className="mx-auto mt-3">
         <Card.Body>
@@ -319,7 +319,7 @@ const CreateCourseForm = () => {
           </Form>
         </Card.Body>
       </Card>
-    </>
+    </Container>
   );
 };
 
