@@ -7,7 +7,8 @@ import { MenuIcon } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
 const NavBar = () => {
-  const { isLoggedIn } = useContext(GlobalContext);
+  const { userHook } = useContext(GlobalContext);
+  const { isLoggedIn } = userHook;
 
   return (
     <Navbar bg="primary" variant="dark" expand="md" fixed="top">

@@ -17,8 +17,9 @@ const CreateUserForm = ({ location }) => {
     reqJust: false,
   });
 
-  const { removeApplication, checkUserEmailIsUsed, createUser } =
-    useContext(GlobalContext);
+  const { userHook, applicationsHook } = useContext(GlobalContext);
+  const { removeApplication } = applicationsHook;
+  const { checkUserEmailIsUsed, createUser } = userHook;
 
   const [userInfo, setUserInfo] = useState({
     email: "@gradschoolzero.edu",

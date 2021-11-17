@@ -13,7 +13,8 @@ import {
 } from "react-bootstrap";
 
 const Login = () => {
-  const { login, isLoggedIn } = useContext(GlobalContext);
+  const { userHook } = useContext(GlobalContext);
+  const { login, isLoggedIn } = userHook;
 
   const [email, setEmail] = useState("@gradschoolzero.edu");
   const [password, setPassword] = useState("");

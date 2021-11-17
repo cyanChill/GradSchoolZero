@@ -6,7 +6,8 @@ import { Button, Form, Row, Col, Container, Alert } from "react-bootstrap";
 import { GlobalContext } from "../../GlobalContext";
 
 const ApplyPage = () => {
-  const { checkAppEmailIsUsed, addApplication } = useContext(GlobalContext);
+  const { applicationsHook } = useContext(GlobalContext);
+  const { checkAppEmailIsUsed, addApplication } = applicationsHook;
 
   const [loading, setLoading] = useState(false);
 

@@ -2,27 +2,22 @@ import { useState, useEffect, createContext } from "react";
 import useUserFetch from "./hooks/useUserFetch";
 import useTermInfo from "./hooks/useTermInfo";
 import useApplicationFetch from "./hooks/useApplicationFetch";
+import useTabooFetch from "./hooks/useTabooFetch";
 
 export const GlobalContext = createContext();
 
 export const GlobalProvider = (props) => {
   /* -=- Login -=- */
-  const { isLoggedIn, user, login, logout, checkUserEmailIsUsed, createUser } =
-    useUserFetch();
+  const userHook = useUserFetch();
 
   /* -=- Term Info -=- */
-  const { termInfo } = useTermInfo();
+  const termHook = useTermInfo();
 
   /* -=- Application -=- */
-  const {
-    applicationsList,
-    loading,
-    checkAppEmailIsUsed,
-    addApplication,
-    getApplicationInfo,
-    removeApplication,
-    refreshApplicationsList,
-  } = useApplicationFetch();
+  const applicationsHook = useApplicationFetch();
+
+  /* -=- Taboo -=- */
+  const tabooHook = useTabooFetch();
 
   /* 
     The values of "value" in "GlobalContext.Provider" is available to all
@@ -31,20 +26,10 @@ export const GlobalProvider = (props) => {
   return (
     <GlobalContext.Provider
       value={{
-        isLoggedIn,
-        user,
-        login,
-        logout,
-        checkUserEmailIsUsed,
-        termInfo,
-        createUser,
-        applicationsList,
-        loading,
-        checkAppEmailIsUsed,
-        addApplication,
-        getApplicationInfo,
-        removeApplication,
-        refreshApplicationsList,
+        userHook: { ...userHook },
+        termHook: { ...termHook },
+        applicationsHook: { ...applicationsHook },
+        tabooHook: { ...tabooHook },
       }}
     >
       {props.children}

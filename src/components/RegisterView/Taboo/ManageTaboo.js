@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   Container,
   Form,
@@ -9,12 +9,13 @@ import {
   Spinner,
 } from "react-bootstrap";
 import { FaTimes } from "react-icons/fa";
-import useTabooFetch from "../../../hooks/useTabooFetch";
+import { GlobalContext } from "../../../GlobalContext";
 import BackButton from "../../UI/BackButton";
 import classes from "./ManageTaboo.module.css";
 
 const ManageTaboo = () => {
-  const { tabooList, loading, addTabooWord, deleteTabooWord } = useTabooFetch();
+  const { tabooHook } = useContext(GlobalContext);
+  const { tabooList, loading, addTabooWord, deleteTabooWord } = tabooHook;
   const [wordField, setWordField] = useState("");
 
   const submitHandler = async (e) => {

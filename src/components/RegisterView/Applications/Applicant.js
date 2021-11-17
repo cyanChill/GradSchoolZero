@@ -17,8 +17,8 @@ import BackButton from "../../UI/BackButton";
 const Applicant = () => {
   const { id } = useParams();
   const justificationField = useRef();
-  const { loading, getApplicationInfo, removeApplication } =
-    useContext(GlobalContext);
+  const { applicationsHook } = useContext(GlobalContext);
+  const { loading, getApplicationInfo, removeApplication } = applicationsHook;
 
   const [validated, setValidated] = useState(false);
   const [application, setApplication] = useState({
@@ -169,7 +169,6 @@ const Applicant = () => {
                   type="text"
                   placeholder="Enter Justification"
                   value={justification}
-                  minLength="75"
                   onChange={(e) => setJustification(e.target.value)}
                   ref={justificationField}
                 />

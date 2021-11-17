@@ -6,8 +6,9 @@ import classes from "./ApplicationsPage.module.css";
 import BackButton from "../../UI/BackButton";
 
 const ApplicationsPage = () => {
+  const { applicationsHook } = useContext(GlobalContext);
   const { applicationsList, loading, refreshApplicationsList } =
-    useContext(GlobalContext);
+    applicationsHook;
 
   const applicants = applicationsList.map((application) => (
     <Link

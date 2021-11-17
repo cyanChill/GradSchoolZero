@@ -1,5 +1,12 @@
 import { useContext, useState } from "react";
-import { Container, Card, Button, Modal, Alert } from "react-bootstrap";
+import {
+  Container,
+  Card,
+  Button,
+  Modal,
+  Alert,
+  Spinner,
+} from "react-bootstrap";
 import BackButton from "../../UI/BackButton";
 import { GlobalContext } from "../../../GlobalContext";
 
@@ -9,8 +16,9 @@ const SemesterManagement = () => {
   const handleShow = () => setShow(true);
   const [alertInfo, setAlertInfo] = useState(null);
 
-  const { termInfo, getPhaseInfo, getNextTermInfo, nextPhase } =
-    useContext(GlobalContext);
+  const { termHook } = useContext(GlobalContext);
+  const { loading, termInfo, getPhaseInfo, getNextTermInfo, nextPhase } =
+    termHook;
 
   const currTermInfo = getPhaseInfo(termInfo.phase);
   const nextTerm = getNextTermInfo();
@@ -21,6 +29,36 @@ const SemesterManagement = () => {
     setAlertInfo(res);
     handleClose();
   };
+
+  let body = (
+    <div className="d-flex justify-content-center">
+      <Spinner animation="border" />
+    </div>
+  );
+
+  if (!loading) {
+    body = (
+      <>
+        <h2>Current Phase Info:</h2>
+        <PhaseWidget
+          {...termInfo}
+          phaseDescription={currTermInfo.description}
+        />
+        <hr />
+        <h2>Next Phase Info:</h2>
+        <PhaseWidget
+          {...nextTerm}
+          phaseDescription={nextTermInfo.description}
+        />
+
+        <div className="d-flex justify-content-end my-3">
+          <Button variant="warning" className="my-3" onClick={handleShow}>
+            Move to Next Phase?
+          </Button>
+        </div>
+      </>
+    );
+  }
 
   return (
     <Container>
@@ -36,17 +74,8 @@ const SemesterManagement = () => {
       )}
       <BackButton to="/registrar" btnLabel="Back to Management Page" />
       <h1 className="my-3 text-center">Semester Management</h1>
-      <h2>Current Phase Info:</h2>
-      <PhaseWidget {...termInfo} phaseDescription={currTermInfo.description} />
-      <hr />
-      <h2>Next Phase Info:</h2>
-      <PhaseWidget {...nextTerm} phaseDescription={nextTermInfo.description} />
+      {body}
 
-      <div className="d-flex justify-content-end my-3">
-        <Button variant="warning" className="my-3" onClick={handleShow}>
-          Move to Next Phase?
-        </Button>
-      </div>
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>Move to Next Phase?</Modal.Title>

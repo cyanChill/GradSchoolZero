@@ -202,6 +202,7 @@ const useTermInfo = () => {
   }, [termInfo]);
 
   return {
+    loading,
     termInfo,
     nextPhase,
     getPhaseInfo,

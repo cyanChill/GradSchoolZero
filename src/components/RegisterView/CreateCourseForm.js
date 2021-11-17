@@ -26,7 +26,8 @@ import BackButton from "../UI/BackButton";
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 const CreateCourseForm = () => {
-  const { termInfo } = useContext(GlobalContext);
+  const { termHook } = useContext(GlobalContext);
+  const { termInfo } = termHook;
   const { nonSuspsendedInstructors: instructors } = useInstructorFetch();
 
   const [courseInfo, setCourseInfo] = useState({
