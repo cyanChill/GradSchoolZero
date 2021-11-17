@@ -1,30 +1,19 @@
 import { useContext, useState } from "react";
-import { GlobalContext } from "../../GlobalContext";
+import { GlobalContext } from "../../../GlobalContext";
 import { Button, Container, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Grid, Paper } from "@mui/material";
 import "./Home.css";
 
 const Home = ({ history }) => {
-  /* 
-    How we access the values of the "GlobaContext" [we can specify what
-    we want from the available values using object destructuring]:
-  */
   const isBackgroundRed = true;
-  const { isLoggedIn, user, setUser, termInfo, setTermInfo } =
-    useContext(GlobalContext);
+  const { userHook } = useContext(GlobalContext);
+  const { isLoggedIn } = userHook;
 
   const clearAlert = () => {
     let state = { ...history.location.state };
     delete state.alert;
     history.replace({ ...history.location, state });
-  };
-
-  const setPhase = (phase) => {
-    setTermInfo({
-      ...termInfo,
-      phase,
-    });
   };
 
   return (
@@ -46,42 +35,6 @@ const Home = ({ history }) => {
         </h1>
 
       </div> */}
-
-      {!isLoggedIn ? null : (
-        <>
-          <h2>Temporary:</h2>
-          <div className="d-flex gap-3 flex-wrap justify-content-center align-items-center my-2">
-            <Button
-              variant="secondary"
-              onClick={() => setPhase("set-up")}
-              disabled={termInfo.phase === "set-up" ? true : false}
-            >
-              Class Set-Up Period
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={() => setPhase("registration")}
-              disabled={termInfo.phase === "registration" ? true : false}
-            >
-              Course Registration period
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={() => setPhase("running")}
-              disabled={termInfo.phase === "running" ? true : false}
-            >
-              Class Running Period
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={() => setPhase("grading")}
-              disabled={termInfo.phase === "grading" ? true : false}
-            >
-              Grading Period
-            </Button>
-          </div>
-        </>
-      )}
 
       <Grid
         className="HomeP"

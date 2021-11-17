@@ -8,7 +8,7 @@ import ProtectedRoute from "./components/Routes/ProtectedRoute";
 import RegistrarRoute from "./components/Routes/RegistrarRoute";
 
 import NavBar from "./components/NavBar";
-import Home from "./components/pages/Home";
+import Home from "./components/pages/Home/Home";
 import About from "./components/pages/About";
 import Classes from "./components/pages/Classes";
 import Profile from "./components/pages/Profile";
@@ -22,6 +22,7 @@ import Applicant from "./components/RegisterView/Applications/Applicant";
 import RegistrarMangementPage from "./components/RegisterView/Mangement/RegistrarManagementPage";
 import NotFound from "./components/pages/NotFound";
 import ManageTaboo from "./components/RegisterView/Taboo/ManageTaboo";
+import SemesterManagement from "./components/RegisterView/Mangement/SemesterManagement";
 
 const App = () => {
   return (
@@ -63,6 +64,9 @@ const App = () => {
           </RegistrarRoute>
           <RegistrarRoute path="/taboo">
             <ManageTaboo />
+          </RegistrarRoute>
+          <RegistrarRoute path="/semester">
+            <SemesterManagement />
           </RegistrarRoute>
 
           {/* Page not found */}
