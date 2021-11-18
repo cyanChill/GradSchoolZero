@@ -11,8 +11,8 @@ const ComplaintsPage = () => {
   const { complaintsList, resolveComplaint, loading, refreshComplaintsList } =
     complaintHook;
 
-  const handleResult = async (complaintId, resultType) => {
-    await resolveComplaint(complaintId, resultType);
+  const handleResult = async (complaintInfo, resultType) => {
+    await resolveComplaint(complaintInfo, resultType);
 
     // Do some other logic
   };
@@ -83,14 +83,14 @@ const ComplaintWidget = ({ complaint, handleResult }) => {
           <Button
             variant="success"
             className="mx-1"
-            onClick={() => handleResult(id, "approve")}
+            onClick={() => handleResult(complaint, "approve")}
           >
             <BiCheck />
           </Button>
           <Button
             variant="danger"
             className="mx-1"
-            onClick={() => handleResult(id, "reject")}
+            onClick={() => handleResult(complaint, "reject")}
           >
             <BiX />
           </Button>
