@@ -25,6 +25,8 @@ import ManageTaboo from "./components/RegisterView/Taboo/ManageTaboo";
 import SemesterManagement from "./components/RegisterView/Mangement/SemesterManagement";
 import Settings from "./components/pages/Settings";
 import InfractionsPage from "./components/RegisterView/Infractions/InfractionsPage";
+import ComplaintsPage from "./components/RegisterView/Complaints/ComplaintsPage";
+import GradAppsPage from "./components/RegisterView/Applications/GradAppsPage";
 
 const App = () => {
   return (
@@ -73,8 +75,14 @@ const App = () => {
         <RegistrarRoute path="/semester">
           <SemesterManagement />
         </RegistrarRoute>
-        <RegistrarRoute path="/infractions">
+        <RegistrarRoute exact path="/infractions">
           <InfractionsPage />
+        </RegistrarRoute>
+        <RegistrarRoute exact path="/complaints">
+          <ComplaintsPage />
+        </RegistrarRoute>
+        <RegistrarRoute exact path="/grad-apps">
+          <GradAppsPage />
         </RegistrarRoute>
 
         {/* Page not found */}

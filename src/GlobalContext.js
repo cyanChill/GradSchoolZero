@@ -3,6 +3,7 @@ import useUserFetch from "./hooks/useUserFetch";
 import useTermInfo from "./hooks/useTermInfo";
 import useApplicationFetch from "./hooks/useApplicationFetch";
 import useTabooFetch from "./hooks/useTabooFetch";
+import useComplaintsFetch from "./hooks/useComplaintsFetch";
 
 export const GlobalContext = createContext();
 
@@ -19,6 +20,9 @@ export const GlobalProvider = (props) => {
   /* -=- Taboo -=- */
   const tabooHook = useTabooFetch();
 
+  /* -=- Complaints -=- */
+  const complaintHook = useComplaintsFetch();
+
   /* 
     The values of "value" in "GlobalContext.Provider" is available to all
     components that access "GlobalContext" via "useContext"
@@ -26,10 +30,11 @@ export const GlobalProvider = (props) => {
   return (
     <GlobalContext.Provider
       value={{
-        userHook: { ...userHook },
-        termHook: { ...termHook },
-        applicationsHook: { ...applicationsHook },
-        tabooHook: { ...tabooHook },
+        userHook,
+        termHook,
+        applicationsHook,
+        tabooHook,
+        complaintHook,
       }}
     >
       {props.children}

@@ -17,8 +17,8 @@ const widgetLists = [
   },
   {
     icon: <FaClipboard />,
-    label: "View Reports",
-    linkTo: "/reports",
+    label: "View Complaints",
+    linkTo: "/complaints",
   },
   {
     icon: <FaClipboardList />,

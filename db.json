@@ -67,7 +67,38 @@
       "gpa": "3"
     }
   ],
-  "complaints": [],
+  "complaints": [
+    {
+      "id": "af57f0c9-5d56-44e6-986c-194aa0ac34b8",
+      "reporter": {
+        "id": "37798a5b-413a-4c1e-9e32-34a57f71d17e",
+        "name": "Student",
+        "userType": "student"
+      },
+      "offender": {
+        "id": "246e6e2a-2e98-4408-9866-f723869e912b",
+        "name": "Instructor",
+        "userType": "instructor"
+      },
+      "reason": "Test complaint",
+      "outcome": ""
+    },
+    {
+      "id": "297a7b91-72ee-4788-877d-f6c53f35763c",
+      "reporter": {
+        "id": "246e6e2a-2e98-4408-9866-f723869e912b",
+        "name": "Instructor",
+        "userType": "instructor"
+      },
+      "offender": {
+        "id": "37798a5b-413a-4c1e-9e32-34a57f71d17e",
+        "name": "Student",
+        "userType": "student"
+      },
+      "reason": "Test complaint",
+      "outcome": "de-registration"
+    }
+  ],
   "tabooWords": [
     {
       "id": "taboolist",
