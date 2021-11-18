@@ -24,6 +24,7 @@ import NotFound from "./components/pages/NotFound";
 import ManageTaboo from "./components/RegisterView/Taboo/ManageTaboo";
 import SemesterManagement from "./components/RegisterView/Mangement/SemesterManagement";
 import Settings from "./components/pages/Settings";
+import InfractionsPage from "./components/RegisterView/Infractions/InfractionsPage";
 
 const App = () => {
   return (
@@ -71,6 +72,9 @@ const App = () => {
         </RegistrarRoute>
         <RegistrarRoute path="/semester">
           <SemesterManagement />
+        </RegistrarRoute>
+        <RegistrarRoute path="/infractions">
+          <InfractionsPage />
         </RegistrarRoute>
 
         {/* Page not found */}

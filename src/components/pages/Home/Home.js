@@ -25,6 +25,17 @@ const Home = ({ history }) => {
 
       </div> */}
 
+      {history.location.state && history.location.state.alert ? (
+        <Alert
+          variant={history.location.state.alert.type}
+          dismissible
+          onClose={clearAlert}
+          className="m-1"
+        >
+          {history.location.state.alert.message}
+        </Alert>
+      ) : null}
+
       <Grid
         className="HomeP"
         sx={{
@@ -37,17 +48,6 @@ const Home = ({ history }) => {
           minWidth: "50px",
         }}
       >
-        {history.location.state && history.location.state.alert ? (
-          <Alert
-            variant={history.location.state.alert.type}
-            className="mt-2"
-            dismissible
-            onClose={clearAlert}
-          >
-            {history.location.state.alert.message}
-          </Alert>
-        ) : null}
-
         {isLoggedIn ? null : (
           <div>
             <h1>
