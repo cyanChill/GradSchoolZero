@@ -11,10 +11,7 @@ const InfractionsPage = () => {
       <div className="d-flex justify-content-center">
         <Button onClick={handleRefresh}>Refresh</Button>
       </div>
-      <Tabs defaultActiveKey="warnings" className="mb-3">
-        <Tab eventKey="warnings" title="Warnings">
-          <p>Lists of Warnings Recieved</p>
-        </Tab>
+      <Tabs defaultActiveKey="suspended" className="mb-3">
         <Tab eventKey="suspended" title="Suspended">
           <p>List of Suspended Users</p>
         </Tab>

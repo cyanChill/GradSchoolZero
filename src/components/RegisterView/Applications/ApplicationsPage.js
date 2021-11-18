@@ -11,7 +11,8 @@ const ApplicationsPage = () => {
     applicationsHook;
 
   const applicants = applicationsList.map((application) => (
-    <Link
+    <div
+      as={Link}
       to={`/applications/${application.id}`}
       className={`${classes.link} ${classes.application} ${
         classes[application.type]
@@ -19,16 +20,12 @@ const ApplicationsPage = () => {
       key={application.id}
     >
       {application.name}
-    </Link>
+    </div>
   ));
 
   return (
-    <Container className="d-flex flex-column align-items-center">
-      <BackButton
-        className="align-self-start"
-        to="/registrar"
-        btnLabel="Back to Management Page"
-      />
+    <Container>
+      <BackButton to="/registrar" btnLabel="Back to Management Page" />
       <h1 className="text-center mt-2 mb-3">Applications</h1>
       {applicants.length > 0 && applicants}
       {loading && (
@@ -37,13 +34,15 @@ const ApplicationsPage = () => {
         </div>
       )}
       {!loading && applicants.length === 0 && <p>There are no applications.</p>}
-      <Button
-        className="my-3"
-        onClick={refreshApplicationsList}
-        disabled={loading}
-      >
-        Refresh
-      </Button>
+      <div className="d-flex justify-content-center">
+        <Button
+          className="my-3"
+          onClick={refreshApplicationsList}
+          disabled={loading}
+        >
+          Refresh
+        </Button>
+      </div>
     </Container>
   );
 };
