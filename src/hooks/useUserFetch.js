@@ -86,6 +86,41 @@ const useUserFetch = () => {
     setUser(userInfo);
   };
 
+  const changePassword = async (oldPass, newPass) => {
+    const res = await fetch(`http://localhost:2543/users/${user.id}`);
+    const data = await res.json();
+
+    console.log(data);
+
+    if (oldPass === data.password) {
+      if (!newPass) {
+        return { type: "danger", message: "New Password Must Not Be Empty" };
+      }
+
+      const res = await fetch(`http://localhost:2543/users/${user.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          ...data,
+          password: newPass,
+        }),
+      });
+
+      if (!res.ok) {
+        return {
+          type: "danger",
+          message: "An Error Has Occurred When Changing Your Password",
+        };
+      }
+
+      return { type: "success", message: "Successfully Changed Password" };
+    }
+
+    return { type: "danger", message: "Incorrect Old Password" };
+  };
+
   useEffect(() => {
     sessionStorage.setItem("user", JSON.stringify(user));
   }, [user]);
@@ -97,6 +132,7 @@ const useUserFetch = () => {
     logout,
     checkUserEmailIsUsed,
     createUser,
+    changePassword,
   };
 };
 

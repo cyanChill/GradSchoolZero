@@ -23,6 +23,7 @@ import RegistrarMangementPage from "./components/RegisterView/Mangement/Registra
 import NotFound from "./components/pages/NotFound";
 import ManageTaboo from "./components/RegisterView/Taboo/ManageTaboo";
 import SemesterManagement from "./components/RegisterView/Mangement/SemesterManagement";
+import Settings from "./components/pages/Settings";
 
 const App = () => {
   return (
@@ -45,6 +46,9 @@ const App = () => {
         </PublicRoute>
 
         {/* Logged in users only */}
+        <ProtectedRoute path="/settings">
+          <Settings />
+        </ProtectedRoute>
 
         {/* Registrar users only */}
         <RegistrarRoute path="/registrar">
