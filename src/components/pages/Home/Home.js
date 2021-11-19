@@ -36,18 +36,21 @@ const Home = ({ history }) => {
         </Alert>
       ) : null}
 
-      <Grid
-        className="HomeP"
-        sx={{
-          textAlign: "center",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "7%",
-          minHeight: "90vh",
-          width: "100%",
-          minWidth: "50px",
-        }}
-      >
+      <Grid className="HomeP">
+        {/* 
+        <Grid
+          className="HomeP"
+          sx={{
+            textAlign: "center",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "7%",
+            minHeight: "90vh",
+            width: "100%",
+            minWidth: "50px",
+          }}
+        >
+        */}
         {isLoggedIn ? null : (
           <div>
             <h1>
