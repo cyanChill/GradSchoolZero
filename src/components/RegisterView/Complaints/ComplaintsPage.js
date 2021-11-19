@@ -1,8 +1,9 @@
 import { useContext } from "react";
-import { Container, Spinner, Button, Row, Col } from "react-bootstrap";
+import { Container, Button, Row, Col } from "react-bootstrap";
 import { BiCheck, BiX } from "react-icons/bi";
 import BackHeader from "../../UI/BackHeader";
 import LabelDescripField from "../../UI/LabelDescripField";
+import CenterSpinner from "../../UI/CenterSpinner";
 import { GlobalContext } from "../../../GlobalContext";
 
 import classes from "./ComplaintsPage.module.css";
@@ -34,11 +35,7 @@ const ComplaintsPage = () => {
       {complaints.length > 0 && complaints}
 
       <div className="d-flex justify-content-center flex-column">
-        {loading && (
-          <div className="my-3 d-flex justify-content-center">
-            <Spinner animation="border" />
-          </div>
-        )}
+        {loading && <CenterSpinner />}
         {!loading && complaints.length === 0 && <p>There are no complaints.</p>}
         <Button
           className="my-3"

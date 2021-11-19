@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Container, Form, Row, Col, Button, Alert } from "react-bootstrap";
+import { Container, Form, Button, Alert } from "react-bootstrap";
 import HorizFormInputField from "../UI/HorizFormInputField";
 
 import { GlobalContext } from "../../GlobalContext";

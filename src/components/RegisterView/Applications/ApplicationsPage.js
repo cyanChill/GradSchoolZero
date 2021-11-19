@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Container, Spinner, Button } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
 import { GlobalContext } from "../../../GlobalContext";
 import classes from "./ApplicationsPage.module.css";
 import BackHeader from "../../UI/BackHeader";
+import CenterSpinner from "../../UI/CenterSpinner";
 
 const ApplicationsPage = () => {
   const { applicationsHook } = useContext(GlobalContext);
@@ -30,11 +31,7 @@ const ApplicationsPage = () => {
         headerTitle="Applications"
       />
       {applicants.length > 0 && applicants}
-      {loading && (
-        <div className="my-3">
-          <Spinner animation="border" />
-        </div>
-      )}
+      {loading && <CenterSpinner />}
       {!loading && applicants.length === 0 && <p>There are no applications.</p>}
       <div className="d-flex justify-content-center">
         <Button

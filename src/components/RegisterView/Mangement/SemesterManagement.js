@@ -1,15 +1,9 @@
 import { useContext, useState } from "react";
-import {
-  Container,
-  Card,
-  Button,
-  Modal,
-  Alert,
-  Spinner,
-} from "react-bootstrap";
+import { Container, Card, Button, Modal, Alert } from "react-bootstrap";
 import BackHeader from "../../UI/BackHeader";
 import LabelDescripField from "../../UI/LabelDescripField";
 import { GlobalContext } from "../../../GlobalContext";
+import CenterSpinner from "../../UI/CenterSpinner";
 
 const SemesterManagement = () => {
   const [show, setShow] = useState(false);
@@ -31,11 +25,7 @@ const SemesterManagement = () => {
     handleClose();
   };
 
-  let body = (
-    <div className="d-flex justify-content-center">
-      <Spinner animation="border" />
-    </div>
-  );
+  let body = <CenterSpinner />;
 
   if (!loading) {
     body = (

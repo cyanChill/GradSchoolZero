@@ -1,16 +1,9 @@
 import { useState, useContext } from "react";
-import {
-  Container,
-  Form,
-  Row,
-  Col,
-  Button,
-  Card,
-  Spinner,
-} from "react-bootstrap";
+import { Container, Form, Row, Col, Button, Card } from "react-bootstrap";
 import { FaTimes } from "react-icons/fa";
 import { GlobalContext } from "../../../GlobalContext";
 import BackHeader from "../../UI/BackHeader";
+import CenterSpinner from "../../UI/CenterSpinner";
 import classes from "./ManageTaboo.module.css";
 
 const ManageTaboo = () => {
@@ -61,11 +54,7 @@ const ManageTaboo = () => {
         </Card.Body>
       </Card>
       <Row>{tabooWords}</Row>
-      {loading && (
-        <div className="d-flex justify-content-center mt-3">
-          <Spinner animation="border" />
-        </div>
-      )}
+      {loading && <CenterSpinner />}
     </Container>
   );
 };

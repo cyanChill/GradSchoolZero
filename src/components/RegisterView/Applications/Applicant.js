@@ -9,12 +9,12 @@ import {
   Button,
   Container,
   Alert,
-  Spinner,
 } from "react-bootstrap";
 import { GlobalContext } from "../../../GlobalContext";
 import BackButton from "../../UI/BackButton";
 import LabelDescripField from "../../UI/LabelDescripField";
 import HorizFormInputField from "../../UI/HorizFormInputField";
+import CenterSpinner from "../../UI/CenterSpinner";
 
 const Applicant = () => {
   const { id } = useParams();
@@ -89,11 +89,7 @@ const Applicant = () => {
   }, []);
 
   if (loading && !successType) {
-    return (
-      <Container className="d-flex align-items-center justify-content-center mt-5">
-        <Spinner animation="border" />
-      </Container>
-    );
+    return <CenterSpinner />;
   }
 
   if (!loading && !application.name) {
