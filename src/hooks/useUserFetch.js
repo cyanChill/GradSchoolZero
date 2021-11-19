@@ -90,8 +90,6 @@ const useUserFetch = () => {
     const res = await fetch(`http://localhost:2543/users/${user.id}`);
     const data = await res.json();
 
-    console.log(data);
-
     if (oldPass === data.password) {
       if (!newPass) {
         return { type: "danger", message: "New Password Must Not Be Empty" };

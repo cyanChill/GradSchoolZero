@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { Container, Form, Row, Col, Button, Alert } from "react-bootstrap";
+import HorizFormInputField from "../UI/HorizFormInputField";
 
 import { GlobalContext } from "../../GlobalContext";
 
@@ -60,32 +61,38 @@ const Settings = () => {
       <Form onSubmit={submitHandler}>
         <h5 className="text-decoration-underline">Change Password:</h5>
         {alert && <Alert variant={alert.type}>{alert.message}</Alert>}
-        <HorizontalFormField
-          type="text"
+        <HorizFormInputField
           label="Old Password"
-          name="old"
-          value={passVals.old}
-          onChange={changeHandler}
-          placeholder="Enter your old password here"
-          required
+          inputField={{
+            type: "text",
+            name: "old",
+            value: passVals.old,
+            onChange: changeHandler,
+            placeholder: "Enter your old password here",
+            required: true,
+          }}
         />
-        <HorizontalFormField
-          type="password"
+        <HorizFormInputField
           label="New Password"
-          name="new"
-          value={passVals.new}
-          onChange={changeHandler}
-          placeholder="Enter your new password here"
-          required
+          inputField={{
+            type: "password",
+            name: "new",
+            value: passVals.new,
+            onChange: changeHandler,
+            placeholder: "Enter your new password here",
+            required: true,
+          }}
         />
-        <HorizontalFormField
-          type="password"
+        <HorizFormInputField
           label="Confirm New Password"
-          name="newConfirm"
-          value={passVals.newConfirm}
-          onChange={changeHandler}
-          placeholder="Confirm your new password"
-          required
+          inputField={{
+            type: "password",
+            name: "newConfirm",
+            value: passVals.newConfirm,
+            onChange: changeHandler,
+            placeholder: "Confirm your new password",
+            required: true,
+          }}
         />
         <div className="d-flex justify-content-end">
           <Button variant="secondary" type="submit">
@@ -98,31 +105,3 @@ const Settings = () => {
 };
 
 export default Settings;
-
-const HorizontalFormField = ({
-  type,
-  label,
-  value,
-  onChange,
-  placeholder,
-  name,
-  required,
-}) => {
-  return (
-    <Form.Group as={Row} className="my-3">
-      <Form.Label column md="auto">
-        {label}
-      </Form.Label>
-      <Col>
-        <Form.Control
-          type={type}
-          name={name}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          required={required}
-        />
-      </Col>
-    </Form.Group>
-  );
-};
