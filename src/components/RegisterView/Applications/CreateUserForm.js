@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { generate } from "generate-password";
 import { v4 as uuidv4 } from "uuid";
 import { Button, Form, Card, Container, Alert } from "react-bootstrap";
-import FormAlerts from "../../UI/FormAlerts/FormAlerts";
+import FormAlerts from "../../UI/FormAlerts";
 import { GlobalContext } from "../../../GlobalContext";
 import BackButton from "../../UI/BackButton";
 

@@ -13,6 +13,8 @@ import {
 } from "react-bootstrap";
 import { GlobalContext } from "../../../GlobalContext";
 import BackButton from "../../UI/BackButton";
+import LabelDescripField from "../../UI/LabelDescripField";
+import HorizFormInputField from "../../UI/HorizFormInputField";
 
 const Applicant = () => {
   const { id } = useParams();
@@ -96,12 +98,14 @@ const Applicant = () => {
 
   if (!loading && !application.name) {
     return (
-      <Alert variant="danger" className="mt-5">
-        <span className="fw-bold">Error:</span> The application doesn't exist.{" "}
-        <Alert.Link as={Link} to="/applications">
-          Return to the Applications Page.
-        </Alert.Link>
-      </Alert>
+      <Container>
+        <Alert variant="danger" className="mt-5">
+          <span className="fw-bold">Error:</span> The application doesn't exist.{" "}
+          <Alert.Link as={Link} to="/applications">
+            Return to the Applications Page.
+          </Alert.Link>
+        </Alert>
+      </Container>
     );
   }
 
@@ -142,16 +146,16 @@ const Applicant = () => {
         <Card.Body>
           <Card.Title>{application.name}</Card.Title>
           <hr />
-          <ApplicationField
+          <LabelDescripField
             label="Application Type:"
             description={application.type}
           />
 
           {application.type === "student" && (
-            <ApplicationField label="GPA:" description={application.gpa} />
+            <LabelDescripField label="GPA:" description={application.gpa} />
           )}
           {application.type === "instructor" && (
-            <ApplicationField
+            <LabelDescripField
               label="Description:"
               description={application.description}
             />
@@ -160,23 +164,17 @@ const Applicant = () => {
             noValidate
             validated={validated && application.type === "student"}
           >
-            <Form.Group as={Row} className="my-3">
-              <Form.Label column md="auto">
-                Justification:
-              </Form.Label>
-              <Col>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter Justification"
-                  value={justification}
-                  onChange={(e) => setJustification(e.target.value)}
-                  ref={justificationField}
-                />
-                <Form.Control.Feedback type="invalid">
-                  Justification is required.
-                </Form.Control.Feedback>
-              </Col>
-            </Form.Group>
+            <HorizFormInputField
+              label="Justification"
+              feedback="Justification is required."
+              inputField={{
+                type: "text",
+                placeholder: "Enter Justification",
+                value: justification,
+                onChange: (e) => setJustification(e.target.value),
+                ref: justificationField,
+              }}
+            />
             <Row>
               <Col>
                 <Button
@@ -201,17 +199,6 @@ const Applicant = () => {
         </Card.Body>
       </Card>
     </Container>
-  );
-};
-
-const ApplicationField = ({ label, description }) => {
-  return (
-    <p className="my-2">
-      <span className="fw-bold">{label}</span>{" "}
-      <span className="text-capitalize font-monospace text-muted">
-        {description}
-      </span>
-    </p>
   );
 };
 

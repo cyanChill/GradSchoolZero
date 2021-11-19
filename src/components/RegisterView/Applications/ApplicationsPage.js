@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Container, Spinner, Button } from "react-bootstrap";
 import { GlobalContext } from "../../../GlobalContext";
 import classes from "./ApplicationsPage.module.css";
-import BackButton from "../../UI/BackButton";
+import BackHeader from "../../UI/BackHeader";
 
 const ApplicationsPage = () => {
   const { applicationsHook } = useContext(GlobalContext);
@@ -11,8 +11,7 @@ const ApplicationsPage = () => {
     applicationsHook;
 
   const applicants = applicationsList.map((application) => (
-    <div
-      as={Link}
+    <Link
       to={`/applications/${application.id}`}
       className={`${classes.link} ${classes.application} ${
         classes[application.type]
@@ -20,13 +19,16 @@ const ApplicationsPage = () => {
       key={application.id}
     >
       {application.name}
-    </div>
+    </Link>
   ));
 
   return (
     <Container>
-      <BackButton to="/registrar" btnLabel="Back to Management Page" />
-      <h1 className="text-center mt-2 mb-3">Applications</h1>
+      <BackHeader
+        to="/registrar"
+        btnLabel="Back to Management Page"
+        headerTitle="Applications"
+      />
       {applicants.length > 0 && applicants}
       {loading && (
         <div className="my-3">

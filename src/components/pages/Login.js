@@ -1,16 +1,9 @@
 import { useContext, useState } from "react";
-import { GlobalContext } from "../../GlobalContext";
 import { Redirect } from "react-router";
+import { GlobalContext } from "../../GlobalContext";
+import HorizFormInputField from "../UI/HorizFormInputField";
 
-import {
-  Button,
-  Form,
-  Card,
-  Row,
-  Col,
-  Container,
-  Alert,
-} from "react-bootstrap";
+import { Button, Form, Card, Container, Alert } from "react-bootstrap";
 
 const Login = () => {
   const { userHook } = useContext(GlobalContext);
@@ -47,41 +40,25 @@ const Login = () => {
           )}
 
           <Form onSubmit={handleLogin}>
-            <Form.Group
-              as={Row}
-              className="mb-3"
-              controlId="formHorizontalEmail"
-            >
-              <Form.Label column sm="auto">
-                Email
-              </Form.Label>
-              <Col>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Col>
-            </Form.Group>
+            <HorizFormInputField
+              label="Email"
+              inputField={{
+                type: "text",
+                placeholder: "Enter email",
+                value: email,
+                onChange: (e) => setEmail(e.target.value),
+              }}
+            />
 
-            <Form.Group
-              as={Row}
-              className="mb-3"
-              controlId="formHorizontalPassword"
-            >
-              <Form.Label column sm="auto">
-                Password
-              </Form.Label>
-              <Col>
-                <Form.Control
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </Col>
-            </Form.Group>
+            <HorizFormInputField
+              label="Password"
+              inputField={{
+                type: "password",
+                placeholder: "Password",
+                value: password,
+                onChange: (e) => setPassword(e.target.value),
+              }}
+            />
 
             <Button style={{ width: "100%" }} variant="primary" type="submit">
               Login

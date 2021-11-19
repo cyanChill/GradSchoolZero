@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { GlobalContext } from "../../GlobalContext";
 import useInstructorFetch from "../../hooks/useInstructorFetch";
 
-import FormAlerts from "../UI/FormAlerts/FormAlerts";
+import FormAlerts from "../UI/FormAlerts";
 
 import {
   Button,

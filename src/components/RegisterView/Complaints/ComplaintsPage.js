@@ -1,8 +1,9 @@
 import { useContext } from "react";
 import { Container, Spinner, Button, Row, Col } from "react-bootstrap";
-import BackButton from "../../UI/BackButton";
-import { GlobalContext } from "../../../GlobalContext";
 import { BiCheck, BiX } from "react-icons/bi";
+import BackHeader from "../../UI/BackHeader";
+import LabelDescripField from "../../UI/LabelDescripField";
+import { GlobalContext } from "../../../GlobalContext";
 
 import classes from "./ComplaintsPage.module.css";
 
@@ -13,8 +14,6 @@ const ComplaintsPage = () => {
 
   const handleResult = async (complaintInfo, resultType) => {
     await resolveComplaint(complaintInfo, resultType);
-
-    // Do some other logic
   };
 
   const complaints = complaintsList.map((complaint) => (
@@ -27,8 +26,11 @@ const ComplaintsPage = () => {
 
   return (
     <Container>
-      <BackButton to="/registrar" btnLabel="Back to Management Page" />
-      <h1 className="text-center mt-2 mb-3">Complaints</h1>
+      <BackHeader
+        to="/registrar"
+        btnLabel="Back to Management Page"
+        headerTitle="Complaints"
+      />
       {complaints.length > 0 && complaints}
 
       <div className="d-flex justify-content-center flex-column">
@@ -51,7 +53,7 @@ const ComplaintsPage = () => {
 };
 
 const ComplaintWidget = ({ complaint, handleResult }) => {
-  const { id, reporter, offender, reason, outcome } = complaint;
+  const { reporter, offender, reason, outcome } = complaint;
 
   return (
     <div className={classes.complaint}>
@@ -59,24 +61,24 @@ const ComplaintWidget = ({ complaint, handleResult }) => {
         <Col>
           <Row>
             <Col>
-              <Field
+              <LabelDescripField
                 label="Reporter: "
                 description={`${reporter.name} (${reporter.userType})`}
               />
             </Col>
 
             <Col>
-              <Field
+              <LabelDescripField
                 label="Offender: "
                 description={`${offender.name} (${offender.userType})`}
               />
             </Col>
           </Row>
 
-          <Field label="Description: " description={reason} />
+          <LabelDescripField label="Description: " description={reason} />
 
           {reporter.userType === "instructor" && (
-            <Field label="Outcome: " description={outcome} />
+            <LabelDescripField label="Outcome: " description={outcome} />
           )}
         </Col>
         <Col sm="auto" className="text-center">
@@ -97,17 +99,6 @@ const ComplaintWidget = ({ complaint, handleResult }) => {
         </Col>
       </Row>
     </div>
-  );
-};
-
-const Field = ({ label, description }) => {
-  return (
-    <p className="my-1">
-      <span className="fw-bold">{label}</span>{" "}
-      <span className="text-capitalize font-monospace text-muted">
-        {description}
-      </span>
-    </p>
   );
 };
 

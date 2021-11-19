@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import { FaTimes } from "react-icons/fa";
 import { GlobalContext } from "../../../GlobalContext";
-import BackButton from "../../UI/BackButton";
+import BackHeader from "../../UI/BackHeader";
 import classes from "./ManageTaboo.module.css";
 
 const ManageTaboo = () => {
@@ -33,9 +33,12 @@ const ManageTaboo = () => {
 
   return (
     <Container>
-      <BackButton to="/registrar" btnLabel="Back to Management Page" />
-      <h1 className="mt-2 mb-3 text-center">Manage Taboo Words</h1>
-      <Card>
+      <BackHeader
+        to="/registrar"
+        btnLabel="Back to Management Page"
+        headerTitle="Manage Taboo Words"
+      />
+      <Card className="my-3">
         <Card.Body>
           <Form onSubmit={submitHandler}>
             <Form.Group className="mb-3">

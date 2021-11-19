@@ -1,13 +1,16 @@
 import { Container, Tabs, Tab, Button } from "react-bootstrap";
-import BackButton from "../../UI/BackButton";
+import BackHeader from "../../UI/BackHeader";
 
 const InfractionsPage = () => {
   const handleRefresh = () => {};
 
   return (
     <Container>
-      <BackButton to="/registrar" btnLabel="Back to Management Page" />
-      <h1 className="my-3 text-center">Infractions Page</h1>
+      <BackHeader
+        to="/registrar"
+        btnLabel="Back to Management Page"
+        headerTitle="Infractions"
+      />
       <div className="d-flex justify-content-center">
         <Button onClick={handleRefresh}>Refresh</Button>
       </div>

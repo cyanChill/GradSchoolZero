@@ -1,11 +1,14 @@
 import { Container } from "react-bootstrap";
-import BackButton from "../../UI/BackButton";
+import BackHeader from "../../UI/BackHeader";
 
 const GradAppsPage = () => {
   return (
     <Container>
-      <BackButton to="/registrar" btnLabel="Back to Management Page" />
-      <h1 className="my-3 text-center">Graduation Applications Page</h1>
+      <BackHeader
+        to="/registrar"
+        btnLabel="Back to Management Page"
+        headerTitle="Graduation Applications Page"
+      />
     </Container>
   );
 };

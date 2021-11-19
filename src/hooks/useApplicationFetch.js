@@ -42,10 +42,12 @@ const useApplicationFetch = () => {
   };
 
   const getApplicationInfo = async (applicationId) => {
+    setLoading(true);
     const res = await fetch(
       `http://localhost:2543/applications/${applicationId}`
     );
     const data = await res.json();
+    setLoading(false);
     return data;
   };
 

@@ -7,7 +7,8 @@ import {
   Alert,
   Spinner,
 } from "react-bootstrap";
-import BackButton from "../../UI/BackButton";
+import BackHeader from "../../UI/BackHeader";
+import LabelDescripField from "../../UI/LabelDescripField";
 import { GlobalContext } from "../../../GlobalContext";
 
 const SemesterManagement = () => {
@@ -72,8 +73,11 @@ const SemesterManagement = () => {
           {alertInfo.msg}
         </Alert>
       )}
-      <BackButton to="/registrar" btnLabel="Back to Management Page" />
-      <h1 className="my-3 text-center">Semester Management</h1>
+      <BackHeader
+        to="/registrar"
+        btnLabel="Back to Management Page"
+        headerTitle="Semester Management"
+      />
       {body}
 
       <Modal show={show} onHide={handleClose} centered>
@@ -104,21 +108,13 @@ const PhaseWidget = ({ phase, semester, year, phaseDescription }) => {
         <Card.Title>
           {semester} {year} Semester
         </Card.Title>
-        <Field label="Phase:" description={phase} />
-        <Field label="Description:" description={phaseDescription} />
+        <LabelDescripField label="Phase:" description={phase} />
+        <LabelDescripField
+          label="Description:"
+          description={phaseDescription}
+        />
       </Card.Body>
     </Card>
-  );
-};
-
-const Field = ({ label, description }) => {
-  return (
-    <div className="my-2">
-      <span className="fw-bold">{label}</span>{" "}
-      <span className="text-capitalize font-monospace text-muted">
-        {description}
-      </span>
-    </div>
   );
 };
 
