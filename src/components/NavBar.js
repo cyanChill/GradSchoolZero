@@ -17,7 +17,12 @@ const NavBar = () => {
          </Link> */}
 
         <Navbar.Brand as={Link} to="/">
-          GradSchoolZero
+          <img
+            src="https://i.imgur.com/VbW7A3Z.png"
+            height="100px"
+            witdh="100px"
+            classname="brand-logo"
+          />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
