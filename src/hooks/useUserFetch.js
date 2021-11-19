@@ -140,7 +140,14 @@ const useUserFetch = () => {
     );
     const taughtData = await taughtRes.json();
 
-    return { userData, gradeData, taughtData };
+    return {
+      userData: {
+        name: userData.name,
+        type: userData.type,
+      },
+      gradeData,
+      taughtData,
+    };
   };
 
   useEffect(() => {

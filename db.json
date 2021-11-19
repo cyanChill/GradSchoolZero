@@ -72,7 +72,7 @@
         "id": "37798a5b-413a-4c1e-9e32-34a57f71d17e",
         "name": "student"
       },
-      "grade": "A"
+      "grade": "DW"
     },
     {
       "id": "32927992-9bb2-40d1-98c5-dbca726660c3",
@@ -165,7 +165,10 @@
         "userType": "instructor"
       },
       "reason": "Test complaint",
-      "outcome": ""
+      "extra": {
+        "outcome": "",
+        "courseId": ""
+      }
     },
     {
       "id": "297a7b91-72ee-4788-877d-f6c53f35763c",
@@ -180,7 +183,10 @@
         "userType": "student"
       },
       "reason": "Test complaint",
-      "outcome": "de-registration"
+      "extra": {
+        "outcome": "de-registration",
+        "courseId": "5fdf161c-a38e-4b66-add7-f249caa0626a"
+      }
     }
   ],
   "tabooWords": [

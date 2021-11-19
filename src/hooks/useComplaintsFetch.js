@@ -16,17 +16,26 @@ const useComplaintsFetch = () => {
 
   const resolveComplaint = async (complaintInfo, outcome) => {
     let warningInfo = null;
+    console.log(complaintInfo);
 
     if (outcome === "approve") {
       if (
         complaintInfo.reporter.userType === "instructor" &&
-        complaintInfo.outcome === "de-registration"
+        complaintInfo.extra.outcome === "de-registration"
       ) {
-        /* 
-          De-register student from course 
-            - Find courses student is in and the course the instructor teaches
-            - Give the student a grade of DW (disciplinary withdrawal) & unenroll student from course
-        */
+        const courseRes = await fetch(
+          `http://localhost:2543/grades?studentInfo.id=${complaintInfo.offender.id}&courseInfo.id=${complaintInfo.extra.courseId}`
+        );
+        const courseData = await courseRes.json();
+        let updatedInfo = { ...courseData[0], grade: "DW" };
+
+        await fetch(`http://localhost:2543/grades/${updatedInfo.id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(updatedInfo),
+        });
       } else {
         warningInfo = {
           id: uuidv4(),

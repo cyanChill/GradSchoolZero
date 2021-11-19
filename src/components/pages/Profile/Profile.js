@@ -40,7 +40,6 @@ const Profile = () => {
     const populateData = async () => {
       setLoading(true);
       const data = await getUserInfoFromId(userId);
-      console.log(data);
 
       if (data === "error") {
         setError(true);

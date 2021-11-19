@@ -14,7 +14,9 @@ const gradeEquiv = {
 };
 
 const calculateGPA = (gradesArr) => {
-  const validGrades = gradesArr.filter((letter) => gradeEquiv[letter] !== null);
+  const validGrades = gradesArr.filter(
+    (letter) => gradeEquiv[letter] !== undefined
+  );
 
   const total = validGrades.reduce(
     (total, curr) => (total += gradeEquiv[curr]),
