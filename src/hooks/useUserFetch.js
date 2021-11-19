@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 const defaultUserInfo = {
+  id: "",
   name: "",
   email: "",
   type: "",
@@ -119,6 +120,29 @@ const useUserFetch = () => {
     return { type: "danger", message: "Incorrect Old Password" };
   };
 
+  const getUserInfoFromId = async (id) => {
+    // Get user info
+    const userRes = await fetch(`http://localhost:2543/users/${id}`);
+
+    if (!userRes.ok) return "error";
+
+    const userData = await userRes.json();
+
+    // Will get the grades (which includes courses currently taken)
+    const gradeRes = await fetch(
+      `http://localhost:2543/grades?studentInfo.id=${id}`
+    );
+    const gradeData = await gradeRes.json();
+
+    // Get courses taught
+    const taughtRes = await fetch(
+      `http://localhost:2543/courses?courseInfo.instructorId=${id}`
+    );
+    const taughtData = await taughtRes.json();
+
+    return { userData, gradeData, taughtData };
+  };
+
   useEffect(() => {
     sessionStorage.setItem("user", JSON.stringify(user));
   }, [user]);
@@ -131,6 +155,7 @@ const useUserFetch = () => {
     checkUserEmailIsUsed,
     createUser,
     changePassword,
+    getUserInfoFromId,
   };
 };
 

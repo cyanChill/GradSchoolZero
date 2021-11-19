@@ -11,7 +11,7 @@ import NavBar from "./components/NavBar";
 import Home from "./components/pages/Home/Home";
 import About from "./components/pages/About";
 import Classes from "./components/pages/Classes";
-import Profile from "./components/pages/Profile";
+import Profile from "./components/pages/Profile/Profile";
 import Login from "./components/pages/Login";
 import Logout from "./components/pages/Logout";
 import ApplyPage from "./components/pages/ApplyPage";
@@ -37,7 +37,12 @@ const App = () => {
         <Route exact path="/" component={Home} />
         <Route path="/classes" component={Classes} />
         <Route path="/about" component={About} />
-        <Route path="/profile" component={Profile} />
+
+        <ProtectedRoute exact path="/profile">
+          <Profile />
+        </ProtectedRoute>
+        <Route path="/profile/:id" component={Profile} />
+
         <Route path="/logout" component={Logout} />
 
         {/* Not logged in users only*/}

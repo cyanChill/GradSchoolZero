@@ -20,9 +20,93 @@
       "name": "student",
       "email": "student@gradschoolzero.edu",
       "password": "password"
+    },
+    {
+      "id": "104713d0-d46f-4a4e-930f-ea63bc48f915",
+      "type": "student",
+      "name": "student2",
+      "email": "student2@gradschoolzero.edu",
+      "password": "password"
     }
   ],
-  "courses": [],
+  "courses": [
+    {
+      "id": "5fdf161c-a38e-4b66-add7-f249caa0626a",
+      "courseInfo": {
+        "code": "CSC 32200",
+        "name": "Software Engineering",
+        "instructorId": "246e6e2a-2e98-4408-9866-f723869e912b",
+        "instructorName": "instructor",
+        "semester": "Fall",
+        "year": "2021"
+      },
+      "capacity": "10",
+      "waitlist": []
+    },
+    {
+      "id": "c0cb7d76-2b8b-4fb0-b718-508420a3751b",
+      "courseInfo": {
+        "code": "CSC 33500",
+        "name": "Programming Language Paradigms",
+        "instructorId": "246e6e2a-2e98-4408-9866-f723869e912b",
+        "instructorName": "instructor",
+        "semester": "Fall",
+        "year": "2021"
+      },
+      "capacity": "10",
+      "waitlist": []
+    }
+  ],
+  "grades": [
+    {
+      "id": "8618fc65-b38f-4690-9746-b49f6feefad3",
+      "courseInfo": {
+        "id": "5fdf161c-a38e-4b66-add7-f249caa0626a",
+        "code": "CSC 32200",
+        "name": "Software Engineering",
+        "instructorId": "246e6e2a-2e98-4408-9866-f723869e912b",
+        "semester": "Fall",
+        "year": "2021"
+      },
+      "studentInfo": {
+        "id": "37798a5b-413a-4c1e-9e32-34a57f71d17e",
+        "name": "student"
+      },
+      "grade": "A"
+    },
+    {
+      "id": "32927992-9bb2-40d1-98c5-dbca726660c3",
+      "courseInfo": {
+        "id": "5fdf161c-a38e-4b66-add7-f249caa0626a",
+        "code": "CSC 32200",
+        "name": "Software Engineering",
+        "instructorId": "246e6e2a-2e98-4408-9866-f723869e912b",
+        "semester": "Fall",
+        "year": "2021"
+      },
+      "studentInfo": {
+        "id": "104713d0-d46f-4a4e-930f-ea63bc48f915",
+        "name": "student2"
+      },
+      "grade": ""
+    },
+    {
+      "id": "64915b3d-9a2b-40bb-a871-b075f440956e",
+      "courseInfo": {
+        "id": "c0cb7d76-2b8b-4fb0-b718-508420a3751b",
+        "code": "CSC 33500",
+        "name": "Programming Language Paradigms",
+        "instructorId": "246e6e2a-2e98-4408-9866-f723869e912b",
+        "semester": "Fall",
+        "year": "2021"
+      },
+      "studentInfo": {
+        "id": "37798a5b-413a-4c1e-9e32-34a57f71d17e",
+        "name": "student"
+      },
+      "grade": ""
+    }
+  ],
   "applications": [
     {
       "id": "d2430223-9daf-45b1-92e0-bd284f1d9aa6",
