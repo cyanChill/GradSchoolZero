@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { Container, Button, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { BiCheck, BiX } from "react-icons/bi";
 import BackHeader from "../../UI/BackHeader";
 import LabelDescripField from "../../UI/LabelDescripField";
@@ -60,14 +61,34 @@ const ComplaintWidget = ({ complaint, handleResult }) => {
             <Col>
               <LabelDescripField
                 label="Reporter: "
-                description={`${reporter.name} (${reporter.userType})`}
+                description={
+                  <>
+                    <Link
+                      to={`/profile/${reporter.id}`}
+                      className={classes.link}
+                    >
+                      {reporter.name}
+                    </Link>{" "}
+                    ({reporter.userType})
+                  </>
+                }
               />
             </Col>
 
             <Col>
               <LabelDescripField
                 label="Offender: "
-                description={`${offender.name} (${offender.userType})`}
+                description={
+                  <>
+                    <Link
+                      to={`/profile/${offender.id}`}
+                      className={classes.link}
+                    >
+                      {offender.name}
+                    </Link>{" "}
+                    ({offender.userType})
+                  </>
+                }
               />
             </Col>
           </Row>
