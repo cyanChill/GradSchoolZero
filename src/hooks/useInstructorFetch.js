@@ -5,6 +5,7 @@ const useInstructorFetch = () => {
   const [nonSuspsendedInstructors, setNonSuspendedInstructors] = useState([]);
   const [suspendedInstructors, setSuspendedInstructors] = useState([]);
 
+  // Refresh the local copy of the instructor list (to prevent constant fetching)
   const refreshInstructorsList = async () => {
     const response = await fetch(`http://localhost:2543/users?type=instructor`);
     const data = await response.json();

@@ -31,6 +31,7 @@ const useUserFetch = () => {
     - rating
   */
 
+  // Function to see if an email is being used by a different user
   const checkUserEmailIsUsed = async (email) => {
     const formattedEmail = email.toLowerCase();
 
@@ -43,6 +44,7 @@ const useUserFetch = () => {
     return false;
   };
 
+  // Function to create a user
   const createUser = async (userInfo) => {
     const res = await fetch("http://localhost:2543/users", {
       method: "POST",
@@ -55,6 +57,7 @@ const useUserFetch = () => {
     return res.status === 201;
   };
 
+  // Function to login a user
   const login = async (email, password) => {
     const formattedEmail = email.toLowerCase();
 
@@ -74,6 +77,7 @@ const useUserFetch = () => {
     return false;
   };
 
+  // Function to logout a user
   const logout = () => {
     setIsLoggedIn(false);
     setUser(defaultUserInfo);
@@ -81,12 +85,14 @@ const useUserFetch = () => {
     return true;
   };
 
+  // Helper function to remove password information from user object we'll be saving
   const setUserInfo = (data) => {
     const userInfo = { ...data };
     delete userInfo.password;
     setUser(userInfo);
   };
 
+  // Function to change the password of the current user (stored in the user state)
   const changePassword = async (oldPass, newPass) => {
     const res = await fetch(`http://localhost:2543/users/${user.id}`);
     const data = await res.json();
@@ -120,6 +126,7 @@ const useUserFetch = () => {
     return { type: "danger", message: "Incorrect Old Password" };
   };
 
+  // Get user-related information from their id
   const getUserInfoFromId = async (id) => {
     // Get user info
     const userRes = await fetch(`http://localhost:2543/users/${id}`);

@@ -4,7 +4,7 @@ const useTabooFetch = () => {
   const [tabooList, setTabooList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  /* Function to count number of taboo words in the inputted text */
+  // Function to count number of taboo words in the inputted text
   const countTabooWords = (str) => {
     let cnt = 0;
 
@@ -16,7 +16,7 @@ const useTabooFetch = () => {
     return cnt;
   };
 
-  /* Function to censor all taboo words in the inputted text */
+  // Function to censor all taboo words in the inputted text
   const censorTabooWords = (str) => {
     let censorStr = str;
 
@@ -28,6 +28,7 @@ const useTabooFetch = () => {
     return censorStr;
   };
 
+  // Function to add a taboo word to the database
   const addTabooWord = async (word) => {
     const formattedWord = word.toLowerCase();
     const newTabooList = tabooList.includes(formattedWord)
@@ -47,6 +48,7 @@ const useTabooFetch = () => {
     setTabooList(newTabooList);
   };
 
+  // Function to remove a taboo word in the data base
   const deleteTabooWord = async (word) => {
     const formattedWord = word.toLowerCase();
     const newTabooList = tabooList.filter(
@@ -66,6 +68,7 @@ const useTabooFetch = () => {
     setTabooList(newTabooList);
   };
 
+  // Function to refresh local copy of taboo list (to prevent constant fetching)
   const refreshTabooList = async () => {
     setLoading(true);
     const res = await fetch(`http://localhost:2543/tabooWords`);

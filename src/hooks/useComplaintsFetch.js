@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
 import useInfractions from "./useInfractions";
 
 const useComplaintsFetch = () => {
@@ -14,9 +13,12 @@ const useComplaintsFetch = () => {
     */
   };
 
+  /*
+    Removes the complaint from the database and take certain actions based on the
+    outcome decided
+  */
   const resolveComplaint = async (complaintInfo, outcome) => {
     let warningInfo = null;
-    console.log(complaintInfo);
 
     if (outcome === "approve") {
       if (
@@ -38,8 +40,6 @@ const useComplaintsFetch = () => {
         });
       } else {
         warningInfo = {
-          id: uuidv4(),
-          date: new Date(),
           userId: complaintInfo.offender.id,
           reason: "You have been warned due to a report",
           value: 1,
@@ -48,8 +48,6 @@ const useComplaintsFetch = () => {
     } else if (complaintInfo.reporter.userType === "instructor") {
       // If the registrar reject the complaint by an instructor
       warningInfo = {
-        id: uuidv4(),
-        date: new Date(),
         userId: complaintInfo.reporter.id,
         reason: "You have been warned due to a false report",
         value: 1,
@@ -57,7 +55,11 @@ const useComplaintsFetch = () => {
     }
 
     if (warningInfo) {
-      await addWarning(warningInfo);
+      await addWarning(
+        warningInfo.userId,
+        warningInfo.reason,
+        warningInfo.value
+      );
     }
 
     // Remove complaint from complaints database
@@ -70,6 +72,10 @@ const useComplaintsFetch = () => {
     );
   };
 
+  /*
+    Refresh the local instance of the complaint list (to prevent constant 
+    fetching)
+  */
   const refreshComplaintsList = async () => {
     setLoading(true);
     const res = await fetch("http://localhost:2543/complaints");

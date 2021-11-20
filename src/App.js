@@ -10,7 +10,7 @@ import RegistrarRoute from "./components/Routes/RegistrarRoute";
 import NavBar from "./components/NavBar";
 import Home from "./components/pages/Home/Home";
 import About from "./components/pages/About";
-import Classes from "./components/pages/Classes";
+import Classes from "./components/pages/Courses/Classes";
 import Profile from "./components/pages/Profile/Profile";
 import Login from "./components/pages/Login";
 import Logout from "./components/pages/Logout";

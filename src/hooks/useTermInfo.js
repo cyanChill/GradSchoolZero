@@ -20,9 +20,10 @@ const useTermInfo = () => {
   );
   const [loading, setLoading] = useState(false);
 
+  // Function that does the semester phase change logic
   const nextPhase = async () => {
     setLoading(true);
-    const nextTerm = getNextTermInfo();
+    const nextTerm = getNextPhaseInfo();
     console.log("doing logic for next phase");
     if (nextTerm.phase === "set-up") {
       /* 
@@ -64,7 +65,8 @@ const useTermInfo = () => {
     };
   };
 
-  const getNextTermInfo = () => {
+  // Function to get the new values for phase, semester, and year
+  const getNextPhaseInfo = () => {
     const newPhase =
       termInfo.phase === "set-up"
         ? "registration"
@@ -83,6 +85,7 @@ const useTermInfo = () => {
     return { phase: newPhase, ...newSemesterYear };
   };
 
+  // Function to get information about a phase in a semester
   const getPhaseInfo = (phase) => {
     let rtnInfo = {
       status: "error",
@@ -183,6 +186,7 @@ const useTermInfo = () => {
     return rtnInfo;
   };
 
+  // Refreshes local copy of term information (to prevent constant fetching)
   const refreshTermInfo = async () => {
     setLoading(true);
     const res = await fetch(`http://localhost:2543/term/terminfo`);
@@ -206,7 +210,7 @@ const useTermInfo = () => {
     termInfo,
     nextPhase,
     getPhaseInfo,
-    getNextTermInfo,
+    getNextPhaseInfo,
   };
 };
 
