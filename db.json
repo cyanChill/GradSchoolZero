@@ -250,11 +250,11 @@
       },
       "term": {
         "semester": "Fall",
-        "year": "2021"
+        "year": 2021
       },
       "capacity": {
         "max": 5,
-        "available": 0
+        "available": 5
       },
       "time": [
         {
@@ -283,11 +283,11 @@
       },
       "term": {
         "semester": "Fall",
-        "year": "2021"
+        "year": 2021
       },
       "capacity": {
         "max": 5,
-        "available": 0
+        "available": 5
       },
       "time": [
         {
@@ -316,17 +316,45 @@
       },
       "term": {
         "semester": "Fall",
-        "year": "2021"
+        "year": 2021
       },
       "capacity": {
         "max": 5,
-        "available": 0
+        "available": 5
       },
       "time": [
         {
           "day": "Fri",
           "start": "12:00",
           "end": "15:30"
+        }
+      ],
+      "waitList": []
+    },
+    {
+      "id": "dbd37b53-afb3-4ab1-83cd-4b310ed71108",
+      "course": {
+        "id": "c7bdcc4d-4be3-4e4d-a6ca-f7fdf4f09f0e",
+        "code": "I4300",
+        "name": "Computer Communications"
+      },
+      "instructor": {
+        "id": "37b50cf3-459d-4ef9-a094-418b1e6e7fd0",
+        "name": "Oni Cledwyn"
+      },
+      "term": {
+        "semester": "Fall",
+        "year": 2021
+      },
+      "capacity": {
+        "max": 5,
+        "available": 5
+      },
+      "time": [
+        {
+          "day": "Sat",
+          "start": "10:00",
+          "end": "12:30"
         }
       ],
       "waitList": []
@@ -350,7 +378,7 @@
       },
       "term": {
         "semester": "Fall",
-        "year": "2021"
+        "year": 2021
       },
       "grade": ""
     }
@@ -361,14 +389,14 @@
       "type": "student",
       "name": "David Miller",
       "email": "davidmiller01@example.com",
-      "gpa": "3.70"
+      "gpa": 3.7
     },
     {
       "id": "5319bfc0-5846-49e8-86fa-a68994740132",
       "type": "student",
       "name": "Christopher Johnson",
       "email": "christopherjohnson01@example.com",
-      "gpa": "3.15"
+      "gpa": 3.15
     },
     {
       "id": "3fdcbc32-7cae-4503-b1e5-0e5d5b0e8c63",
@@ -382,7 +410,7 @@
       "type": "student",
       "name": "Test Student",
       "email": "teststudent01@example.com",
-      "gpa": "2.9"
+      "gpa": 2.9
     },
     {
       "id": "f1022f3a-c8a4-4b64-89f2-c617dace9222",
@@ -396,7 +424,14 @@
       "type": "student",
       "name": "Test Student2",
       "email": "teststudent02@example.com",
-      "gpa": "3"
+      "gpa": 3
+    },
+    {
+      "id": "fee3717c-2fc8-4e07-ae29-b11d125256bb",
+      "type": "student",
+      "name": "John Doe",
+      "email": "johndoe@gmail.com",
+      "gpa": 3.56
     }
   ],
   "complaints": [
@@ -466,7 +501,7 @@
       "id": "terminfo",
       "phase": "set-up",
       "semester": "Fall",
-      "year": "2021"
+      "year": 2021
     }
   ],
   "warnings": [

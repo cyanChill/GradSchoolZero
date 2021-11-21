@@ -13,6 +13,23 @@ const gradeEquiv = {
   F: 0,
 };
 
+const gradeMap = {
+  "A+": 0,
+  A: 0,
+  "A-": 0,
+  "B+": 0,
+  B: 0,
+  "B-": 0,
+  "C+": 0,
+  C: 0,
+  "C-": 0,
+  "D+": 0,
+  D: 0,
+  F: 0,
+  DW: 0,
+  W: 0,
+};
+
 // Function to calculate the GPA from an input array of letter grades
 const calculateGPA = (gradesArr) => {
   const validGrades = gradesArr.filter(
@@ -29,4 +46,4 @@ const calculateGPA = (gradesArr) => {
     : (total / validGrades.length).toFixed(2);
 };
 
-export { calculateGPA };
+export { calculateGPA, gradeMap };

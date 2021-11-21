@@ -25,7 +25,7 @@ import classes from "./CoursePage.module.css";
 
 const CoursePage = () => {
   const { id } = useParams();
-  const { getCourseInfo } = useCourseFetch();
+  const { getCourseInfo, enrollCourse } = useCourseFetch();
   const { userHook } = useContext(GlobalContext);
   const { user } = userHook;
   const [data, setData] = useState();
@@ -38,8 +38,6 @@ const CoursePage = () => {
     const populateData = async () => {
       setLoading(true);
       const courseInfo = await getCourseInfo(id);
-
-      console.log(courseInfo);
 
       if (courseInfo === "error") {
         setError(true);
@@ -81,6 +79,9 @@ const CoursePage = () => {
 
       We should do the check in the "useEffect" - have a state that keeps track of what the "enroll" button should say
     */
+    console.log(data.courseData);
+    const response = await enrollCourse(user, data.courseData);
+    console.log(response);
   };
 
   const handleUnEnrollment = async () => {

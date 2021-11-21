@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { GlobalContext } from "../GlobalContext";
 import { checkConflicts } from "../helpers/time";
+import { gradeMap } from "../helpers/grades";
 
 const useCourseFetch = () => {
   const {
@@ -36,7 +37,7 @@ const useCourseFetch = () => {
       },
       capacity: {
         max: capacity,
-        available: 0,
+        available: capacity,
       },
       time,
       waitList: [],
@@ -78,10 +79,14 @@ const useCourseFetch = () => {
 
   // Function to enroll student into a course
   const enrollCourse = async (user, courseInfo) => {
-    const { courseName, courseId } = courseInfo;
-    const { stdId, name, specReg } = user;
+    const {
+      id: courseId,
+      course: { code, name: courseName },
+      instructor,
+    } = courseInfo;
+    const { id: stdId, name: stdName, specReg } = user;
 
-    if (phase !== "registration" || !specReg)
+    if (phase !== "registration" || (phase !== "registration" && !specReg))
       return {
         error: "Can't Enroll",
         details: "Phase isn't in course-registration",
@@ -105,7 +110,7 @@ const useCourseFetch = () => {
     );
 
     // Get grade distribution of previous attempt at course & see if they've previously withdrawn from this semester's instance of the course
-    const gradeDist = {};
+    const gradeDist = { ...gradeMap };
     let withdrawn = false;
     prevGradesForCourse.forEach((grade) => {
       if (!gradeDist[grade.grade]) gradeDist[grade.grade] = 0;
@@ -122,15 +127,6 @@ const useCourseFetch = () => {
       !withdrawn &&
       (numTaken === 0 || (numTaken === 1 && gradeDist["F"] === 1))
     ) {
-      // Student haven't taken this course before or taken it once and has an F and haven't withdrawn from the course previously
-      /* 
-        1. Get time slots for the courses the student is currently taking [from "coursesCurrTaking"] and combine all the time arrays and run the "checkConflicts" function
-          - If conflicts, then return error✅
-
-        2. Check if course is currently full -- if it is, add the student to the waitlist [after checking to see if there's no time conflicts]
-
-        3. If course isn't full, enroll the student
-      */
       const allCourseTimes = coursesCurrTaking.reduce(
         (allCourses, newCourse) => allCourses.concat(newCourse.time),
         courseInfo.time
@@ -140,31 +136,90 @@ const useCourseFetch = () => {
       if (!conflicts) {
         // Checking to see if course is full
         const currCourse = await fetch(
-          `http://localhost:2543/classes/id=${courseId}`
+          `http://localhost:2543/classes/${courseId}`
         );
         const currCourseInfo = await currCourse.json();
+        console.log(courseId);
 
-        if (currCourseInfo.available > 0) {
-          /* 
-            Enroll student
-              - Create "grade" object
-              - Increment "classes" capacity property by 1
-          */
+        if (currCourseInfo.capacity.available > 0) {
+          // Decrementing Avaliable Seats By 1
+          const updatedCourseInfo = {
+            ...currCourseInfo,
+            capacity: {
+              max: currCourseInfo.capacity.max,
+              available: +currCourseInfo.capacity.available - 1,
+            },
+          };
+
+          const updateRes = await fetch(
+            `http://localhost:2543/classes/${courseId}`,
+            {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(updatedCourseInfo),
+            }
+          );
+
+          if (!updateRes.ok)
+            return {
+              error: "Failed to Enroll",
+              details: "An unknown error has occur when updating the database",
+            };
+
+          // Creating & posting "grade" object to server
+          const gradeObj = {
+            id: uuidv4(),
+            course: {
+              code,
+              id: courseId,
+              name: courseName,
+            },
+            instructor,
+            student: {
+              id: stdId,
+              name: stdName,
+            },
+            term: {
+              semester,
+              year,
+            },
+            grade: "",
+          };
+
+          const gradePostRes = await fetch("http://localhost:2543/grades", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(gradeObj),
+          });
+
+          if (gradePostRes.ok)
+            return {
+              status: "Successfully Enrolled",
+              details: "Successfully enrolled into course",
+            };
+          return {
+            error: "Failed to Enroll",
+            details: "Failed to post to server",
+          };
         } else {
           // Add student to waitlist
           const updatedCourseInfo = {
             ...currCourseInfo,
             waitList: [
-              ...currCourseInfo.waitlist,
+              ...currCourseInfo.waitList,
               {
                 id: stdId,
-                name: name,
+                name: stdName,
               },
             ],
           };
 
           const updateResponse = await fetch(
-            `http://localhost:2543/classes/id=${courseId}`,
+            `http://localhost:2543/classes/${courseId}`,
             {
               method: "PATCH",
               headers: {
