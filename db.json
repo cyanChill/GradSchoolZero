@@ -111,141 +111,121 @@
       "id": "65bd754b-9a81-4591-9907-f50e5c8eeab1",
       "department": "Computer Science",
       "number": "I0600",
-      "name": "Advanced Algorithms",
-      "credits": "3"
+      "name": "Advanced Algorithms"
     },
     {
       "id": "19e428c9-fb2b-483d-9b47-57ffee078a48",
       "department": "Computer Science",
       "number": "I0802",
-      "name": "Web/Geographical Information Systems",
-      "credits": "3"
+      "name": "Web/Geographical Information Systems"
     },
     {
       "id": "7425d8ab-9a10-46a4-b6d0-90c1b1dda2de",
       "department": "Computer Science",
       "number": "I4200",
-      "name": "Computer Architecture",
-      "credits": "3"
+      "name": "Computer Architecture"
     },
     {
       "id": "f968b316-173b-4030-af15-81b71953787f",
       "department": "Computer Science",
       "number": "I9606",
-      "name": "Concurrent Shared Memory Systems",
-      "credits": "3"
+      "name": "Concurrent Shared Memory Systems"
     },
     {
       "id": "c7bdcc4d-4be3-4e4d-a6ca-f7fdf4f09f0e",
       "department": "Computer Science",
       "number": "I4300",
-      "name": "Computer Communications",
-      "credits": "3"
+      "name": "Computer Communications"
     },
     {
       "id": "eebe6a46-d632-4db4-92dc-b8679943a13d",
       "department": "Electrical Engineering",
       "number": "I4400",
-      "name": "Advanced Computer Architecture",
-      "credits": "3"
+      "name": "Advanced Computer Architecture"
     },
     {
       "id": "c04f1db7-e81f-48f5-804b-d68639764c94",
       "department": "Electrical Engineering",
       "number": "G3300",
-      "name": "Mobile Robotics",
-      "credits": "3"
+      "name": "Mobile Robotics"
     },
     {
       "id": "0430da69-589e-461a-b834-641693786830",
       "department": "Electrical Engineering",
       "number": "I5501",
-      "name": "Introduction to Robotics",
-      "credits": "3"
+      "name": "Introduction to Robotics"
     },
     {
       "id": "2a2c95b7-6857-4fb8-9970-9f804dc189db",
       "department": "Electrical Engineering",
       "number": "I5700",
-      "name": "Advanced Digital Integrated Circuits",
-      "credits": "3"
+      "name": "Advanced Digital Integrated Circuits"
     },
     {
       "id": "40c5b83c-bdb2-40f2-b75c-7029dd79ed0f",
       "department": "Electrical Engineering",
       "number": "I2500",
-      "name": "Advanced Embedded Systems",
-      "credits": "3"
+      "name": "Advanced Embedded Systems"
     },
     {
       "id": "bf080f4c-be2b-461e-9fc7-cf9ee5eb6326",
       "department": "Biomedical Engineering",
       "number": "I2000",
-      "name": "Cell and Tissue Engineering",
-      "credits": "3"
+      "name": "Cell and Tissue Engineering"
     },
     {
       "id": "2cfd6045-2404-46fc-9faa-2853d67c4374",
       "department": "Biomedical Engineering",
       "number": "I4300",
-      "name": "Physiology for Biomedical Engineers",
-      "credits": "6"
+      "name": "Physiology for Biomedical Engineers"
     },
     {
       "id": "3d134c1f-4957-4948-acb3-a77d2f3beebb",
       "department": "Biomedical Engineering",
       "number": "I2200",
-      "name": "Cell and Tissue Transport",
-      "credits": "3"
+      "name": "Cell and Tissue Transport"
     },
     {
       "id": "bf10bdda-9944-42c5-b4bc-9ed00c59eea1",
       "department": "Biomedical Engineering",
       "number": "I3000",
-      "name": "Neural Engineering and Applied Bioelectricity",
-      "credits": "3"
+      "name": "Neural Engineering and Applied Bioelectricity"
     },
     {
       "id": "3c1a36b0-9dce-46c4-b4a0-1fcea5df94fb",
       "department": "Biomedical Engineering",
       "number": "G3200",
-      "name": "Neural Systems and Behavior",
-      "credits": "3"
+      "name": "Neural Systems and Behavior"
     },
     {
       "id": "689bdd87-ff4a-4985-857e-322bee90e7ef",
       "department": "Chemical Engineering",
       "number": "I2800",
-      "name": "Advanced Chemical Thermodynamics",
-      "credits": "3"
+      "name": "Advanced Chemical Thermodynamics"
     },
     {
       "id": "f74cd3fc-42ee-4218-b106-ed8b812093cd",
       "department": "Chemical Engineering",
       "number": "I3300",
-      "name": "Advanced Chemical Reaction Engineering",
-      "credits": "3"
+      "name": "Advanced Chemical Reaction Engineering"
     },
     {
       "id": "016384a7-7982-4d10-98f8-41095379678d",
       "department": "Chemical Engineering",
       "number": "I5200",
-      "name": "Powder Science and Technology",
-      "credits": "3"
+      "name": "Powder Science and Technology"
     },
     {
       "id": "19172666-7bd6-4dd9-93f9-a7b2975f84ff",
       "department": "Chemical Engineering",
       "number": "I5500",
-      "name": "Interfacial Phenomena",
-      "credits": "3"
+      "name": "Interfacial Phenomena"
     },
     {
       "id": "b3d052e5-1164-4f08-9e78-185409014b6c",
       "department": "Chemical Engineering",
       "number": "I5700",
-      "name": "Advanced Materials Engineering",
-      "credits": "3"
+      "name": "Advanced Materials Engineering"
     }
   ],
   "classes": [
