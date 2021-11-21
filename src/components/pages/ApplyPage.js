@@ -55,7 +55,7 @@ const ApplyPage = () => {
     };
 
     if (formType === "student") {
-      application = { ...application, gpa: formState.GPA };
+      application = { ...application, gpa: +formState.GPA };
     } else {
       application = { ...application, description: formState.interests };
     }
