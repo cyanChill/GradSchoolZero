@@ -3,10 +3,7 @@ import classes from "./LinkBoxWidget.module.css";
 
 const LinkBoxWidget = ({ to, className, text }) => {
   return (
-    <Link
-      to={to}
-      className={`${classes.link} ${classes.application} ${className}`}
-    >
+    <Link to={to} className={`${classes.link} ${classes.linkbox} ${className}`}>
       {text}
     </Link>
   );
