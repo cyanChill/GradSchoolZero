@@ -27,9 +27,495 @@
       "name": "student2",
       "email": "student2@gradschoolzero.edu",
       "password": "password"
+    },
+    {
+      "id": "185d11e4-87e1-48ef-9bf9-20db45cf6cc8",
+      "type": "instructor",
+      "name": "George Simon",
+      "email": "gsimon@gradschoolzero.edu",
+      "password": "password"
+    },
+    {
+      "id": "81db7f41-504d-4e06-a90c-8c73b9e01d00",
+      "type": "instructor",
+      "name": "David Ifa",
+      "email": "difa@gradschoolzero.edu",
+      "password": "password"
+    },
+    {
+      "id": "24c949ba-af1e-4c6f-9aca-5d5b1161c66b",
+      "type": "instructor",
+      "name": "Behnam Sidsel",
+      "email": "bsidsel@gradschoolzero.edu",
+      "password": "password"
+    },
+    {
+      "id": "37b50cf3-459d-4ef9-a094-418b1e6e7fd0",
+      "type": "instructor",
+      "name": "Oni Cledwyn",
+      "email": "ocledwyn@gradschoolzero.edu",
+      "password": "password"
+    },
+    {
+      "id": "f0c17587-81d7-4291-b016-e83a99b4136d",
+      "type": "instructor",
+      "name": "Alfhildr Melano",
+      "email": "amelano@gradschoolzero.edu",
+      "password": "password"
+    },
+    {
+      "id": "975f23bc-0779-4f7f-85e2-89f086ad986c",
+      "type": "instructor",
+      "name": "Elena Patroklos",
+      "email": "epatroklos@gradschoolzero.edu",
+      "password": "password"
+    },
+    {
+      "id": "fea28b7d-cfc5-4b12-9bc5-2fa18c46bae7",
+      "type": "instructor",
+      "name": "Olindo Klara",
+      "email": "oklara@gradschoolzero.edu",
+      "password": "password"
+    },
+    {
+      "id": "dbf492b3-29e2-4bd2-af45-90bc0bf63f21",
+      "type": "instructor",
+      "name": "Jamal Cyrillus",
+      "email": "jcyrillus@gradschoolzero.edu",
+      "password": "password"
+    },
+    {
+      "id": "cd341c1a-bf53-497c-a78e-676623607646",
+      "type": "instructor",
+      "name": "Dakila Claudia",
+      "email": "dclaudia@gradschoolzero.edu",
+      "password": "password"
+    },
+    {
+      "id": "5b6f40e4-8431-4f8a-a8af-db0b389e2035",
+      "type": "instructor",
+      "name": "Giobbe Rishi",
+      "email": "grishi@gradschoolzero.edu",
+      "password": "password"
+    },
+    {
+      "id": "1cf5d84d-2782-410a-9e35-beac64e6264b",
+      "type": "instructor",
+      "name": "Ibb Ridley",
+      "email": "iridley@gradschoolzero.edu",
+      "password": "password"
+    },
+    {
+      "id": "fe8aa17d-5171-4b96-99b6-11d0795b4b73",
+      "type": "instructor",
+      "name": "Aderyn Adam",
+      "email": "aadam@gradschoolzero.edu",
+      "password": "password"
     }
   ],
   "courses": [
+    {
+      "id": "65bd754b-9a81-4591-9907-f50e5c8eeab1",
+      "department": "Computer Science",
+      "number": "I0600",
+      "name": "Advanced Algorithms"
+    },
+    {
+      "id": "19e428c9-fb2b-483d-9b47-57ffee078a48",
+      "department": "Computer Science",
+      "number": "I0802",
+      "name": "Web/Geographical Information Systems"
+    },
+    {
+      "id": "7425d8ab-9a10-46a4-b6d0-90c1b1dda2de",
+      "department": "Computer Science",
+      "number": "I4200",
+      "name": "Computer Architecture"
+    },
+    {
+      "id": "f968b316-173b-4030-af15-81b71953787f",
+      "department": "Computer Science",
+      "number": "I9606",
+      "name": "Concurrent Shared Memory Systems"
+    },
+    {
+      "id": "c7bdcc4d-4be3-4e4d-a6ca-f7fdf4f09f0e",
+      "department": "Computer Science",
+      "number": "I4300",
+      "name": "Computer Communications"
+    },
+    {
+      "id": "eebe6a46-d632-4db4-92dc-b8679943a13d",
+      "department": "Electrical Engineering",
+      "number": "I4400",
+      "name": "Advanced Computer Architecture"
+    },
+    {
+      "id": "c04f1db7-e81f-48f5-804b-d68639764c94",
+      "department": "Electrical Engineering",
+      "number": "G3300",
+      "name": "Mobile Robotics"
+    },
+    {
+      "id": "0430da69-589e-461a-b834-641693786830",
+      "department": "Electrical Engineering",
+      "number": "I5501",
+      "name": "Introduction to Robotics"
+    },
+    {
+      "id": "2a2c95b7-6857-4fb8-9970-9f804dc189db",
+      "department": "Electrical Engineering",
+      "number": "I5700",
+      "name": "Advanced Digital Integrated Circuits"
+    },
+    {
+      "id": "40c5b83c-bdb2-40f2-b75c-7029dd79ed0f",
+      "department": "Electrical Engineering",
+      "number": "I2500",
+      "name": "Advanced Embedded Systems"
+    },
+    {
+      "id": "bf080f4c-be2b-461e-9fc7-cf9ee5eb6326",
+      "department": "Biomedical Engineering",
+      "number": "I2000",
+      "name": "Cell and Tissue Engineering"
+    },
+    {
+      "id": "2cfd6045-2404-46fc-9faa-2853d67c4374",
+      "department": "Biomedical Engineering",
+      "number": "I4300",
+      "name": "Physiology for Biomedical Engineers"
+    },
+    {
+      "id": "3d134c1f-4957-4948-acb3-a77d2f3beebb",
+      "department": "Biomedical Engineering",
+      "number": "I2200",
+      "name": "Cell and Tissue Transport"
+    },
+    {
+      "id": "bf10bdda-9944-42c5-b4bc-9ed00c59eea1",
+      "department": "Biomedical Engineering",
+      "number": "I3000",
+      "name": "Neural Engineering and Applied Bioelectricity"
+    },
+    {
+      "id": "3c1a36b0-9dce-46c4-b4a0-1fcea5df94fb",
+      "department": "Biomedical Engineering",
+      "number": "G3200",
+      "name": "Neural Systems and Behavior"
+    },
+    {
+      "id": "689bdd87-ff4a-4985-857e-322bee90e7ef",
+      "department": "Chemical Engineering",
+      "number": "I2800",
+      "name": "Advanced Chemical Thermodynamics"
+    },
+    {
+      "id": "f74cd3fc-42ee-4218-b106-ed8b812093cd",
+      "department": "Chemical Engineering",
+      "number": "I3300",
+      "name": "Advanced Chemical Reaction Engineering"
+    },
+    {
+      "id": "016384a7-7982-4d10-98f8-41095379678d",
+      "department": "Chemical Engineering",
+      "number": "I5200",
+      "name": "Powder Science and Technology"
+    },
+    {
+      "id": "19172666-7bd6-4dd9-93f9-a7b2975f84ff",
+      "department": "Chemical Engineering",
+      "number": "I5500",
+      "name": "Interfacial Phenomena"
+    },
+    {
+      "id": "b3d052e5-1164-4f08-9e78-185409014b6c",
+      "department": "Chemical Engineering",
+      "number": "I5700",
+      "name": "Advanced Materials Engineering"
+    }
+  ],
+  "classes": [
+    {
+      "id": "bdbbce3e-04a7-441c-8de8-baf79ad63a9b",
+      "course id": "CSc I0600-A",
+      "course name": "Advanced Algorithms",
+      "instructor": "Georgo Simon",
+      "total capacity": 30,
+      "available capacity": 8,
+      "waitlist": [],
+      "rating": 1.3
+    },
+    {
+      "id": "82106a81-7745-4af0-b0f6-a1f9e176d4e1",
+      "course id": "CSc I0600-B",
+      "course name": "Advanced Algorithms",
+      "instructor": "Georgo Simon",
+      "total capacity": 30,
+      "available capacity": 4,
+      "waitlist": [],
+      "rating": 0.1
+    },
+    {
+      "id": "7574364e-c9f2-44bd-8893-31cae88cbf47",
+      "course id": "CSc I0802-J",
+      "course name": "Web/Geographical Information Systems",
+      "instructor": "Georgo Simon",
+      "total capacity": 25,
+      "available capacity": 10,
+      "waitlist": [],
+      "rating": 2.5
+    },
+    {
+      "id": "b51f98b5-0a6a-41ae-bb37-74310fe19ba9",
+      "course id": "CSc I4200-J",
+      "course name": "Computer Architecture",
+      "instructor": "David Ifa",
+      "total capacity": 30,
+      "available capacity": 18,
+      "waitlist": [],
+      "rating": 0.4
+    },
+    {
+      "id": "5749399a-70ff-4b86-b231-75828722b76b",
+      "course id": "CSc I4200-K",
+      "course name": "Computer Architecture",
+      "instructor": "Behnam Sidsel",
+      "total capacity": 30,
+      "available capacity": 8,
+      "waitlist": [],
+      "rating": 2.6
+    },
+    {
+      "id": "0bfc2fcb-7e40-42b4-9d13-959d4c7e4b14",
+      "course id": "CSc I9606-J",
+      "course name": "Concurrent Shared Memory Systems",
+      "instructor": "David Ifa",
+      "total capacity": 25,
+      "available capacity": 21,
+      "waitlist": [],
+      "rating": 2.6
+    },
+    {
+      "id": "984781ab-46bd-4d36-9cee-bdf91652c29a",
+      "course id": "CSC I0600-R",
+      "course name": "Computer Communications",
+      "instructor": "Behnam Sidsel",
+      "total capacity": 25,
+      "available capacity": 4,
+      "waitlist": [],
+      "rating": 2.8
+    },
+    {
+      "id": "9d55f334-e57a-475d-99fd-84977bd1293a",
+      "course id": "EE I4400-G",
+      "course name": "Advanced Computer Architecture",
+      "instructor": "Oni Cledwyn",
+      "total capacity": 30,
+      "available capacity": 7,
+      "waitlist": [],
+      "rating": 4.4
+    },
+    {
+      "id": "a8e28dbb-63b9-4d26-abca-0684cd4fe18b",
+      "course id": "EE I4400-H",
+      "course name": "Advanced Computer Architecture",
+      "instructor": "Alfhildr Melano",
+      "total capacity": 30,
+      "available capacity": 8,
+      "waitlist": [],
+      "rating": 0.2
+    },
+    {
+      "id": "8e73ad60-220d-4fdb-a5e6-c3cc56906bf4",
+      "course id": "EE G3300-H",
+      "course name": "Mobile Robotics",
+      "instructor": "Oni Cledwyn",
+      "total capacity": 25,
+      "available capacity": 16,
+      "waitlist": [],
+      "rating": 4.9
+    },
+    {
+      "id": "1608c298-696d-41ff-bf53-d7d3ea1c7380",
+      "course id": "EE I5501-A",
+      "course name": "Introduction to Robotics",
+      "instructor": "Oni Cledwyn",
+      "total capacity": 30,
+      "available capacity": 25,
+      "waitlist": [],
+      "rating": 3.0
+    },
+    {
+      "id": "6e0d48e9-10dc-445d-829e-4b464545f011",
+      "course id": "EE I5501-B",
+      "course name": "Introduction to Robotics",
+      "instructor": "Elena Patroklos",
+      "total capacity": 30,
+      "available capacity": 16,
+      "waitlist": [],
+      "rating": 0.4
+    },
+    {
+      "id": "724a8adb-47bd-475a-9d39-3ceebd2c7963",
+      "course id": "EE I5700-H",
+      "course name": "Advanced Digital Integrated Circuits",
+      "instructor": "Alfhildr Melano",
+      "total capacity": 25,
+      "available capacity": 0,
+      "waitlist": [],
+      "rating": 2.7
+    },
+    {
+      "id": "311f1cae-e693-4ffa-9257-d75edb43170e",
+      "course id": "EE I2500",
+      "course name": "Advanced Embedded Systems",
+      "instructor": "Elena Patroklos",
+      "total capacity": 25,
+      "available capacity": 25,
+      "waitlist": [],
+      "rating": 1.1
+    },
+    {
+      "id": "946ab446-ed20-4325-a385-a2656433fea4",
+      "course id": "BME I2000-J",
+      "course name": "Cell and Tissue Engineering",
+      "instructor": "Olindo Klara",
+      "total capacity": 30,
+      "available capacity": 0,
+      "waitlist": ["37798a5b-413a-4c1e-9e32-34a57f71d17e"],
+      "rating": 2.3
+    },
+    {
+      "id": "dc79e3d3-698c-445b-8d79-527634a5750e",
+      "course id": "BME I2000-K",
+      "course name": "Cell and Tissue Engineering",
+      "instructor": "Olindo Klara",
+      "total capacity": 30,
+      "available capacity": 22,
+      "waitlist": [],
+      "rating": 1.1
+    },
+    {
+      "id": "55c19e98-bb38-4f2b-b605-83c2f2cabbc0",
+      "course id": "BME I4300-S",
+      "course name": "Physiology for Biomedical Engineers",
+      "instructor": "Olindo Klara",
+      "total capacity": 25,
+      "available capacity": 19,
+      "waitlist": [],
+      "rating": 0.8
+    },
+    {
+      "id": "041525ed-63ec-445e-a3aa-85a02c2d9b7a",
+      "course id": "BME I2200-O",
+      "course name": "Cell and Tissue Transport",
+      "instructor": "Jamal Cyrillus",
+      "total capacity": 30,
+      "available capacity": 4,
+      "waitlist": [],
+      "rating": 3.1
+    },
+    {
+      "id": "8e7b906d-f5ac-41a4-8132-ea3f1095e5cf",
+      "course id": "BME I2200-P",
+      "course name": "Cell and Tissue Transport",
+      "instructor": "Jamal Cyrillus",
+      "total capacity": 30,
+      "available capacity": 28,
+      "waitlist": [],
+      "rating": 1.8
+    },
+    {
+      "id": "c6b73f6f-b34e-469b-9969-39ef087c0f8e",
+      "course id": "BME I3000-S",
+      "course name": "Neural Engineering and Applied Bioelectricity",
+      "instructor": "Dakila Claudia",
+      "total capacity": 25,
+      "available capacity": 25,
+      "waitlist": [],
+      "rating": 4.3
+    },
+    {
+      "id": "977ac585-f78e-4a29-9931-be13a79e044e",
+      "course id": "BME G3200-S",
+      "course name": "Neural Systems and Behavior",
+      "instructor": "Dakila Claudia",
+      "total capacity": 25,
+      "available capacity": 14,
+      "waitlist": [],
+      "rating": 5.0
+    },
+    {
+      "id": "026bdc70-3479-4f79-a8ad-58bf3aa64953",
+      "course id": "ChE I2800-G",
+      "course name": "Advanced Chemical Thermodynamics",
+      "instructor": "Giobbe Rishi",
+      "total capacity": 30,
+      "available capacity": 22,
+      "waitlist": [],
+      "rating": 3.0
+    },
+    {
+      "id": "da4382db-5e2f-4b70-86fe-4907b05e9688",
+      "course id": "ChE I2800-H",
+      "course name": "Advanced Chemical Thermodynamics",
+      "instructor": "Ibb Ridley",
+      "total capacity": 30,
+      "available capacity": 0,
+      "waitlist": [],
+      "rating": 2.9
+    },
+    {
+      "id": "0939f3f8-6d86-4468-b3ac-7e1f856759c5",
+      "course id": "ChE I3300-A",
+      "course name": "Advanced Chemical Reaction Engineering",
+      "instructor": "Giobbe Rishi",
+      "total capacity": 30,
+      "available capacity": 4,
+      "waitlist": [],
+      "rating": 5.0
+    },
+    {
+      "id": "6858d5d4-a3b0-43b2-9b68-023c19c4ec63",
+      "course id": "ChE I3300-B",
+      "course name": "Advanced Chemical Reaction Engineering",
+      "instructor": "Aderyn Adam",
+      "total capacity": 30,
+      "available capacity": 30,
+      "waitlist": [],
+      "rating": 3.0
+    },
+    {
+      "id": "2a237455-023c-4aa1-b65f-f9655e495908",
+      "course id": "ChE I5200-S",
+      "course name": "Powder Science and Technology",
+      "instructor": "Giobbe Rishi",
+      "total capacity": 25,
+      "available capacity": 12,
+      "waitlist": [],
+      "rating": 0.8
+    },
+    {
+      "id": "34e5d850-067f-445f-a831-5c0785184da3",
+      "course id": "ChE I5500-S",
+      "course name": "Interfacial Phenomena",
+      "instructor": "Ibb Ridley",
+      "total capacity": 25,
+      "available capacity": 8,
+      "waitlist": [],
+      "rating": 3.9
+    },
+    {
+      "id": "cba58cf4-97af-4732-aaf9-0667be6b5bb7",
+      "course id": "ChE I5700-S",
+      "course name": "Advanced Materials Engineering",
+      "instructor": "Aderyn Adam",
+      "total capacity": 25,
+      "available capacity": 8,
+      "waitlist": [],
+      "rating": 3.5
+    },
     {
       "id": "5fdf161c-a38e-4b66-add7-f249caa0626a",
       "courseInfo": {

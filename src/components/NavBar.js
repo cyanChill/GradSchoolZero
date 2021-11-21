@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { GlobalContext } from "../GlobalContext";
 import { Nav, Navbar, NavDropdown, Button, Container } from "react-bootstrap";
-import { MenuIcon } from "@mui/icons-material";
+import logo from "../assets/brand_logo.png";
 
 /* For routing */
 import { Link } from "react-router-dom";
@@ -13,12 +13,13 @@ const NavBar = () => {
   return (
     <Navbar bg="primary" variant="dark" expand="md" fixed="top">
       <Container>
-        {/* <Link to= "/profile" >
-        <MenuIcon />
-         </Link> */}
-
         <Navbar.Brand as={Link} to="/">
-          GradSchoolZero
+          <img
+            src={logo}
+            height="30"
+            classname="d-inline-block align-top"
+            alt="GradSchoolZero Logo"
+          />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
@@ -61,12 +62,12 @@ const UserInteract = ({ isLoggedIn }) => {
     /* Displayed for all logged-in users */
     return (
       <>
-        <NavDropdown title="Dropdown" id="basic-nav-dropdown" className="m-1">
+        <NavDropdown title="More" id="basic-nav-dropdown" className="m-1">
           <NavDropdown.Item as={Link} to="/profile">
             Profile
           </NavDropdown.Item>
-          <NavDropdown.Item as={Link} to="/">
-            Login-Only Item 2
+          <NavDropdown.Item as={Link} to="/settings">
+            Settings
           </NavDropdown.Item>
         </NavDropdown>
 
