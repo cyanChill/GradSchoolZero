@@ -113,12 +113,12 @@ const CoursePage = () => {
   let body = null;
 
   if (!loading) {
-    const { courseInfo, maxCapacity } = data.courseData;
+    const { course, instructor, capacity, time } = data.courseData;
 
-    const timeField = courseInfo.time.map((time, idx) => (
+    const timeField = time.map((time, idx) => (
       <span key={idx} className={classes.secondary}>
         {time.day} {convert23Time(time.start)}—{convert23Time(time.end)}
-        {idx !== courseInfo.time.length - 1 && ", "}
+        {idx !== time.length - 1 && ", "}
       </span>
     ));
 
@@ -126,22 +126,19 @@ const CoursePage = () => {
       <>
         <Card className="my-3">
           <Card.Body>
-            <h2>{courseInfo.name}</h2>
+            <h2>{course.name}</h2>
             {timeField}
             <LabelDescripField
               label="Instructor:"
               description={
-                <Link
-                  to={`/profile/${courseInfo.instructorId}`}
-                  className={classes.link}
-                >
-                  {courseInfo.instructorName}
+                <Link to={`/profile/${instructor.id}`} className={classes.link}>
+                  {instructor.name}
                 </Link>
               }
             />
             <LabelDescripField
               label="Max Capacity:"
-              description={maxCapacity}
+              description={capacity.max}
             />
             {/* Enroll & Write Review Buttons Row*/}
             <Row>
@@ -200,7 +197,7 @@ const ReviewWidget = ({ reviewInfo, userType }) => {
         <Col>
           <p className={`my-1 ${classes.secondary}`}>
             {userType === "registrar" && (
-              <span className="fw-bold">{reviewInfo.reviewerInfo.name} </span>
+              <span className="fw-bold">{reviewInfo.reviewer.name} </span>
             )}
             {formattedDate}
           </p>

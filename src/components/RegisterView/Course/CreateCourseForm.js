@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { GlobalContext } from "../../../GlobalContext";
 import useInstructorFetch from "../../../hooks/useInstructorFetch";
 import useCourseFetch from "../../../hooks/useCourseFetch";
@@ -23,6 +23,7 @@ import {
   removeDupe,
 } from "../../../helpers/time";
 import BackButton from "../../UI/BackButton";
+import CenterSpinner from "../../UI/CenterSpinner";
 
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -30,10 +31,24 @@ const CreateCourseForm = () => {
   const { termHook } = useContext(GlobalContext);
   const { termInfo } = termHook;
   const { nonSuspsendedInstructors: instructors } = useInstructorFetch();
-  const { addCourse } = useCourseFetch();
+  const { addCourse, getAllBaseCourses } = useCourseFetch();
+
+  const [baseCourses, setBaseCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const populateCourseBase = async () => {
+      setLoading(true);
+      const data = await getAllBaseCourses();
+      setBaseCourses(data);
+      setLoading(false);
+    };
+
+    populateCourseBase();
+  }, []);
 
   const [courseInfo, setCourseInfo] = useState({
-    courseName: "",
+    courseBase: null,
     instructorId: "",
     instructorName: "",
     maxCapacity: 5,
@@ -44,7 +59,6 @@ const CreateCourseForm = () => {
   });
   const [addTimeError, setAddTimeError] = useState(false);
   const [formErrors, setFormErrors] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
   // Function to remove a time value from our list of course times
@@ -94,6 +108,15 @@ const CreateCourseForm = () => {
     }));
   };
 
+  const handleCourse = (e) => {
+    const { value } = e.target;
+    const obj = baseCourses.filter((course) => course.id === value)[0];
+    setCourseInfo((prev) => ({
+      ...prev,
+      courseBase: obj,
+    }));
+  };
+
   const handleInstructor = (e) => {
     const { value } = e.target;
     const [id, name] = value.split(",");
@@ -114,7 +137,7 @@ const CreateCourseForm = () => {
     const noDupes = removeDupe(courseInfo.courseTimes);
     const hasTimeConflicts = checkConflicts(noDupes);
 
-    if (!courseInfo.courseName) errors.push("Please enter in a course name");
+    if (!courseInfo.courseBase) errors.push("Please select a course");
     if (!courseInfo.instructorId) errors.push("Please select an instructor");
     if (courseInfo.courseTimes.length === 0)
       errors.push("Please enter at least 1 course time");
@@ -128,22 +151,31 @@ const CreateCourseForm = () => {
     }
 
     const {
-      courseName,
+      courseBase,
       instructorId,
       instructorName,
       maxCapacity,
       courseTimes,
     } = courseInfo;
     await addCourse(
-      courseName,
+      courseBase,
       instructorId,
       instructorName,
       courseTimes,
       maxCapacity
     );
 
+    setLoading(false);
     setSuccess(true);
   };
+
+  if (loading) {
+    return (
+      <Container>
+        <CenterSpinner />
+      </Container>
+    );
+  }
 
   /* Check if current phase is course setup */
   if (termInfo.phase !== "set-up") {
@@ -170,7 +202,9 @@ const CreateCourseForm = () => {
           <hr />
           <p className="mb-0">
             <span className="fw-bold">Course Name: </span>
-            <span className="font-monospace">{courseInfo.courseName}</span>
+            <span className="font-monospace">
+              {courseInfo.courseBase.number} {courseInfo.courseBase.name}
+            </span>
             <br />
             <span className="fw-bold">Course Instructor: </span>
             <span className="font-monospace">
@@ -207,14 +241,21 @@ const CreateCourseForm = () => {
 
           <Form onSubmit={handleCreate}>
             <Form.Group className="mb-3">
-              <Form.Label>Course Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Course Name"
-                name="courseName"
-                value={courseInfo.courseName}
-                onChange={handleInputChange}
-              />
+              <Form.Label>Course</Form.Label>
+              <Form.Select
+                name="courseBase"
+                defaultValue=""
+                onChange={handleCourse}
+              >
+                <option value="" disabled>
+                  Select an Course
+                </option>
+                {baseCourses.map((course) => (
+                  <option key={course.id} value={course.id}>
+                    [{course.department}] {course.name}
+                  </option>
+                ))}
+              </Form.Select>
             </Form.Group>
 
             <Form.Group className="mb-3">

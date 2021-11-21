@@ -64,14 +64,11 @@ const Profile = () => {
 
       data.gradeData.forEach((grade) => {
         if (
-          grade.courseInfo.semester === termInfo.semester &&
-          +grade.courseInfo.year === +termInfo.year
+          grade.term.semester === termInfo.semester &&
+          +grade.term.year === +termInfo.year
         ) {
           currCourses.push(grade);
-          if (
-            user.id === grade.courseInfo.instructorId ||
-            user.id === grade.studentInfo.id
-          ) {
+          if (user.id === grade.instructor.id || user.id === grade.student.id) {
             setCanSeeAll(true);
           }
         } else {
@@ -81,8 +78,8 @@ const Profile = () => {
 
       data.taughtData.forEach((taught) => {
         if (
-          taught.courseInfo.semester === termInfo.semester &&
-          +taught.courseInfo.year === +termInfo.year
+          taught.term.semester === termInfo.semester &&
+          +taught.term.year === +termInfo.year
         ) {
           currTeach.push(taught);
         } else {
@@ -188,8 +185,8 @@ const createWidgetGroups = (arr, canSeeAll) => {
     <Col key={course.id} md="6" lg="6" className="my-2">
       <Widget
         key={course.id}
-        name={`${course.courseInfo.code} ${course.courseInfo.name}`}
-        courseId={course.courseInfo.id || course.id}
+        name={`[${course.course.code}] ${course.course.name}`}
+        courseId={course.course.id || course.id}
         grade={course.grade}
         canSeeAll={canSeeAll}
       />

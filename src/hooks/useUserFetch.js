@@ -137,13 +137,13 @@ const useUserFetch = () => {
 
     // Will get the grades (which includes courses currently taken)
     const gradeRes = await fetch(
-      `http://localhost:2543/grades?studentInfo.id=${id}`
+      `http://localhost:2543/grades?student.id=${id}`
     );
     const gradeData = await gradeRes.json();
 
     // Get courses taught
     const taughtRes = await fetch(
-      `http://localhost:2543/courses?courseInfo.instructorId=${id}`
+      `http://localhost:2543/classes?instructor.id=${id}`
     );
     const taughtData = await taughtRes.json();
 

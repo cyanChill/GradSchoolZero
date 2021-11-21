@@ -22,11 +22,11 @@ const useComplaintsFetch = () => {
 
     if (outcome === "approve") {
       if (
-        complaintInfo.reporter.userType === "instructor" &&
+        complaintInfo.reporter.type === "instructor" &&
         complaintInfo.extra.outcome === "de-registration"
       ) {
         const courseRes = await fetch(
-          `http://localhost:2543/grades?studentInfo.id=${complaintInfo.offender.id}&courseInfo.id=${complaintInfo.extra.courseId}`
+          `http://localhost:2543/grades?student.id=${complaintInfo.offender.id}&course.id=${complaintInfo.extra.courseId}`
         );
         const courseData = await courseRes.json();
         let updatedInfo = { ...courseData[0], grade: "DW" };

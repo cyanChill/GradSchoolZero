@@ -13,7 +13,7 @@ const useCourseFetch = () => {
 
   // Function to add a course to the database
   const addCourse = async (
-    name,
+    courseBase,
     instructorId,
     instructorName,
     time,
@@ -21,19 +21,28 @@ const useCourseFetch = () => {
   ) => {
     const courseObj = {
       id: uuidv4(),
-      courseInfo: {
-        name,
-        instructorId,
-        instructorName,
+      course: {
+        id: courseBase.id,
+        code: courseBase.code,
+        name: courseBase.name,
+      },
+      instructor: {
+        id: instructorId,
+        name: instructorName,
+      },
+      term: {
         semester,
         year,
-        time,
       },
-      maxCapacity: capacity,
+      capacity: {
+        max: capacity,
+        available: 0,
+      },
+      time,
       waitList: [],
     };
 
-    await fetch("http://localhost:2543/courses", {
+    await fetch("http://localhost:2543/classes", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -80,21 +89,19 @@ const useCourseFetch = () => {
 
     // Get student grades
     const studGradeRes = await fetch(
-      `http://localhost:2543/grades?studentInfo.id=${stdId}`
+      `http://localhost:2543/grades?student.id=${stdId}`
     );
     const studGradeData = await studGradeRes.json();
 
     // Get number of courses the student is currently taking
     const coursesCurrTaking = studGradeData.map(
-      (grade) =>
-        grade.courseInfo.semester === semester &&
-        +grade.courseInfo.year === +year
+      (grade) => grade.term.semester === semester && +grade.term.year === +year
     );
     const numCoursesCurrTaking = coursesCurrTaking.length;
 
     // Filter out the grades for this course taken previously
     const prevGradesForCourse = studGradeData.map(
-      (grade) => grade.courseInfo.name === courseName
+      (grade) => grade.course.name === courseName
     );
 
     // Get grade distribution of previous attempt at course & see if they've previously withdrawn from this semester's instance of the course
@@ -104,7 +111,7 @@ const useCourseFetch = () => {
       if (!gradeDist[grade.grade]) gradeDist[grade.grade] = 0;
       grade[grade.grade]++;
 
-      if (grade.courseInfo.id === courseId) withdrawn = true;
+      if (grade.course.id === courseId) withdrawn = true;
     });
     // Number of times student have taken the course (excluding withdraws)
     const numTaken =
@@ -133,7 +140,7 @@ const useCourseFetch = () => {
       if (!conflicts) {
         // Checking to see if course is full
         const enrolledRes = await fetch(
-          `http://localhost:2543/grades?courseInfo.id=${courseId}&grade_ne=W&grade_ne=DW`
+          `http://localhost:2543/grades?course.id=${courseId}&grade_ne=W&grade_ne=DW`
         );
         const enrolledData = await enrolledRes.json();
         const numEnrolled = enrolledData.length;
@@ -146,7 +153,7 @@ const useCourseFetch = () => {
         } else {
           // Add student to waitlist
           const currCourse = await fetch(
-            `http://localhost:2543/courses/id=${courseId}`
+            `http://localhost:2543/classes/id=${courseId}`
           );
           const currCourseInfo = await currCourse.json();
 
@@ -162,7 +169,7 @@ const useCourseFetch = () => {
           };
 
           const updateResponse = await fetch(
-            `http://localhost:2543/courses/id=${courseId}`,
+            `http://localhost:2543/classes/id=${courseId}`,
             {
               method: "PATCH",
               headers: {
@@ -234,7 +241,7 @@ const useCourseFetch = () => {
 
   const getCourseList = async () => {
     const res = await fetch(
-      `http://localhost:2543/courses?courseInfo.semester=${semester}&courseInfo.year=${year}`
+      `http://localhost:2543/classes?term.semester=${semester}&term.year=${year}`
     );
     const data = await res.json();
     return data;
@@ -242,23 +249,30 @@ const useCourseFetch = () => {
 
   // Get course information from the database include reviews & students enrolled
   const getCourseInfo = async (courseId) => {
-    const courseRes = await fetch(`http://localhost:2543/courses/${courseId}`);
+    const courseRes = await fetch(`http://localhost:2543/classes/${courseId}`);
     const courseData = await courseRes.json();
 
-    if (!courseData.courseInfo) return "error";
+    if (!courseData.course) return "error";
 
     const enrolledRes = await fetch(
-      `http://localhost:2543/grades?courseInfo.id=${courseId}&grade_ne=W&grade_ne=DW`
+      `http://localhost:2543/grades?course.id=${courseId}&grade_ne=W&grade_ne=DW`
     );
     const enrolledData = await enrolledRes.json();
-    const enrolledInfo = enrolledData.map((grade) => grade.studentInfo);
+    const enrolledInfo = enrolledData.map((grade) => grade.student);
 
     const reviewsRes = await fetch(
-      `http://localhost:2543/reviews?courseName=${courseData.courseInfo.name}`
+      `http://localhost:2543/reviews?course.name=${courseData.course.name}&course.code=${courseData.course.code}`
     );
     const reviewsData = await reviewsRes.json();
 
     return { courseData, enrolledInfo, reviewsData };
+  };
+
+  // Get the basis for the created courses (id, name, department, number)
+  const getAllBaseCourses = async () => {
+    const res = await fetch("http://localhost:2543/courses");
+    const data = await res.json();
+    return data;
   };
 
   return {
@@ -269,6 +283,7 @@ const useCourseFetch = () => {
     getCourseInfo,
     getCourseList,
     listToBeCancelledCourse,
+    getAllBaseCourses,
   };
 };
 

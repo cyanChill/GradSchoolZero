@@ -28,7 +28,7 @@ const Courses = () => {
     <LinkBoxWidget
       key={course.id}
       to={`/courses/${course.id}`}
-      text={course.courseInfo.name}
+      text={`[${course.course.code}] ${course.course.name}`}
     />
   ));
 

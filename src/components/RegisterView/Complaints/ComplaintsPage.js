@@ -69,7 +69,7 @@ const ComplaintWidget = ({ complaint, handleResult }) => {
                     >
                       {reporter.name}
                     </Link>{" "}
-                    ({reporter.userType})
+                    ({reporter.type})
                   </>
                 }
               />
@@ -86,7 +86,7 @@ const ComplaintWidget = ({ complaint, handleResult }) => {
                     >
                       {offender.name}
                     </Link>{" "}
-                    ({offender.userType})
+                    ({offender.type})
                   </>
                 }
               />
@@ -95,7 +95,7 @@ const ComplaintWidget = ({ complaint, handleResult }) => {
 
           <LabelDescripField label="Description: " description={reason} />
 
-          {reporter.userType === "instructor" && (
+          {reporter.type === "instructor" && (
             <LabelDescripField label="Outcome: " description={outcome} />
           )}
         </Col>

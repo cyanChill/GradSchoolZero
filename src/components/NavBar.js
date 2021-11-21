@@ -17,7 +17,7 @@ const NavBar = () => {
           <img
             src={logo}
             height="30"
-            classname="d-inline-block align-top"
+            className="d-inline-block align-top"
             alt="GradSchoolZero Logo"
           />
         </Navbar.Brand>
