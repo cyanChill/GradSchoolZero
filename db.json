@@ -38,9 +38,21 @@
         "instructorId": "246e6e2a-2e98-4408-9866-f723869e912b",
         "instructorName": "instructor",
         "semester": "Fall",
-        "year": "2021"
+        "year": "2021",
+        "time": [
+          {
+            "day": "Mon",
+            "start": "18:47",
+            "end": "18:52"
+          },
+          {
+            "day": "Wed",
+            "start": "18:47",
+            "end": "18:50"
+          }
+        ]
       },
-      "capacity": "10",
+      "maxCapacity": 10,
       "waitlist": []
     },
     {
@@ -51,9 +63,21 @@
         "instructorId": "246e6e2a-2e98-4408-9866-f723869e912b",
         "instructorName": "instructor",
         "semester": "Fall",
-        "year": "2021"
+        "year": "2021",
+        "time": [
+          {
+            "day": "Tue",
+            "start": "18:47",
+            "end": "18:52"
+          },
+          {
+            "day": "Thu",
+            "start": "18:47",
+            "end": "18:50"
+          }
+        ]
       },
-      "capacity": "10",
+      "maxCapacity": 10,
       "waitlist": []
     }
   ],
@@ -72,7 +96,7 @@
         "id": "37798a5b-413a-4c1e-9e32-34a57f71d17e",
         "name": "student"
       },
-      "grade": "DW"
+      "grade": ""
     },
     {
       "id": "32927992-9bb2-40d1-98c5-dbca726660c3",
@@ -203,5 +227,18 @@
       "year": "2021"
     }
   ],
-  "warnings": []
+  "warnings": [],
+  "reviews": [
+    {
+      "id": "67f56065-365f-4b22-b82b-7e8c908a69e8",
+      "courseName": "Software Engineering",
+      "reviewerInfo": {
+        "id": "37798a5b-413a-4c1e-9e32-34a57f71d17e",
+        "name": "Student"
+      },
+      "rating": 4.5,
+      "reason": "This course wasn't that bad.",
+      "date": "2021-11-20T22:29:36.445Z"
+    }
+  ]
 }

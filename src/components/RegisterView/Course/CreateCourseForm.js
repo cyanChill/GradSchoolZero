@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
-import { GlobalContext } from "../../GlobalContext";
-import useInstructorFetch from "../../hooks/useInstructorFetch";
+import { GlobalContext } from "../../../GlobalContext";
+import useInstructorFetch from "../../../hooks/useInstructorFetch";
+import useCourseFetch from "../../../hooks/useCourseFetch";
 
-import FormAlerts from "../UI/FormAlerts";
+import FormAlerts from "../../UI/FormAlerts";
 
 import {
   Button,
@@ -17,11 +18,11 @@ import { FaTrashAlt } from "react-icons/fa";
 
 import {
   convert23Time,
-  isAfter,
+  isBefore,
   checkConflicts,
   removeDupe,
-} from "../../helpers/time";
-import BackButton from "../UI/BackButton";
+} from "../../../helpers/time";
+import BackButton from "../../UI/BackButton";
 
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -29,6 +30,7 @@ const CreateCourseForm = () => {
   const { termHook } = useContext(GlobalContext);
   const { termInfo } = termHook;
   const { nonSuspsendedInstructors: instructors } = useInstructorFetch();
+  const { addCourse } = useCourseFetch();
 
   const [courseInfo, setCourseInfo] = useState({
     courseName: "",
@@ -45,6 +47,7 @@ const CreateCourseForm = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  // Function to remove a time value from our list of course times
   const removeTime = (idx) => {
     const newTimes = courseInfo.courseTimes.filter(
       (time, tIdx) => tIdx !== idx
@@ -52,8 +55,9 @@ const CreateCourseForm = () => {
     setCourseInfo({ ...courseInfo, courseTimes: newTimes });
   };
 
+  // Function to add a time value from our list of course times
   const addTime = () => {
-    const validTime = isAfter(courseInfo.newStart, courseInfo.newEnd);
+    const validTime = isBefore(courseInfo.newStart, courseInfo.newEnd);
 
     if (
       courseInfo.newDay &&
@@ -100,7 +104,8 @@ const CreateCourseForm = () => {
     }));
   };
 
-  const handleCreate = (e) => {
+  // Function to handle form submissions
+  const handleCreate = async (e) => {
     e.preventDefault();
     setLoading(true);
 
@@ -119,14 +124,25 @@ const CreateCourseForm = () => {
     if (errors.length > 0) {
       setFormErrors(errors);
       setLoading(false);
-    } else {
-      setTimeout(() => {
-        setLoading(false);
-        /* Submit Form to server */
-
-        setSuccess(true);
-      }, 500);
+      return;
     }
+
+    const {
+      courseName,
+      instructorId,
+      instructorName,
+      maxCapacity,
+      courseTimes,
+    } = courseInfo;
+    await addCourse(
+      courseName,
+      instructorId,
+      instructorName,
+      courseTimes,
+      maxCapacity
+    );
+
+    setSuccess(true);
   };
 
   /* Check if current phase is course setup */

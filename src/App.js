@@ -10,13 +10,13 @@ import RegistrarRoute from "./components/Routes/RegistrarRoute";
 import NavBar from "./components/NavBar";
 import Home from "./components/pages/Home/Home";
 import About from "./components/pages/About";
-import Classes from "./components/pages/Courses/Classes";
+import Courses from "./components/pages/Courses/Courses";
 import Profile from "./components/pages/Profile/Profile";
 import Login from "./components/pages/Login";
 import Logout from "./components/pages/Logout";
 import ApplyPage from "./components/pages/ApplyPage";
 import CreateUserForm from "./components/RegisterView/Applications/CreateUserForm";
-import CreateCourseForm from "./components/RegisterView/CreateCourseForm";
+import CreateCourseForm from "./components/RegisterView/Course/CreateCourseForm";
 import ApplicationsPage from "./components/RegisterView/Applications/ApplicationsPage";
 import Applicant from "./components/RegisterView/Applications/Applicant";
 import RegistrarMangementPage from "./components/RegisterView/Mangement/RegistrarManagementPage";
@@ -27,6 +27,7 @@ import Settings from "./components/pages/Settings";
 import InfractionsPage from "./components/RegisterView/Infractions/InfractionsPage";
 import ComplaintsPage from "./components/RegisterView/Complaints/ComplaintsPage";
 import GradAppsPage from "./components/RegisterView/Applications/GradAppsPage";
+import CoursePage from "./components/pages/Courses/CoursePage";
 
 const App = () => {
   return (
@@ -35,7 +36,8 @@ const App = () => {
 
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route path="/classes" component={Classes} />
+        <Route exact path="/courses" component={Courses} />
+        <Route path="/courses/:id" component={CoursePage} />
         <Route path="/about" component={About} />
 
         <ProtectedRoute exact path="/profile">

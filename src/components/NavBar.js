@@ -27,7 +27,7 @@ const NavBar = () => {
               Home
             </Nav.Link>
 
-            <Nav.Link as={Link} to="/classes" className="m-1">
+            <Nav.Link as={Link} to="/courses" className="m-1">
               Classes
             </Nav.Link>
 
