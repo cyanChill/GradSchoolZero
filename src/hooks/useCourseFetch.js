@@ -105,7 +105,7 @@ const useCourseFetch = () => {
     const numCoursesCurrTaking = coursesCurrTaking.length;
 
     // Filter out the grades for this course taken previously
-    const prevGradesForCourse = studGradeData.map(
+    const prevGradesForCourse = studGradeData.filter(
       (grade) => grade.course.name === courseName
     );
 
@@ -114,10 +114,11 @@ const useCourseFetch = () => {
     let withdrawn = false;
     prevGradesForCourse.forEach((grade) => {
       if (!gradeDist[grade.grade]) gradeDist[grade.grade] = 0;
-      grade[grade.grade]++;
+      gradeDist[grade.grade]++;
 
       if (grade.course.id === courseId) withdrawn = true;
     });
+
     // Number of times student have taken the course (excluding withdraws)
     const numTaken =
       prevGradesForCourse.length - gradeDist["W"] - gradeDist["DW"];
@@ -231,7 +232,7 @@ const useCourseFetch = () => {
 
           if (updateResponse.ok)
             return {
-              status: "Successfully Updated",
+              status: "Successfully Joined Waitlist",
               details: "Successfully updated waitlist",
             };
           return {
@@ -269,7 +270,7 @@ const useCourseFetch = () => {
       if (withdrawn)
         return {
           error: "Withdrawn",
-          detais: "Student have withdrawn from this course",
+          details: "Student have withdrawn from this course",
         };
 
       return {
@@ -279,14 +280,187 @@ const useCourseFetch = () => {
     }
   };
 
-  const unEnrollCourse = (stdId, courseId) => {
-    /* 
-      Do checks to see if we're not in the grading period:
-       - if it isn't, give student a grade of W and remove from course roster
-       - If a waitlist exists, add the first person that can be added into the course - delete anyone who fails
+  const leaveWaitlist = async (userId, courseId) => {
+    const latestCourseRes = await fetch(
+      `http://localhost:2543/classes/${courseId}`
+    );
+    const latestCourseData = await latestCourseRes.json();
 
-      If the person isn't in the course but on the waitlist, remove them from the waitlist
-    */
+    const updatedCourseData = {
+      ...latestCourseData,
+      waitList: latestCourseData.waitList.filter((std) => std.id !== userId),
+    };
+
+    const res = await fetch(`http://localhost:2543/classes/${courseId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedCourseData),
+    });
+
+    if (res.ok)
+      return { status: "success", message: "Successfully left waitlist" };
+    return { status: "error", message: "Failed to leave waitlist" };
+  };
+
+  const unEnrollCourse = async (userId, courseId) => {
+    // Removing User From Course
+    const gradeEntryRes = await fetch(
+      `http://localhost:2543/grades?course.id=${courseId}&student.id=${userId}`
+    );
+    const gradeEntryData = await gradeEntryRes.json();
+    const gradeEntry = gradeEntryData[0];
+
+    const updatedGradeEntry = {
+      ...gradeEntry,
+      grade: "W",
+    };
+
+    const res = await fetch(`http://localhost:2543/grades/${gradeEntry.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedGradeEntry),
+    });
+
+    if (!res.ok) return { status: "error", message: "Failed to leave course" };
+
+    // Updating Course Info [add waitlist person (given they don't have time conflicts & have < 4 courses) or then increment avaliable to 1]
+    const courseInfoRes = await fetch(
+      `http://localhost:2543/classes/${courseId}`
+    );
+    const courseInfoData = await courseInfoRes.json();
+    let waitlist = courseInfoData.waitList;
+
+    let success = false;
+
+    while (!success && waitlist.length > 0) {
+      // call addStudentFromWaitlist function
+      const waitlistStd = waitlist[0];
+      const result = await addStudentFromWaitlist(waitlistStd, courseId);
+      waitlist.shift();
+
+      if (result.status === "error") continue;
+      success = true;
+    }
+
+    let updatedCourseData = {
+      ...courseInfoData,
+      waitList: waitlist,
+    };
+
+    if (!success) {
+      // Increment "avaliable" by 1 of the class' capacity
+      updatedCourseData = {
+        ...updatedCourseData,
+        capacity: {
+          ...updatedCourseData.capacity,
+          available: +updatedCourseData.capacity.available + 1,
+        },
+      };
+    }
+
+    await fetch(`http://localhost:2543/classes/${courseId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedCourseData),
+    });
+
+    return {
+      status: "success",
+      message:
+        "Successfully left course & added next avaliable waitlist student to course",
+    };
+  };
+
+  const addStudentFromWaitlist = async (stdInfo, courseId) => {
+    const { id: stdId, name: stdName } = stdInfo;
+    const courseInfoRes = await fetch(
+      `http://localhost:2543/classes/${courseId}`
+    );
+    const courseInfoData = await courseInfoRes.json();
+
+    const stdRes = await fetch(
+      `http://localhost:2543/grades?student.id=${stdId}&term.semester=${semester}&term.year=${year}`
+    );
+    const stdCourses = await stdRes.json();
+
+    if (stdCourses.length === 4)
+      return {
+        status: "error",
+        message: "Student is already taking the maximum number of courses",
+      };
+
+    const allCourseTimes = stdCourses.reduce(
+      (allCourses, newCourse) => allCourses.concat(newCourse.time),
+      courseInfoData.time
+    );
+    const conflicts = checkConflicts(allCourseTimes);
+
+    if (conflicts)
+      return {
+        status: "error",
+        message: "Student has conflict with other courses",
+      };
+
+    // enroll student into course, return "success" object
+    const gradeObj = {
+      id: uuidv4(),
+      course: {
+        ...courseInfoData.course,
+        id: courseId,
+      },
+      instructor: courseInfoData.instructor,
+      student: {
+        id: stdId,
+        name: stdName,
+      },
+      term: {
+        semester,
+        year,
+      },
+      grade: "",
+    };
+
+    const postRes = await fetch("http://localhost:2543/grades", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(gradeObj),
+    });
+
+    // Remove student from waitlist
+    await removeStudentFromWaitlist(stdId, courseId);
+
+    if (postRes.ok) {
+      return {
+        status: "success",
+        message: `${stdName} successfully enrolled into ${courseInfoData.course.name}`,
+      };
+    }
+    return { status: "error", message: "Database failed to enroll student" };
+  };
+
+  const removeStudentFromWaitlist = async (stdId, courseId) => {
+    const courseRes = await fetch(`http://localhost:2543/classes/${courseId}`);
+    const courseData = await courseRes.json();
+    const updatedCourseData = {
+      ...courseData,
+      waitList: courseData.waitList.filter((std) => std.id !== stdId),
+    };
+
+    await fetch(`http://localhost:2543/classes/${courseId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedCourseData),
+    });
   };
 
   const getCourseList = async () => {
@@ -325,15 +499,36 @@ const useCourseFetch = () => {
     return data;
   };
 
+  // Check if user is enrolled into course
+  const checkIsEnrolled = async (stdId, courseId) => {
+    const res = await fetch(
+      `http://localhost:2543/grades?student.id=${stdId}&course.id=${courseId}`
+    );
+    const data = await res.json();
+    return data.length === 1;
+  };
+
+  // Check if user is in the waitlist of a course
+  const checkIfWaitlist = async (stdId, courseId) => {
+    const res = await fetch(`http://localhost:2543/classes/${courseId}`);
+    const data = await res.json();
+    return data.waitList.some((std) => (std.id = stdId));
+  };
+
   return {
     addCourse,
     cancelCourse,
     enrollCourse,
     unEnrollCourse,
+    leaveWaitlist,
     getCourseInfo,
     getCourseList,
     listToBeCancelledCourse,
     getAllBaseCourses,
+    checkIsEnrolled,
+    checkIfWaitlist,
+    addStudentFromWaitlist,
+    removeStudentFromWaitlist,
   };
 };
 

@@ -254,7 +254,7 @@
       },
       "capacity": {
         "max": 5,
-        "available": 5
+        "available": 4
       },
       "time": [
         {
@@ -268,7 +268,12 @@
           "end": "11:45"
         }
       ],
-      "waitList": []
+      "waitList": [
+        {
+          "id": "104713d0-d46f-4a4e-930f-ea63bc48f915",
+          "name": "student2"
+        }
+      ]
     },
     {
       "id": "dcf7aa6c-c6fd-4664-adc9-2c81c7e55b9e",

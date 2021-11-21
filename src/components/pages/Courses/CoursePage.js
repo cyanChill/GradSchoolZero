@@ -12,6 +12,7 @@ import {
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { FaRegStar } from "react-icons/fa";
+import { BiCheck, BiX } from "react-icons/bi";
 
 import CenterSpinner from "../../UI/CenterSpinner";
 import LabelDescripField from "../../UI/LabelDescripField";
@@ -25,46 +26,68 @@ import classes from "./CoursePage.module.css";
 
 const CoursePage = () => {
   const { id } = useParams();
-  const { getCourseInfo, enrollCourse } = useCourseFetch();
-  const { userHook } = useContext(GlobalContext);
+  const {
+    getCourseInfo,
+    enrollCourse,
+    unEnrollCourse,
+    leaveWaitlist,
+    addStudentFromWaitlist,
+    removeStudentFromWaitlist,
+  } = useCourseFetch();
+  const { userHook, termHook } = useContext(GlobalContext);
   const { user } = userHook;
-  const [data, setData] = useState();
+  const { termInfo } = termHook;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [studentWidgets, setStudentWidgets] = useState([]);
-  const [reviewWidgets, setReviewWidgets] = useState([]);
+  const [courseInfo, setCourseInfo] = useState({});
+  const [studentsList, setStudentList] = useState([]);
+  const [reviewsList, setReviewsList] = useState([]);
+  const [waitlist, setWaitlist] = useState([]);
+  const [stdCourseRel, setStdCourseRel] = useState({
+    enrolled: false,
+    waitlist: false,
+    reviewed: false,
+    hasGrade: false,
+  });
+  const [alertObj, setAlertObj] = useState(null);
 
   useEffect(() => {
     const populateData = async () => {
       setLoading(true);
-      const courseInfo = await getCourseInfo(id);
+      const courseInfoData = await getCourseInfo(id);
 
-      if (courseInfo === "error") {
+      if (courseInfoData === "error") {
         setError(true);
         return;
       }
 
-      setData(courseInfo);
+      console.log(courseInfoData);
 
-      // Setting the student widgets for the page
-      const studWdgts = courseInfo.enrolledInfo.map((stud) => (
-        <LinkBoxWidget
-          key={stud.id}
-          to={`/profile/${stud.id}`}
-          text={stud.name}
-        />
-      ));
-      setStudentWidgets(studWdgts);
+      setCourseInfo(courseInfoData.courseData);
+      setStudentList(courseInfoData.enrolledInfo);
+      setReviewsList(courseInfoData.reviewsData);
+      setWaitlist(courseInfoData.courseData.waitList);
 
-      // Setting the review widgets for the page
-      const reviewWdgts = courseInfo.reviewsData.map((review) => (
-        <ReviewWidget
-          key={review.id}
-          userType={user.type}
-          reviewInfo={review}
-        />
-      ));
-      setReviewWidgets(reviewWdgts);
+      // Checking to see if the student is enrolled in the course, is on the waitlist, and if they wrote a review
+      const isEnroll = courseInfoData.enrolledInfo.some(
+        (enrolled) => enrolled.id === user.id
+      );
+      const isWaitlist = courseInfoData.courseData.waitList.some(
+        (std) => std.id === user.id
+      );
+      const wroteReview = courseInfoData.reviewsData.some(
+        (review) => review.reviewer.id === user.id
+      );
+      const hasGrade = courseInfoData.enrolledInfo.some(
+        (enrolled) => enrolled.id === user.id && enrolled.grade
+      );
+
+      setStdCourseRel({
+        enrolled: isEnroll,
+        waitlist: isWaitlist,
+        reviewed: wroteReview,
+        hasGrade,
+      });
 
       setLoading(false);
     };
@@ -73,19 +96,107 @@ const CoursePage = () => {
   }, []);
 
   const handleEnrollment = async () => {
-    console.log("handling enrollment logic....");
-    /* 
-      We should check if the user is enrolled, if they are, have this button be the uneroll button (we can check to see if the user is in the list of enrolled students returned by "courseInfo.enrolledInfo" -- we can put this check in the "setting the students widgets for the page" map [compare "stud.id" with "user.id"])
+    const response = await enrollCourse(user, courseInfo);
 
-      We should do the check in the "useEffect" - have a state that keeps track of what the "enroll" button should say
-    */
-    console.log(data.courseData);
-    const response = await enrollCourse(user, data.courseData);
-    console.log(response);
+    if (response.error) {
+      // Recieved an error from trying to enroll
+      setAlertObj({
+        type: "danger",
+        title: response.error,
+        message: response.details,
+      });
+
+      return;
+    } else {
+      // Either enrolled or joined the waitlist
+      if (response.status === "Successfully Enrolled") {
+        setStdCourseRel((prev) => ({
+          ...prev,
+          enrolled: true,
+        }));
+
+        setStudentList((prev) => [
+          ...prev,
+          {
+            id: user.id,
+            name: user.name,
+          },
+        ]);
+      } else if (response.status === "Successfully Joined Waitlist") {
+        setStdCourseRel((prev) => ({
+          ...prev,
+          waitlist: true,
+        }));
+
+        setWaitlist((prev) => [
+          ...prev,
+          {
+            id: user.id,
+            name: user.name,
+          },
+        ]);
+      }
+
+      setAlertObj({
+        type: "success",
+        title: response.status,
+        message: response.details,
+      });
+    }
   };
 
   const handleUnEnrollment = async () => {
     console.log("handling unenrollment logic...");
+
+    if (stdCourseRel.enrolled) {
+      // Unenroll Student
+      const response = await unEnrollCourse(user.id, courseInfo.id);
+      if (response.status === "success") {
+        setStdCourseRel((prev) => ({
+          ...prev,
+          enrolled: false,
+        }));
+
+        setStudentList((prev) => prev.filter((std) => std.id !== user.id));
+
+        setAlertObj({
+          type: "success",
+          title: "Success",
+          message: response.message,
+        });
+        return;
+      }
+
+      setAlertObj({
+        type: "error",
+        title: "Error",
+        message: response.message,
+      });
+    } else {
+      // Remove student from waitlist
+      const response = await leaveWaitlist(user.id, courseInfo.id);
+      if (response.status === "success") {
+        setStdCourseRel((prev) => ({
+          ...prev,
+          waitlist: false,
+        }));
+
+        setWaitlist((prev) => prev.filter((std) => std.id !== user.id));
+
+        setAlertObj({
+          type: "success",
+          title: "Success",
+          message: response.message,
+        });
+        return;
+      }
+
+      setAlertObj({
+        type: "error",
+        title: "Error",
+        message: response.message,
+      });
+    }
   };
 
   const handleReview = async () => {
@@ -99,6 +210,55 @@ const CoursePage = () => {
       We should do these checks in the "useEffect"
     */
   };
+
+  // Function to handle accepting/rejecting student on waitlist
+  const handleWaitlist = async (waitlistInfo, status) => {
+    if (status === "approve") {
+      const res = await addStudentFromWaitlist(waitlistInfo, courseInfo.id);
+      setWaitlist((prev) => prev.filter((std) => std.id !== waitlistInfo.id));
+
+      if (res.status === "success") {
+        // Enrolled waitlist student
+        setStudentList((prev) => [...prev, waitlistInfo]);
+        setAlertObj({
+          type: "success",
+          title: "Success",
+          message: res.message,
+        });
+      } else {
+        // Failed to enroll waitlist student
+        setAlertObj({
+          type: "danger",
+          title: "Error",
+          message: res.message,
+        });
+      }
+    } else {
+      await removeStudentFromWaitlist(waitlistInfo.id, courseInfo.id);
+      setWaitlist((prev) => prev.filter((std) => std.id !== waitlistInfo.id));
+    }
+  };
+
+  // Setting the student widgets for the page
+  const studentWidgets = studentsList.map((stud) => (
+    <LinkBoxWidget key={stud.id} to={`/profile/${stud.id}`} text={stud.name} />
+  ));
+
+  // Setting the review widgets for the page
+  const reviewWidgets = reviewsList.map((review) => (
+    <ReviewWidget key={review.id} userType={user.type} reviewInfo={review} />
+  ));
+
+  // Setting the waitlist widgets for the page
+  const waitlistWidgets = waitlist.map((std) => (
+    <WaitlistWidget
+      key={std.id}
+      waitlistInfo={std}
+      handleResult={handleWaitlist}
+      phase={termInfo.phase}
+      userType={user.type}
+    />
+  ));
 
   if (error) {
     return (
@@ -114,7 +274,7 @@ const CoursePage = () => {
   let body = null;
 
   if (!loading) {
-    const { course, instructor, capacity, time } = data.courseData;
+    const { course, instructor, capacity, time } = courseInfo;
 
     const timeField = time.map((time, idx) => (
       <span key={idx} className={classes.secondary}>
@@ -144,15 +304,28 @@ const CoursePage = () => {
             {/* Enroll & Write Review Buttons Row*/}
             <Row>
               <Col xs="auto">
-                <Button variant="success" onClick={handleEnrollment}>
-                  Enroll
-                </Button>
+                {!stdCourseRel.enrolled && !stdCourseRel.waitlist && (
+                  <Button variant="success" onClick={handleEnrollment}>
+                    {capacity.available > 0 ? "Enroll" : "Join Waitlist"}
+                  </Button>
+                )}
+                {(stdCourseRel.enrolled || stdCourseRel.waitlist) && (
+                  <Button variant="danger" onClick={handleUnEnrollment}>
+                    {stdCourseRel.enrolled ? "Withdraw" : "Leave Waitlist"}
+                  </Button>
+                )}
               </Col>
-              <Col>
-                <Button variant="secondary" onClick={handleReview}>
-                  Write Review
-                </Button>
-              </Col>
+              {/* Show review button if they're enrolled and didn't write a review for this course and doesn't have a grade assigned to them */}
+              {stdCourseRel.enrolled &&
+                !stdCourseRel.reviewed &&
+                termInfo.phase !== "registration" &&
+                !stdCourseRel.hasGrade && (
+                  <Col>
+                    <Button variant="secondary" onClick={handleReview}>
+                      Write Review
+                    </Button>
+                  </Col>
+                )}
             </Row>
           </Card.Body>
         </Card>
@@ -166,7 +339,11 @@ const CoursePage = () => {
           {user.type === "instructor" ||
             (user.type === "registrar" && (
               <Tab eventKey="waitlist" title="Waitlist">
-                Waitlist students
+                {waitlistWidgets.length > 0 ? (
+                  waitlistWidgets
+                ) : (
+                  <p>There are no students in the waitlist.</p>
+                )}
               </Tab>
             ))}
         </Tabs>
@@ -177,6 +354,17 @@ const CoursePage = () => {
   return (
     <Container>
       <BackButton />
+      {alertObj && (
+        <Alert
+          className="my-3"
+          variant={alertObj.type}
+          onClose={() => setAlertObj(null)}
+          dismissible
+        >
+          <span className="fw-bold">{alertObj.title}: </span>
+          {alertObj.message}
+        </Alert>
+      )}
       {loading && <CenterSpinner />}
       {!loading && body}
     </Container>
@@ -209,4 +397,37 @@ const ReviewWidget = ({ reviewInfo, userType }) => {
   );
 };
 
+const WaitlistWidget = ({ waitlistInfo, handleResult, phase, userType }) => {
+  const { id, name } = waitlistInfo;
+
+  return (
+    <div className={classes.waitlist}>
+      <Row className="d-flex align-items-center">
+        <Col>
+          <Link to={`/profile/${id}`} className={classes.link}>
+            {name}
+          </Link>
+        </Col>
+        {(phase === "registration" || userType === "registrar") && (
+          <Col sm="auto" className="text-center">
+            <Button
+              variant="success"
+              className="mx-1"
+              onClick={() => handleResult(waitlistInfo, "approve")}
+            >
+              <BiCheck />
+            </Button>
+            <Button
+              variant="danger"
+              className="mx-1"
+              onClick={() => handleResult(waitlistInfo, "reject")}
+            >
+              <BiX />
+            </Button>
+          </Col>
+        )}
+      </Row>
+    </div>
+  );
+};
 export default CoursePage;

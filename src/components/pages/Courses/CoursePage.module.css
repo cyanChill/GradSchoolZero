@@ -15,6 +15,20 @@
   color: rgb(73, 73, 73);
 }
 
+.waitlist {
+  width: 100%;
+  box-shadow: 0px 2px 5px 3px rgba(0, 0, 0, 0.27);
+  padding: 1rem;
+  margin: 0.75rem 0;
+  transition: all 150ms ease-in-out;
+}
+
+.waitlist:hover {
+  transform: scale(0.99);
+  background-color: #fafafa;
+  transform-origin: center;
+}
+
 @media (max-width: 768px) {
   .review {
     font-size: 0.85rem;
