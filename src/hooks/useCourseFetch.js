@@ -482,7 +482,11 @@ const useCourseFetch = () => {
       `http://localhost:2543/grades?course.id=${courseId}&grade_ne=W&grade_ne=DW`
     );
     const enrolledData = await enrolledRes.json();
-    const enrolledInfo = enrolledData.map((grade) => grade.student);
+    const enrolledInfo = enrolledData.map((grade) => ({
+      id: grade.student.id,
+      name: grade.student.name,
+      grade: grade.grade,
+    }));
 
     const reviewsRes = await fetch(
       `http://localhost:2543/reviews?course.name=${courseData.course.name}&course.code=${courseData.course.code}`
@@ -515,6 +519,27 @@ const useCourseFetch = () => {
     return data.waitList.some((std) => (std.id = stdId));
   };
 
+  // Set grade for student in a course
+  const setStdGrade = async (stdId, courseId, grade) => {
+    const stdGradeRes = await fetch(
+      `http://localhost:2543/grades?student.id=${stdId}&course.id=${courseId}`
+    );
+    const studGradeObjData = await stdGradeRes.json();
+
+    const newStdGradeObj = {
+      ...studGradeObjData[0],
+      grade,
+    };
+
+    await fetch(`http://localhost:2543/grades/${studGradeObjData[0].id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newStdGradeObj),
+    });
+  };
+
   return {
     addCourse,
     cancelCourse,
@@ -529,6 +554,7 @@ const useCourseFetch = () => {
     checkIfWaitlist,
     addStudentFromWaitlist,
     removeStudentFromWaitlist,
+    setStdGrade,
   };
 };
 

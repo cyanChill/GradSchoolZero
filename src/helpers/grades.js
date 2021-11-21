@@ -46,4 +46,4 @@ const calculateGPA = (gradesArr) => {
     : (total / validGrades.length).toFixed(2);
 };
 
-export { calculateGPA, gradeMap };
+export { calculateGPA, gradeMap, gradeEquiv };

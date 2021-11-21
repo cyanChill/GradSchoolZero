@@ -8,6 +8,7 @@ import {
   Row,
   Col,
   Button,
+  Form,
 } from "react-bootstrap";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -21,6 +22,7 @@ import BackButton from "../../UI/BackButton";
 import LinkBoxWidget from "../../UI/LinkBoxWidget/LinkBoxWidget";
 
 import { convert23Time } from "../../../helpers/time";
+import { gradeEquiv } from "../../../helpers/grades";
 import { GlobalContext } from "../../../GlobalContext";
 import classes from "./CoursePage.module.css";
 
@@ -33,6 +35,7 @@ const CoursePage = () => {
     leaveWaitlist,
     addStudentFromWaitlist,
     removeStudentFromWaitlist,
+    setStdGrade,
   } = useCourseFetch();
   const { userHook, termHook } = useContext(GlobalContext);
   const { user } = userHook;
@@ -48,6 +51,7 @@ const CoursePage = () => {
     waitlist: false,
     reviewed: false,
     hasGrade: false,
+    isCourseProf: false,
   });
   const [alertObj, setAlertObj] = useState(null);
 
@@ -81,12 +85,16 @@ const CoursePage = () => {
       const hasGrade = courseInfoData.enrolledInfo.some(
         (enrolled) => enrolled.id === user.id && enrolled.grade
       );
+      const isCourseProf =
+        user.type === "instructor" &&
+        courseInfoData.courseData.instructor.id === user.id;
 
       setStdCourseRel({
         enrolled: isEnroll,
         waitlist: isWaitlist,
         reviewed: wroteReview,
         hasGrade,
+        isCourseProf,
       });
 
       setLoading(false);
@@ -239,10 +247,44 @@ const CoursePage = () => {
     }
   };
 
+  // Function to update student grades
+  const updateGrade = async (stdInfo, grade) => {
+    await setStdGrade(stdInfo.id, courseInfo.id, grade);
+
+    setStudentList((prev) =>
+      prev.map((std) => {
+        if (std.id !== stdInfo.id) return std;
+        return {
+          ...stdInfo,
+          grade,
+        };
+      })
+    );
+  };
+
   // Setting the student widgets for the page
-  const studentWidgets = studentsList.map((stud) => (
-    <LinkBoxWidget key={stud.id} to={`/profile/${stud.id}`} text={stud.name} />
-  ));
+  const studentWidgets = studentsList.map((stud) => {
+    if (
+      (stdCourseRel.isCourseProf || user.type === "registrar") &&
+      termInfo.phase === "grading"
+    ) {
+      return (
+        <StudentGradeWidget
+          key={stud.id}
+          stdInfo={stud}
+          updateGrade={updateGrade}
+        />
+      );
+    }
+
+    return (
+      <LinkBoxWidget
+        key={stud.id}
+        to={`/profile/${stud.id}`}
+        text={stud.name}
+      />
+    );
+  });
 
   // Setting the review widgets for the page
   const reviewWidgets = reviewsList.map((review) => (
@@ -336,16 +378,15 @@ const CoursePage = () => {
           <Tab eventKey="reviews" title="Reviews">
             {reviewWidgets}
           </Tab>
-          {user.type === "instructor" ||
-            (user.type === "registrar" && (
-              <Tab eventKey="waitlist" title="Waitlist">
-                {waitlistWidgets.length > 0 ? (
-                  waitlistWidgets
-                ) : (
-                  <p>There are no students in the waitlist.</p>
-                )}
-              </Tab>
-            ))}
+          {(stdCourseRel.isCourseProf || user.type === "registrar") && (
+            <Tab eventKey="waitlist" title="Waitlist">
+              {waitlistWidgets.length > 0 ? (
+                waitlistWidgets
+              ) : (
+                <p>There are no students in the waitlist.</p>
+              )}
+            </Tab>
+          )}
         </Tabs>
       </>
     );
@@ -430,4 +471,36 @@ const WaitlistWidget = ({ waitlistInfo, handleResult, phase, userType }) => {
     </div>
   );
 };
+
+const StudentGradeWidget = ({ stdInfo, updateGrade }) => {
+  const { id, name, grade } = stdInfo;
+
+  return (
+    <div className={classes.waitlist}>
+      <Row className="d-flex align-items-center">
+        <Col>
+          <Link to={`/profile/${id}`} className={classes.link}>
+            {name}
+          </Link>
+        </Col>
+        <Col sm="auto">
+          <Form.Select
+            value={grade}
+            onChange={(e) => updateGrade(stdInfo, e.target.value)}
+          >
+            <option value="" disabled>
+              Select an Grade
+            </option>
+            {Object.keys(gradeEquiv).map((gradeLetter) => (
+              <option key={gradeLetter} value={gradeLetter}>
+                {gradeLetter}
+              </option>
+            ))}
+          </Form.Select>
+        </Col>
+      </Row>
+    </div>
+  );
+};
+
 export default CoursePage;
