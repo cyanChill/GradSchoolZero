@@ -12,11 +12,11 @@ const SemesterManagement = () => {
   const [alertInfo, setAlertInfo] = useState(null);
 
   const { termHook } = useContext(GlobalContext);
-  const { loading, termInfo, getPhaseInfo, getNextTermInfo, nextPhase } =
+  const { loading, termInfo, getPhaseInfo, getNextPhaseInfo, nextPhase } =
     termHook;
 
   const currTermInfo = getPhaseInfo(termInfo.phase);
-  const nextTerm = getNextTermInfo();
+  const nextTerm = getNextPhaseInfo();
   const nextTermInfo = getPhaseInfo(nextTerm.phase);
 
   const handleContinue = async () => {

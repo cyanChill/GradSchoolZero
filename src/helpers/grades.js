@@ -13,6 +13,7 @@ const gradeEquiv = {
   F: 0,
 };
 
+// Function to calculate the GPA from an input array of letter grades
 const calculateGPA = (gradesArr) => {
   const validGrades = gradesArr.filter(
     (letter) => gradeEquiv[letter] !== undefined

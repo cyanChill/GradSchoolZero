@@ -5,6 +5,7 @@ import { GlobalContext } from "../../../GlobalContext";
 import classes from "./ApplicationsPage.module.css";
 import BackHeader from "../../UI/BackHeader";
 import CenterSpinner from "../../UI/CenterSpinner";
+import LinkBoxWidget from "../../UI/LinkBoxWidget/LinkBoxWidget";
 
 const ApplicationsPage = () => {
   const { applicationsHook } = useContext(GlobalContext);
@@ -12,15 +13,12 @@ const ApplicationsPage = () => {
     applicationsHook;
 
   const applicants = applicationsList.map((application) => (
-    <Link
-      to={`/applications/${application.id}`}
-      className={`${classes.link} ${classes.application} ${
-        classes[application.type]
-      }`}
+    <LinkBoxWidget
       key={application.id}
-    >
-      {application.name}
-    </Link>
+      to={`/applications/${application.id}`}
+      className={classes[application.type]}
+      text={application.name}
+    />
   ));
 
   return (

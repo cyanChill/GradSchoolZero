@@ -65,7 +65,7 @@ const Profile = () => {
       data.gradeData.forEach((grade) => {
         if (
           grade.courseInfo.semester === termInfo.semester &&
-          grade.courseInfo.year === termInfo.year
+          +grade.courseInfo.year === +termInfo.year
         ) {
           currCourses.push(grade);
           if (
@@ -82,7 +82,7 @@ const Profile = () => {
       data.taughtData.forEach((taught) => {
         if (
           taught.courseInfo.semester === termInfo.semester &&
-          taught.courseInfo.year === termInfo.year
+          +taught.courseInfo.year === +termInfo.year
         ) {
           currTeach.push(taught);
         } else {
@@ -189,7 +189,7 @@ const createWidgetGroups = (arr, canSeeAll) => {
       <Widget
         key={course.id}
         name={`${course.courseInfo.code} ${course.courseInfo.name}`}
-        courseId={course.courseInfo.id}
+        courseId={course.courseInfo.id || course.id}
         grade={course.grade}
         canSeeAll={canSeeAll}
       />
@@ -201,7 +201,7 @@ const Widget = ({ name, courseId, grade, canSeeAll }) => {
   return (
     <Card className={classes.widget}>
       <Card.Body className="d-flex justify-content-between align-items-center">
-        <Link className={classes.courseLink} to={`/classes/${courseId}`}>
+        <Link className={classes.courseLink} to={`/courses/${courseId}`}>
           {name}
         </Link>
         {canSeeAll && (
