@@ -70,7 +70,7 @@ const useCourseFetch = () => {
   // Function to enroll student into a course
   const enrollCourse = async (user, courseInfo) => {
     const { courseName, courseId } = courseInfo;
-    const { stdId, specReg } = user;
+    const { stdId, name, specReg } = user;
 
     if (phase !== "registration" || !specReg)
       return {
@@ -118,12 +118,77 @@ const useCourseFetch = () => {
       // Student haven't taken this course before or taken it once and has an F and haven't withdrawn from the course previously
       /* 
         1. Get time slots for the courses the student is currently taking [from "coursesCurrTaking"] and combine all the time arrays and run the "checkConflicts" function
-          - If conflicts, then return error
+          - If conflicts, then return error✅
 
         2. Check if course is currently full -- if it is, add the student to the waitlist [after checking to see if there's no time conflicts]
 
         3. If course isn't full, enroll the student
       */
+      const allCourseTimes = coursesCurrTaking.reduuce(
+        (allCourses, newCourse) => allCourses.concat(newCourse.time),
+        courseInfo.time
+      );
+      const conflicts = checkConflicts(allCourseTimes);
+
+      if (!conflicts) {
+        // Checking to see if course is full
+        const enrolledRes = await fetch(
+          `http://localhost:2543/grades?courseInfo.id=${courseId}&grade_ne=W&grade_ne=DW`
+        );
+        const enrolledData = await enrolledRes.json();
+        const numEnrolled = enrolledData.length;
+
+        if (numEnrolled < courseInfo.maxCapacity) {
+          /* 
+            Enroll student
+              - Create "grade" object
+          */
+        } else {
+          // Add student to waitlist
+          const currCourse = await fetch(
+            `http://localhost:2543/courses/id=${courseId}`
+          );
+          const currCourseInfo = await currCourse.json();
+
+          const updatedCourseInfo = {
+            ...currCourseInfo,
+            waitList: [
+              ...currCourseInfo.waitlist,
+              {
+                id: stdId,
+                name: name,
+              },
+            ],
+          };
+
+          const updateResponse = await fetch(
+            `http://localhost:2543/courses/id=${courseId}`,
+            {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(updatedCourseInfo),
+            }
+          );
+
+          if (updateResponse.ok)
+            return {
+              status: "Successfully Updated",
+              details: "Successfully updated waitlist",
+            };
+          return {
+            error: "Failed to Update",
+            details: "Failed to update waitlist with new student",
+          };
+        }
+      } else {
+        return {
+          error: "Time Conflicts",
+          details:
+            "Adding this course will lead to time conflicts with some of the other enrolled courses",
+        };
+      }
     } else {
       // Taken Class Twice (Both F)
       if (numTaken === 2 && gradeDist["F"] === 2)
