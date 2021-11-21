@@ -131,7 +131,7 @@ const useCourseFetch = () => {
 
         3. If course isn't full, enroll the student
       */
-      const allCourseTimes = coursesCurrTaking.reduuce(
+      const allCourseTimes = coursesCurrTaking.reduce(
         (allCourses, newCourse) => allCourses.concat(newCourse.time),
         courseInfo.time
       );
@@ -139,24 +139,19 @@ const useCourseFetch = () => {
 
       if (!conflicts) {
         // Checking to see if course is full
-        const enrolledRes = await fetch(
-          `http://localhost:2543/grades?course.id=${courseId}&grade_ne=W&grade_ne=DW`
+        const currCourse = await fetch(
+          `http://localhost:2543/classes/id=${courseId}`
         );
-        const enrolledData = await enrolledRes.json();
-        const numEnrolled = enrolledData.length;
+        const currCourseInfo = await currCourse.json();
 
-        if (numEnrolled < courseInfo.maxCapacity) {
+        if (currCourseInfo.available > 0) {
           /* 
             Enroll student
               - Create "grade" object
+              - Increment "classes" capacity property by 1
           */
         } else {
           // Add student to waitlist
-          const currCourse = await fetch(
-            `http://localhost:2543/classes/id=${courseId}`
-          );
-          const currCourseInfo = await currCourse.json();
-
           const updatedCourseInfo = {
             ...currCourseInfo,
             waitList: [

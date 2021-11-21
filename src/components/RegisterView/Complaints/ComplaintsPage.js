@@ -51,7 +51,12 @@ const ComplaintsPage = () => {
 };
 
 const ComplaintWidget = ({ complaint, handleResult }) => {
-  const { reporter, offender, reason, outcome } = complaint;
+  const {
+    reporter,
+    offender,
+    reason,
+    extra: { outcome },
+  } = complaint;
 
   return (
     <div className={classes.complaint}>
