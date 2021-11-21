@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
-import { Button, Form, Row, Col, Container, Alert } from "react-bootstrap";
-
-import useApplicationFetch from "../../hooks/useApplicationFetch";
+import { Button, Form, Container, Alert } from "react-bootstrap";
+import { GlobalContext } from "../../GlobalContext";
+import HorizFormInputField from "../UI/HorizFormInputField";
 
 const ApplyPage = () => {
-  const { checkEmailIsUsed, addApplication } = useApplicationFetch();
+  const { applicationsHook } = useContext(GlobalContext);
+  const { checkAppEmailIsUsed, addApplication } = applicationsHook;
 
   const [loading, setLoading] = useState(false);
 
@@ -34,7 +35,7 @@ const ApplyPage = () => {
     e.preventDefault();
     setLoading(true);
 
-    const usedEmail = await checkEmailIsUsed(formState.email);
+    const usedEmail = await checkAppEmailIsUsed(formState.email);
 
     // Check if email used in application has been already used
     if (usedEmail) {
@@ -111,58 +112,46 @@ const ApplyPage = () => {
       {formType && (
         <Form onSubmit={handleApplication} className="mt-4">
           {/* Name Field */}
-          <Form.Group as={Row} className="mb-3">
-            <Form.Label column sm="auto">
-              Name
-            </Form.Label>
-            <Col>
-              <Form.Control
-                type="text"
-                placeholder="Enter name"
-                name="name"
-                value={formState.name}
-                onChange={handleInputChange}
-                required
-              />
-            </Col>
-          </Form.Group>
+          <HorizFormInputField
+            label="Name"
+            inputField={{
+              type: "text",
+              placeholder: "Enter name",
+              name: "name",
+              value: formState.name,
+              onChange: handleInputChange,
+              required: true,
+            }}
+          />
 
-          {/* Email Field -- verification if an existing application exists for that email already? */}
-          <Form.Group as={Row} className="mb-3">
-            <Form.Label column sm="auto">
-              Email
-            </Form.Label>
-            <Col>
-              <Form.Control
-                type="text"
-                placeholder="Enter email"
-                name="email"
-                value={formState.email}
-                onChange={handleInputChange}
-                required
-              />
-            </Col>
-          </Form.Group>
+          {/* Email Field */}
+          <HorizFormInputField
+            label="Email"
+            inputField={{
+              type: "email",
+              placeholder: "Enter email",
+              name: "email",
+              value: formState.email,
+              onChange: handleInputChange,
+              required: true,
+            }}
+          />
 
           {/* GPA Field [Student Only] */}
           {formType === "student" && (
-            <Form.Group as={Row} className="mb-3">
-              <Form.Label column sm="auto">
-                GPA
-              </Form.Label>
-              <Col>
-                <Form.Control
-                  type="number"
-                  min="0"
-                  max="4"
-                  step="0.001"
-                  name="GPA"
-                  value={formState.GPA}
-                  onChange={handleInputChange}
-                  required
-                />
-              </Col>
-            </Form.Group>
+            <HorizFormInputField
+              label="GPA"
+              inputField={{
+                type: "number",
+                name: "GPA",
+                value: formState.GPA,
+                onChange: handleInputChange,
+                required: true,
+                min: 0,
+                max: 4,
+                step: 0.001,
+              }}
+            />
           )}
 
           {/* Skills and Fields of Interest [Instructor Only] */}

@@ -1,5 +1,6 @@
 import _ from "lodash";
 
+// Convert time in the form of 00:00 - 23:59 into 12-hour format
 const convert23Time = (time) => {
   let [hour, second] = time.split(":");
   const AMOrPM = parseInt(hour) >= 12 ? "PM" : "AM";
@@ -8,40 +9,47 @@ const convert23Time = (time) => {
   return `${hour}:${second}${AMOrPM}`;
 };
 
-const isAfter = (start, end) => {
-  let [startHour, startMinute] = start.split(":");
-  let [endHour, endMinute] = end.split(":");
-  startHour = parseInt(startHour);
-  startMinute = parseInt(startMinute);
-  endHour = parseInt(endHour);
-  endMinute = parseInt(endMinute);
+// Check to see if a time is not after another time (in 00:00-23:59 format)
+const isBefore = (t1, t2) => {
+  let [t1Hour, t1Minute] = t1.split(":");
+  let [t2Hour, t2Minute] = t2.split(":");
+  t1Hour = parseInt(t1Hour);
+  t1Minute = parseInt(t1Minute);
+  t2Hour = parseInt(t2Hour);
+  t2Minute = parseInt(t2Minute);
 
-  if (startHour > endHour || (startHour === endHour && startMinute >= endMinute)) {
+  if (t1Hour > t2Hour || (t1Hour === t2Hour && t1Minute >= t2Minute)) {
     return false;
   }
 
   return true;
 };
 
-/* Function to check time conflicts */
+// Function to check time conflicts [returning false means no conflicts]
 const checkConflicts = (timeArr) => {
   if (timeArr.length <= 1) return false;
 
-  return timeArr.every((curr, idx1, arr) => {
-    return arr.every((other, idx2) => {
-      if (idx1 === idx2 || curr.day !== other.day) return true;
+  let conflicts = false;
+
+  timeArr.forEach((t1, idx1) => {
+    timeArr.forEach((t2, idx2) => {
+      if (idx1 === idx2 || t1.day !== t2.day) return;
 
       if (
-        (isAfter(curr.start, other.start) && isAfter(other.end, curr.start)) ||
-        (isAfter(curr.end, other.start) && isAfter(other.end, curr.end))
+        !(
+          (isBefore(t1.start, t2.start) && isBefore(t1.end, t2.start)) ||
+          (isBefore(t2.start, t1.start) && isBefore(t2.end, t1.start))
+        )
       ) {
-        return false;
+        conflicts = true;
       }
-      return true;
     });
   });
+
+  return conflicts;
 };
 
+// Function to remove duplicate entries
 const removeDupe = (arr) => {
   return arr.filter((obj, idx, arr) => {
     const newarr = arr.slice(0, idx);
@@ -52,4 +60,4 @@ const removeDupe = (arr) => {
   });
 };
 
-export { convert23Time, isAfter, checkConflicts, removeDupe };
+export { convert23Time, isBefore, checkConflicts, removeDupe };

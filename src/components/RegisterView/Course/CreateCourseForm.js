@@ -1,8 +1,9 @@
-import { useContext, useState } from "react";
-import { GlobalContext } from "../../GlobalContext";
-import useInstructorFetch from "../../hooks/useInstructorFetch";
+import { useContext, useState, useEffect } from "react";
+import { GlobalContext } from "../../../GlobalContext";
+import useInstructorFetch from "../../../hooks/useInstructorFetch";
+import useCourseFetch from "../../../hooks/useCourseFetch";
 
-import FormAlerts from "../UI/FormAlerts/FormAlerts";
+import FormAlerts from "../../UI/FormAlerts";
 
 import {
   Button,
@@ -17,19 +18,37 @@ import { FaTrashAlt } from "react-icons/fa";
 
 import {
   convert23Time,
-  isAfter,
+  isBefore,
   checkConflicts,
   removeDupe,
-} from "../../helpers/time";
+} from "../../../helpers/time";
+import BackButton from "../../UI/BackButton";
+import CenterSpinner from "../../UI/CenterSpinner";
 
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-const CreateCourse = () => {
-  const { termInfo } = useContext(GlobalContext);
+const CreateCourseForm = () => {
+  const { termHook } = useContext(GlobalContext);
+  const { termInfo } = termHook;
   const { nonSuspsendedInstructors: instructors } = useInstructorFetch();
+  const { addCourse, getAllBaseCourses } = useCourseFetch();
+
+  const [baseCourses, setBaseCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const populateCourseBase = async () => {
+      setLoading(true);
+      const data = await getAllBaseCourses();
+      setBaseCourses(data);
+      setLoading(false);
+    };
+
+    populateCourseBase();
+  }, []);
 
   const [courseInfo, setCourseInfo] = useState({
-    courseName: "",
+    courseBase: null,
     instructorId: "",
     instructorName: "",
     maxCapacity: 5,
@@ -40,9 +59,9 @@ const CreateCourse = () => {
   });
   const [addTimeError, setAddTimeError] = useState(false);
   const [formErrors, setFormErrors] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  // Function to remove a time value from our list of course times
   const removeTime = (idx) => {
     const newTimes = courseInfo.courseTimes.filter(
       (time, tIdx) => tIdx !== idx
@@ -50,8 +69,9 @@ const CreateCourse = () => {
     setCourseInfo({ ...courseInfo, courseTimes: newTimes });
   };
 
+  // Function to add a time value from our list of course times
   const addTime = () => {
-    const validTime = isAfter(courseInfo.newStart, courseInfo.newEnd);
+    const validTime = isBefore(courseInfo.newStart, courseInfo.newEnd);
 
     if (
       courseInfo.newDay &&
@@ -88,6 +108,15 @@ const CreateCourse = () => {
     }));
   };
 
+  const handleCourse = (e) => {
+    const { value } = e.target;
+    const obj = baseCourses.filter((course) => course.id === value)[0];
+    setCourseInfo((prev) => ({
+      ...prev,
+      courseBase: obj,
+    }));
+  };
+
   const handleInstructor = (e) => {
     const { value } = e.target;
     const [id, name] = value.split(",");
@@ -98,7 +127,8 @@ const CreateCourse = () => {
     }));
   };
 
-  const handleCreate = (e) => {
+  // Function to handle form submissions
+  const handleCreate = async (e) => {
     e.preventDefault();
     setLoading(true);
 
@@ -107,7 +137,7 @@ const CreateCourse = () => {
     const noDupes = removeDupe(courseInfo.courseTimes);
     const hasTimeConflicts = checkConflicts(noDupes);
 
-    if (!courseInfo.courseName) errors.push("Please enter in a course name");
+    if (!courseInfo.courseBase) errors.push("Please select a course");
     if (!courseInfo.instructorId) errors.push("Please select an instructor");
     if (courseInfo.courseTimes.length === 0)
       errors.push("Please enter at least 1 course time");
@@ -117,23 +147,46 @@ const CreateCourse = () => {
     if (errors.length > 0) {
       setFormErrors(errors);
       setLoading(false);
-    } else {
-      setTimeout(() => {
-        setLoading(false);
-        /* Submit Form to server */
-
-        setSuccess(true);
-      }, 500);
+      return;
     }
+
+    const {
+      courseBase,
+      instructorId,
+      instructorName,
+      maxCapacity,
+      courseTimes,
+    } = courseInfo;
+    await addCourse(
+      courseBase,
+      instructorId,
+      instructorName,
+      courseTimes,
+      maxCapacity
+    );
+
+    setLoading(false);
+    setSuccess(true);
   };
+
+  if (loading) {
+    return (
+      <Container>
+        <CenterSpinner />
+      </Container>
+    );
+  }
 
   /* Check if current phase is course setup */
   if (termInfo.phase !== "set-up") {
     return (
-      <Alert variant="danger" className="mt-5">
-        <span className="fw-bold">Error:</span> The program is not in the{" "}
-        <span className="font-monospace">Class Set-Up Period</span>.{" "}
-      </Alert>
+      <Container>
+        <BackButton />
+        <Alert variant="danger" className="mt-3">
+          <span className="fw-bold">Error:</span> The program is not in the{" "}
+          <span className="font-monospace">Class Set-Up Period</span>.{" "}
+        </Alert>
+      </Container>
     );
   }
 
@@ -149,7 +202,9 @@ const CreateCourse = () => {
           <hr />
           <p className="mb-0">
             <span className="fw-bold">Course Name: </span>
-            <span className="font-monospace">{courseInfo.courseName}</span>
+            <span className="font-monospace">
+              {courseInfo.courseBase.number} {courseInfo.courseBase.name}
+            </span>
             <br />
             <span className="fw-bold">Course Instructor: </span>
             <span className="font-monospace">
@@ -171,28 +226,36 @@ const CreateCourse = () => {
           </ul>
         </Alert>
 
-        {/* Button back to course set-up page? */}
+        <BackButton to="/registrar" btnLabel="Back to Management Page" />
       </Container>
     );
   }
 
   return (
     <Container>
-      <Card style={{ maxWidth: "50rem" }} className="mx-auto mt-5">
+      <BackButton />
+      <Card style={{ maxWidth: "50rem" }} className="mx-auto mt-3">
         <Card.Body>
           <h1 className="text-center">Create A Course</h1>
           {formErrors.length !== 0 && <FormAlerts errors={formErrors} />}
 
           <Form onSubmit={handleCreate}>
             <Form.Group className="mb-3">
-              <Form.Label>Course Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Course Name"
-                name="courseName"
-                value={courseInfo.courseName}
-                onChange={handleInputChange}
-              />
+              <Form.Label>Course</Form.Label>
+              <Form.Select
+                name="courseBase"
+                defaultValue=""
+                onChange={handleCourse}
+              >
+                <option value="" disabled>
+                  Select an Course
+                </option>
+                {baseCourses.map((course) => (
+                  <option key={course.id} value={course.id}>
+                    [{course.department}] {course.name}
+                  </option>
+                ))}
+              </Form.Select>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -229,7 +292,6 @@ const CreateCourse = () => {
 
             <Form.Group className="mb-3">
               <Form.Label>Course Times</Form.Label>
-
               {courseInfo.courseTimes.map((time, idx) => (
                 <div key={idx}>
                   <Row className="d-flex align-items-center my-1">
@@ -249,7 +311,7 @@ const CreateCourse = () => {
                 </div>
               ))}
               {/* Add course time row */}
-              <Row className="d-flex mt-3 align-items-center">
+              <Row className="d-flex align-items-center">
                 <Col>
                   <Row className="d-flex mt-2 align-items-center">
                     <Col className="my-1">
@@ -318,4 +380,4 @@ const CreateCourse = () => {
   );
 };
 
-export default CreateCourse;
+export default CreateCourseForm;

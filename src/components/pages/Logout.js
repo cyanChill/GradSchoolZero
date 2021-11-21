@@ -4,7 +4,8 @@ import { Redirect } from "react-router";
 import { GlobalContext } from "../../GlobalContext";
 
 const Logout = () => {
-  const { isLoggedIn, logout } = useContext(GlobalContext);
+  const { userHook } = useContext(GlobalContext);
+  const { isLoggedIn, logout } = userHook;
   const [validLogout, setValidLogout] = useState(false);
 
   useEffect(() => {

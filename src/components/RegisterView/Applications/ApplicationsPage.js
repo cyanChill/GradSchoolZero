@@ -1,46 +1,45 @@
-import { useEffect } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Container, Spinner, Button } from "react-bootstrap";
-import useApplicationFetch from "../../../hooks/useApplicationFetch";
+import { Container, Button } from "react-bootstrap";
+import { GlobalContext } from "../../../GlobalContext";
 import classes from "./ApplicationsPage.module.css";
+import BackHeader from "../../UI/BackHeader";
+import CenterSpinner from "../../UI/CenterSpinner";
+import LinkBoxWidget from "../../UI/LinkBoxWidget/LinkBoxWidget";
 
 const ApplicationsPage = () => {
+  const { applicationsHook } = useContext(GlobalContext);
   const { applicationsList, loading, refreshApplicationsList } =
-    useApplicationFetch();
+    applicationsHook;
 
   const applicants = applicationsList.map((application) => (
-    <Link
-      to={`/applications/${application.id}`}
-      className={`${classes.link} ${classes.application} ${
-        classes[application.type]
-      }`}
+    <LinkBoxWidget
       key={application.id}
-    >
-      {application.name}
-    </Link>
+      to={`/applications/${application.id}`}
+      className={classes[application.type]}
+      text={application.name}
+    />
   ));
 
-  useEffect(() => {
-    refreshApplicationsList();
-  }, []);
-
   return (
-    <Container className="d-flex flex-column align-items-center">
-      <h1 className="text-center mt-3">Applications</h1>
+    <Container>
+      <BackHeader
+        to="/registrar"
+        btnLabel="Back to Management Page"
+        headerTitle="Applications"
+      />
       {applicants.length > 0 && applicants}
-      {loading && (
-        <div className="my-3">
-          <Spinner animation="border" />
-        </div>
-      )}
+      {loading && <CenterSpinner />}
       {!loading && applicants.length === 0 && <p>There are no applications.</p>}
-      <Button
-        className="my-3"
-        onClick={refreshApplicationsList}
-        disabled={loading}
-      >
-        Refresh
-      </Button>
+      <div className="d-flex justify-content-center">
+        <Button
+          className="my-3"
+          onClick={refreshApplicationsList}
+          disabled={loading}
+        >
+          Refresh
+        </Button>
+      </div>
     </Container>
   );
 };

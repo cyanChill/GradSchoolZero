@@ -1,13 +1,12 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
 import { generate } from "generate-password";
 import { v4 as uuidv4 } from "uuid";
 import { Button, Form, Card, Container, Alert } from "react-bootstrap";
-import FormAlerts from "../../UI/FormAlerts/FormAlerts";
-import useApplicationFetch from "../../../hooks/useApplicationFetch";
-import useUserFetch from "../../../hooks/useUserFetch";
+import FormAlerts from "../../UI/FormAlerts";
+import { GlobalContext } from "../../../GlobalContext";
+import BackButton from "../../UI/BackButton";
 
-const CreateUser = ({ location }) => {
+const CreateUserForm = ({ location }) => {
   const [inputInfo, setInputInfo] = useState({
     applic: undefined,
     id: uuidv4(),
@@ -18,8 +17,9 @@ const CreateUser = ({ location }) => {
     reqJust: false,
   });
 
-  const { removeApplication } = useApplicationFetch();
-  const { checkEmailIsUsed, createUser } = useUserFetch();
+  const { userHook, applicationsHook } = useContext(GlobalContext);
+  const { removeApplication } = applicationsHook;
+  const { checkUserEmailIsUsed, createUser } = userHook;
 
   const [userInfo, setUserInfo] = useState({
     email: "@gradschoolzero.edu",
@@ -61,7 +61,7 @@ const CreateUser = ({ location }) => {
     e.preventDefault();
     setLoading(true);
 
-    const usedEmail = await checkEmailIsUsed(userInfo.email);
+    const usedEmail = await checkUserEmailIsUsed(userInfo.email);
 
     // Check if email used for a different student
     if (usedEmail) {
@@ -104,13 +104,7 @@ const CreateUser = ({ location }) => {
 
   return (
     <Container>
-      <Button
-        as={Link}
-        to={`/applications/${inputInfo.applic ? inputInfo.id : ""}`}
-        className="mt-3"
-      >
-        Back
-      </Button>
+      <BackButton />
       <Card style={{ maxWidth: "50rem" }} className="mx-auto mt-3">
         <Card.Body>
           <h1 className="text-center">Create An Account For a New User</h1>
@@ -237,11 +231,9 @@ const SuccessfulCreationAlert = ({
         </p>
       </Alert>
 
-      <Button as={Link} to="/applications">
-        Back to Application Page
-      </Button>
+      <BackButton to="/applications" btnLabel="Back to Application Page" />
     </Container>
   );
 };
 
-export default CreateUser;
+export default CreateUserForm;

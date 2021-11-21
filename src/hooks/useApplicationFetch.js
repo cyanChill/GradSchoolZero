@@ -16,7 +16,8 @@ const useApplicationFetch = () => {
   const [applicationsList, setApplicationsList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const checkEmailIsUsed = async (email) => {
+  // Check if email is used in an unviewed application
+  const checkAppEmailIsUsed = async (email) => {
     const formattedEmail = email.toLowerCase();
 
     const response = await fetch(
@@ -28,6 +29,7 @@ const useApplicationFetch = () => {
     return false;
   };
 
+  // Add an application to the database
   const addApplication = async (application) => {
     const res = await fetch("http://localhost:2543/applications", {
       method: "POST",
@@ -36,18 +38,23 @@ const useApplicationFetch = () => {
       },
       body: JSON.stringify(application),
     });
+    setApplicationsList((prev) => [...prev, application]);
 
     return res.status === 201;
   };
 
+  // Get the information on the application based on it's id
   const getApplicationInfo = async (applicationId) => {
+    setLoading(true);
     const res = await fetch(
       `http://localhost:2543/applications/${applicationId}`
     );
     const data = await res.json();
+    setLoading(false);
     return data;
   };
 
+  // Remove the application from the database based on it's id
   const removeApplication = async (applicationId) => {
     await fetch(`http://localhost:2543/applications/${applicationId}`, {
       method: "DELETE",
@@ -57,6 +64,7 @@ const useApplicationFetch = () => {
     );
   };
 
+  // Refresh the local instance of the application list (saved to reduce fetching)
   const refreshApplicationsList = async () => {
     setLoading(true);
     const res = await fetch("http://localhost:2543/applications");
@@ -72,7 +80,7 @@ const useApplicationFetch = () => {
   return {
     applicationsList,
     loading,
-    checkEmailIsUsed,
+    checkAppEmailIsUsed,
     addApplication,
     getApplicationInfo,
     removeApplication,

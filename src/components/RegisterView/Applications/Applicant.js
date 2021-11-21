@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { useParams } from "react-router";
 import { Redirect, Link } from "react-router-dom";
 import {
@@ -9,15 +9,18 @@ import {
   Button,
   Container,
   Alert,
-  Spinner,
 } from "react-bootstrap";
-import useApplicationFetch from "../../../hooks/useApplicationFetch";
+import { GlobalContext } from "../../../GlobalContext";
+import BackButton from "../../UI/BackButton";
+import LabelDescripField from "../../UI/LabelDescripField";
+import HorizFormInputField from "../../UI/HorizFormInputField";
+import CenterSpinner from "../../UI/CenterSpinner";
 
 const Applicant = () => {
   const { id } = useParams();
   const justificationField = useRef();
-  const { loading, getApplicationInfo, removeApplication } =
-    useApplicationFetch();
+  const { applicationsHook } = useContext(GlobalContext);
+  const { loading, getApplicationInfo, removeApplication } = applicationsHook;
 
   const [validated, setValidated] = useState(false);
   const [application, setApplication] = useState({
@@ -86,21 +89,19 @@ const Applicant = () => {
   }, []);
 
   if (loading && !successType) {
-    return (
-      <Container className="d-flex align-items-center justify-content-center mt-5">
-        <Spinner animation="border" />
-      </Container>
-    );
+    return <CenterSpinner />;
   }
 
   if (!loading && !application.name) {
     return (
-      <Alert variant="danger" className="mt-5">
-        <span className="fw-bold">Error:</span> The application doesn't exist.{" "}
-        <Alert.Link as={Link} to="/applications">
-          Return to the Applications Page.
-        </Alert.Link>
-      </Alert>
+      <Container>
+        <Alert variant="danger" className="mt-5">
+          <span className="fw-bold">Error:</span> The application doesn't exist.{" "}
+          <Alert.Link as={Link} to="/applications">
+            Return to the Applications Page.
+          </Alert.Link>
+        </Alert>
+      </Container>
     );
   }
 
@@ -131,24 +132,26 @@ const Applicant = () => {
   }
 
   return (
-    <>
-      <Button as={Link} to="/applications" className="mt-3">
-        Back
-      </Button>
+    <Container>
+      <BackButton
+        to="/applications"
+        className="mt-3"
+        btnLabel="Back to Applications"
+      />
       <Card className="mt-3">
         <Card.Body>
           <Card.Title>{application.name}</Card.Title>
           <hr />
-          <ApplicationField
+          <LabelDescripField
             label="Application Type:"
             description={application.type}
           />
 
           {application.type === "student" && (
-            <ApplicationField label="GPA:" description={application.gpa} />
+            <LabelDescripField label="GPA:" description={application.gpa} />
           )}
           {application.type === "instructor" && (
-            <ApplicationField
+            <LabelDescripField
               label="Description:"
               description={application.description}
             />
@@ -157,24 +160,17 @@ const Applicant = () => {
             noValidate
             validated={validated && application.type === "student"}
           >
-            <Form.Group as={Row} className="my-3">
-              <Form.Label column md="auto">
-                Justification:
-              </Form.Label>
-              <Col>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter Justification"
-                  value={justification}
-                  minLength="75"
-                  onChange={(e) => setJustification(e.target.value)}
-                  ref={justificationField}
-                />
-                <Form.Control.Feedback type="invalid">
-                  Justification is required.
-                </Form.Control.Feedback>
-              </Col>
-            </Form.Group>
+            <HorizFormInputField
+              label="Justification"
+              feedback="Justification is required."
+              inputField={{
+                type: "text",
+                placeholder: "Enter Justification",
+                value: justification,
+                onChange: (e) => setJustification(e.target.value),
+                ref: justificationField,
+              }}
+            />
             <Row>
               <Col>
                 <Button
@@ -198,18 +194,7 @@ const Applicant = () => {
           </Form>
         </Card.Body>
       </Card>
-    </>
-  );
-};
-
-const ApplicationField = ({ label, description }) => {
-  return (
-    <p className="my-2">
-      <span className="fw-bold">{label}</span>{" "}
-      <span className="text-capitalize font-monospace text-muted">
-        {description}
-      </span>
-    </p>
+    </Container>
   );
 };
 
@@ -261,9 +246,7 @@ const ApplicationRejectionAlert = ({
         </p>
       </Alert>
 
-      <Button as={Link} to="/applications">
-        Back to Application Page
-      </Button>
+      <BackButton to="/applications" btnLabel="Back to Application Page" />
     </Container>
   );
 };

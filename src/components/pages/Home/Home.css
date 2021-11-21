@@ -1,8 +1,13 @@
 .HomeP {
   /* background-image: url("../Photos/HomePagePhoto.jpg"); */
-  background-image: url("../Photos/p2.png");
+  background-image: url("../../Photos/p2.png");
   background-size: cover;
   background-repeat: no-repeat;
+  height: 100%;
+  text-align: center;
+  padding: 7%;
+  min-height: calc(100vh - var(--pad-top));
+  width: 100%;
 }
 .background-red {
   background-color: red;

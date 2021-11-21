@@ -3,7 +3,8 @@ import { Route, Redirect } from "react-router-dom";
 import { GlobalContext } from "../../GlobalContext";
 
 const ProtectedRoute = ({ children, location, ...rest }) => {
-  const { isLoggedIn } = useContext(GlobalContext);
+  const { userHook } = useContext(GlobalContext);
+  const { isLoggedIn } = userHook;
   /* Only allow logged in users to access*/
   return (
     <Route

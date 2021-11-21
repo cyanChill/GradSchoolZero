@@ -2,25 +2,96 @@ import { useState, useEffect } from "react";
 
 const useTabooFetch = () => {
   const [tabooList, setTabooList] = useState([]);
-  const [loading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const addTabooWord = (word) => {
-    /* 
-      Update local taboo list, update taboo list in server (add entry)
-    */
+  // Function to count number of taboo words in the inputted text
+  const countTabooWords = (str) => {
+    let cnt = 0;
+
+    tabooList.forEach((word) => {
+      const regex = new RegExp(word, "ig");
+      cnt += (str.match(regex) || []).length;
+    });
+
+    return cnt;
   };
 
-  const deleteTabooWord = (word) => {
-    /* 
-      Update local taboo list (use filter to remove), update taboo list in server (find & delete entry)
-    */
+  // Function to censor all taboo words in the inputted text
+  const censorTabooWords = (str) => {
+    let censorStr = str;
+
+    tabooList.forEach((word) => {
+      const regex = new RegExp(word, "ig");
+      censorStr = censorStr.replace(regex, "*".repeat(word.length));
+    });
+
+    return censorStr;
+  };
+
+  // Function to add a taboo word to the database
+  const addTabooWord = async (word) => {
+    const formattedWord = word.toLowerCase();
+    const newTabooList = tabooList.includes(formattedWord)
+      ? tabooList
+      : [...tabooList, formattedWord];
+
+    await fetch(`http://localhost:2543/tabooWords/taboolist`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        tabooList: newTabooList,
+      }),
+    });
+
+    setTabooList(newTabooList);
+  };
+
+  // Function to remove a taboo word in the data base
+  const deleteTabooWord = async (word) => {
+    const formattedWord = word.toLowerCase();
+    const newTabooList = tabooList.filter(
+      (tabooword) => tabooword !== formattedWord
+    );
+
+    await fetch(`http://localhost:2543/tabooWords/taboolist`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        tabooList: newTabooList,
+      }),
+    });
+
+    setTabooList(newTabooList);
+  };
+
+  // Function to refresh local copy of taboo list (to prevent constant fetching)
+  const refreshTabooList = async () => {
+    setLoading(true);
+    const res = await fetch(`http://localhost:2543/tabooWords`);
+    const data = await res.json();
+
+    if (data.length > 0) {
+      setTabooList(data[0].tabooList);
+    }
+    setLoading(false);
   };
 
   useEffect(() => {
-    /* Fetch taboo words from server */
+    refreshTabooList();
   }, []);
 
-  return { tabooList, loading, addTabooWord, deleteTabooWord };
+  return {
+    tabooList,
+    loading,
+    addTabooWord,
+    deleteTabooWord,
+    countTabooWords,
+    censorTabooWords,
+  };
 };
 
 export default useTabooFetch;

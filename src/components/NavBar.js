@@ -1,27 +1,24 @@
 import { useContext } from "react";
 import { GlobalContext } from "../GlobalContext";
 import { Nav, Navbar, NavDropdown, Button, Container } from "react-bootstrap";
-import { MenuIcon } from "@mui/icons-material";
+import logo from "../assets/brand_logo.png";
 
 /* For routing */
 import { Link } from "react-router-dom";
 
 const NavBar = () => {
-  const { isLoggedIn } = useContext(GlobalContext);
+  const { userHook } = useContext(GlobalContext);
+  const { isLoggedIn } = userHook;
 
   return (
     <Navbar bg="primary" variant="dark" expand="md" fixed="top">
       <Container>
-        {/* <Link to= "/profile" >
-        <MenuIcon />
-         </Link> */}
-
         <Navbar.Brand as={Link} to="/">
           <img
-            src="https://i.imgur.com/VbW7A3Z.png"
-            height="100px"
-            witdh="100px"
-            classname="brand-logo"
+            src={logo}
+            height="30"
+            className="d-inline-block align-top"
+            alt="GradSchoolZero Logo"
           />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -31,7 +28,7 @@ const NavBar = () => {
               Home
             </Nav.Link>
 
-            <Nav.Link as={Link} to="/classes" className="m-1">
+            <Nav.Link as={Link} to="/courses" className="m-1">
               Classes
             </Nav.Link>
 
@@ -65,12 +62,12 @@ const UserInteract = ({ isLoggedIn }) => {
     /* Displayed for all logged-in users */
     return (
       <>
-        <NavDropdown title="Dropdown" id="basic-nav-dropdown" className="m-1">
+        <NavDropdown title="More" id="basic-nav-dropdown" className="m-1">
           <NavDropdown.Item as={Link} to="/profile">
             Profile
           </NavDropdown.Item>
-          <NavDropdown.Item as={Link} to="/">
-            Login-Only Item 2
+          <NavDropdown.Item as={Link} to="/settings">
+            Settings
           </NavDropdown.Item>
         </NavDropdown>
 

@@ -3,7 +3,8 @@ import { Route, Redirect } from "react-router-dom";
 import { GlobalContext } from "../../GlobalContext";
 
 const RegistrarRoute = ({ children, location, ...rest }) => {
-  const { isLoggedIn, user } = useContext(GlobalContext);
+  const { userHook } = useContext(GlobalContext);
+  const { isLoggedIn, user } = userHook;
   /* Only allow registrar users to access*/
   return (
     <Route
