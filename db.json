@@ -513,7 +513,10 @@
     {
       "id": "0ff2d83a-732d-4559-94e4-dfca6206fc8b",
       "date": "2021-11-21T04:24:56.673Z",
-      "userId": "37798a5b-413a-4c1e-9e32-34a57f71d17e",
+      "user": {
+        "id": "37798a5b-413a-4c1e-9e32-34a57f71d17e",
+        "name": "student"
+      },
       "reason": "You have been warned due to a report",
       "value": 1
     }
@@ -536,6 +539,7 @@
       },
       "rating": 4.5,
       "reason": "This course wasn't that bad.",
+      "show": true,
       "date": "2021-11-20T22:29:36.445Z"
     }
   ]

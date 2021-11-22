@@ -140,7 +140,6 @@ const useCourseFetch = () => {
           `http://localhost:2543/classes/${courseId}`
         );
         const currCourseInfo = await currCourse.json();
-        console.log(courseId);
 
         if (currCourseInfo.capacity.available > 0) {
           // Decrementing Avaliable Seats By 1

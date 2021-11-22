@@ -9,6 +9,7 @@ import {
   Col,
   Button,
   Form,
+  Modal,
 } from "react-bootstrap";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -20,10 +21,12 @@ import LabelDescripField from "../../UI/LabelDescripField";
 import useCourseFetch from "../../../hooks/useCourseFetch";
 import BackButton from "../../UI/BackButton";
 import LinkBoxWidget from "../../UI/LinkBoxWidget/LinkBoxWidget";
+import HorizFormInputField from "../../UI/HorizFormInputField";
 
 import { convert23Time } from "../../../helpers/time";
 import { gradeEquiv } from "../../../helpers/grades";
 import { GlobalContext } from "../../../GlobalContext";
+import useReviewFetch from "../../../hooks/useReviewFetch";
 import classes from "./CoursePage.module.css";
 
 const CoursePage = () => {
@@ -40,6 +43,7 @@ const CoursePage = () => {
   const { userHook, termHook } = useContext(GlobalContext);
   const { user } = userHook;
   const { termInfo } = termHook;
+  const { addReview } = useReviewFetch();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [courseInfo, setCourseInfo] = useState({});
@@ -54,6 +58,7 @@ const CoursePage = () => {
     isCourseProf: false,
   });
   const [alertObj, setAlertObj] = useState(null);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     const populateData = async () => {
@@ -65,11 +70,16 @@ const CoursePage = () => {
         return;
       }
 
-      console.log(courseInfoData);
-
       setCourseInfo(courseInfoData.courseData);
       setStudentList(courseInfoData.enrolledInfo);
-      setReviewsList(courseInfoData.reviewsData);
+      if (user.type === "registrar") {
+        setReviewsList(courseInfoData.reviewsData);
+      } else {
+        const filteredReviews = courseInfoData.reviewsData.filter(
+          (review) => review.show
+        );
+        setReviewsList(filteredReviews);
+      }
       setWaitlist(courseInfoData.courseData.waitList);
 
       // Checking to see if the student is enrolled in the course, is on the waitlist, and if they wrote a review
@@ -83,7 +93,7 @@ const CoursePage = () => {
         (review) => review.reviewer.id === user.id
       );
       const hasGrade = courseInfoData.enrolledInfo.some(
-        (enrolled) => enrolled.id === user.id && enrolled.grade
+        (enrolled) => enrolled.id === user.id && enrolled.StudentGradeWidget
       );
       const isCourseProf =
         user.type === "instructor" &&
@@ -207,16 +217,43 @@ const CoursePage = () => {
     }
   };
 
-  const handleReview = async () => {
+  const handleReview = async (rating, reason) => {
     console.log("handling review logic....");
-    /* 
-      Logic For Review Button:
-      - Button is disabled unless:
-        - Student is in the course and haven't recieved a grade
-        - Student is in the course and haven't wrote a review for the course yet
+    console.log(rating, reason);
+    setShow(false);
 
-      We should do these checks in the "useEffect"
-    */
+    const crsInfo = {
+      ...courseInfo.course,
+      id: courseInfo.id,
+    };
+    const reviewer = {
+      id: user.id,
+      name: user.name,
+    };
+    const response = await addReview(
+      crsInfo,
+      courseInfo.instructor,
+      reviewer,
+      +rating,
+      reason
+    );
+
+    if (response.status === "success") {
+      setAlertObj({
+        type: "success",
+        title: "Success",
+        message: response.message,
+      });
+
+      setReviewsList((prev) => [response.review, ...prev]);
+      setStdCourseRel((prev) => ({ ...prev, reviewed: true }));
+    } else {
+      setAlertObj({
+        type: "danger",
+        title: "Error",
+        message: response.message,
+      });
+    }
   };
 
   // Function to handle accepting/rejecting student on waitlist
@@ -344,33 +381,39 @@ const CoursePage = () => {
               description={capacity.max}
             />
             {/* Enroll & Write Review Buttons Row*/}
-            <Row>
-              <Col xs="auto">
-                {!stdCourseRel.enrolled && !stdCourseRel.waitlist && (
-                  <Button variant="success" onClick={handleEnrollment}>
-                    {capacity.available > 0 ? "Enroll" : "Join Waitlist"}
-                  </Button>
-                )}
-                {(stdCourseRel.enrolled || stdCourseRel.waitlist) && (
-                  <Button variant="danger" onClick={handleUnEnrollment}>
-                    {stdCourseRel.enrolled ? "Withdraw" : "Leave Waitlist"}
-                  </Button>
-                )}
-              </Col>
-              {/* Show review button if they're enrolled and didn't write a review for this course and doesn't have a grade assigned to them */}
-              {stdCourseRel.enrolled &&
-                !stdCourseRel.reviewed &&
-                termInfo.phase !== "registration" &&
-                !stdCourseRel.hasGrade && (
-                  <Col>
-                    <Button variant="secondary" onClick={handleReview}>
-                      Write Review
+            {(user.type === "student" || user.type === "registrar") && (
+              <Row>
+                <Col xs="auto">
+                  {!stdCourseRel.enrolled &&
+                    !stdCourseRel.waitlist &&
+                    (termInfo.phase === "registration" ||
+                      (termInfo.phase !== "registration" && user.specReg)) && (
+                      <Button variant="success" onClick={handleEnrollment}>
+                        {capacity.available > 0 ? "Enroll" : "Join Waitlist"}
+                      </Button>
+                    )}
+                  {(stdCourseRel.enrolled || stdCourseRel.waitlist) && (
+                    <Button variant="danger" onClick={handleUnEnrollment}>
+                      {stdCourseRel.enrolled ? "Withdraw" : "Leave Waitlist"}
                     </Button>
-                  </Col>
-                )}
-            </Row>
+                  )}
+                </Col>
+                {/* Show review button if they're enrolled and didn't write a review for this course and doesn't have a grade assigned to them */}
+                {stdCourseRel.enrolled &&
+                  !stdCourseRel.reviewed &&
+                  termInfo.phase !== "registration" &&
+                  !stdCourseRel.hasGrade && (
+                    <Col>
+                      <Button variant="secondary" onClick={() => setShow(true)}>
+                        Write Review
+                      </Button>
+                    </Col>
+                  )}
+              </Row>
+            )}
           </Card.Body>
         </Card>
+
         <Tabs defaultActiveKey="students" className="my-3">
           <Tab eventKey="students" title="Students">
             {studentWidgets}
@@ -388,6 +431,12 @@ const CoursePage = () => {
             </Tab>
           )}
         </Tabs>
+
+        <ReviewModal
+          show={show}
+          handleClose={() => setShow(false)}
+          submitReview={handleReview}
+        />
       </>
     );
   }
@@ -500,6 +549,68 @@ const StudentGradeWidget = ({ stdInfo, updateGrade }) => {
         </Col>
       </Row>
     </div>
+  );
+};
+
+const ReviewModal = ({ show, handleClose, submitReview }) => {
+  const [rating, setRating] = useState(3);
+  const [reason, setReason] = useState("");
+  const [reasonError, setReasonError] = useState(false);
+
+  const handleSubmit = () => {
+    if (reason.trim().length < 100) {
+      setReasonError(true);
+      return;
+    }
+    submitReview(rating, reason);
+  };
+
+  return (
+    <Modal show={show} onHide={handleClose} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>Write Review:</Modal.Title>
+      </Modal.Header>
+
+      <Modal.Body>
+        <HorizFormInputField
+          label="Rating: "
+          inputField={{
+            type: "number",
+            value: rating,
+            min: 1,
+            max: 5,
+            step: 0.01,
+            onChange: (e) => setRating(e.target.value),
+          }}
+        />
+
+        <Form.Group className="mb-3">
+          <Form.Label column sm="auto">
+            Review:
+          </Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={4}
+            name="interests"
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+            className={reasonError ? "is-invalid" : ""}
+          />
+          <Form.Control.Feedback type="invalid">
+            Please write some more in your review.
+          </Form.Control.Feedback>
+        </Form.Group>
+      </Modal.Body>
+
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          Cancel
+        </Button>
+        <Button variant="danger" onClick={handleSubmit}>
+          Submit
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 

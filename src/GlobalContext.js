@@ -4,6 +4,7 @@ import useTermInfo from "./hooks/useTermInfo";
 import useApplicationFetch from "./hooks/useApplicationFetch";
 import useTabooFetch from "./hooks/useTabooFetch";
 import useComplaintsFetch from "./hooks/useComplaintsFetch";
+import useReviewFetch from "./hooks/useReviewFetch";
 
 export const GlobalContext = createContext();
 

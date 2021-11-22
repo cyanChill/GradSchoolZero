@@ -40,7 +40,7 @@ const useComplaintsFetch = () => {
         });
       } else {
         warningInfo = {
-          userId: complaintInfo.offender.id,
+          user: complaintInfo.offender,
           reason: "You have been warned due to a report",
           value: 1,
         };
@@ -48,18 +48,14 @@ const useComplaintsFetch = () => {
     } else if (complaintInfo.reporter.userType === "instructor") {
       // If the registrar reject the complaint by an instructor
       warningInfo = {
-        userId: complaintInfo.reporter.id,
+        user: complaintInfo.offender,
         reason: "You have been warned due to a false report",
         value: 1,
       };
     }
 
     if (warningInfo) {
-      await addWarning(
-        warningInfo.userId,
-        warningInfo.reason,
-        warningInfo.value
-      );
+      await addWarning(warningInfo.user, warningInfo.reason, warningInfo.value);
     }
 
     // Remove complaint from complaints database

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const useInfractions = () => {
   // Function to add a warning
-  const addWarning = async (userId, reason, warningCntVal) => {
+  const addWarning = async (userInfo, reason, warningCntVal) => {
     await fetch("http://localhost:2543/warnings", {
       method: "POST",
       headers: {
@@ -12,18 +12,23 @@ const useInfractions = () => {
       body: JSON.stringify({
         id: uuidv4(),
         date: new Date(),
-        userId,
+        user: {
+          id: userInfo.id,
+          name: userInfo.name,
+        },
         reason,
         value: warningCntVal,
       }),
     });
 
     // Increase warning count on user
-    const userInfoRes = await fetch(`http://localhost:2543/users/${userId}`);
+    const userInfoRes = await fetch(
+      `http://localhost:2543/users/${userInfo.id}`
+    );
     const userData = await userInfoRes.json();
     const warningCnt = +userData.warningCnt || 0;
 
-    await fetch(`http://localhost:2543/users/${userId}`, {
+    await fetch(`http://localhost:2543/users/${userInfo.id}`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",
