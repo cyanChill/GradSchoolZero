@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { GlobalContext } from "../GlobalContext";
 import { checkConflicts } from "../helpers/time";
 import { gradeMap } from "../helpers/grades";
+import useInfractions from "./useInfractions";
 
 const useCourseFetch = () => {
   const {
@@ -11,6 +12,7 @@ const useCourseFetch = () => {
       termInfo: { semester, year, phase },
     },
   } = useContext(GlobalContext);
+  const { addWarning } = useInfractions();
 
   // Function to add a course to the database
   const addCourse = async (
@@ -79,14 +81,66 @@ const useCourseFetch = () => {
 
   // Cancel Course
   const cancelCourse = async (courseId) => {
-    /* 
-      - Delete course using "deleteCourse" function
-      - Also if there's any students enrolled, give them special registration flag
-         - On the enrolled user, give them a property of "specReg" and set it to true to give them special registration
-         - Need to add a button to end special registration
-    */
     const courseRes = await fetch(`http://localhost:2543/classes/${courseId}`);
     const courseData = await courseRes.json();
+
+    const studentsRes = await fetch(
+      `http://localhost:2543/grades?course.id=${courseId}&grade_ne=W&grade_ne=DW`
+    );
+    const studentsGradesObj = await studentsRes.json();
+
+    // Give student who have this class the special registration property
+    await studentsGradesObj.forEach(async (student) => {
+      const userInfoRes = await fetch(
+        `http://localhost:2543/users/${student.student.id}`
+      );
+      const userInfo = await userInfoRes.json();
+
+      const newUserInfo = {
+        ...userInfo,
+        specReg: true,
+      };
+
+      await fetch(`http://localhost:2543/users/${student.student.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newUserInfo),
+      });
+
+      await fetch(`http://localhost:2543/grades/${student.id}`, {
+        method: "DELETE",
+      });
+    });
+
+    // Warn the instructor for teaching a cancelled class
+    const instructorId = courseData.instructor.id;
+    const instructorUserObjRes = await fetch(
+      `http://localhost:2543/users/${instructorId}`
+    );
+    const instructorUserObjData = await instructorUserObjRes.json();
+    const instructorWarnings = +instructorUserObjData.warningCnt || 0;
+    const updatedInstructorInfo = {
+      ...instructorUserObjData,
+      warningCnt: instructorWarnings + 1,
+    };
+
+    // Give Warning
+    await addWarning(courseData.instructor, "Teaching a cancelled course", 1);
+
+    await fetch(`http://localhost:2543/users/${instructorId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedInstructorInfo),
+    });
+
+    // Remove Course from Database
+    await fetch(`http://localhost:2543/classes/${courseId}`, {
+      method: "DELETE",
+    });
   };
 
   // Function to enroll student into a course

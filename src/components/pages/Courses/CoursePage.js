@@ -459,7 +459,6 @@ const CoursePage = () => {
           {alertObj.message}
         </Alert>
       )}
-      {/* Delete Course Button During Course Set-Up */}
       {loading && <CenterSpinner />}
       {!loading && body}
       {deleteCourseBtn}
