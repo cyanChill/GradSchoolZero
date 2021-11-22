@@ -164,8 +164,6 @@ const CoursePage = () => {
   };
 
   const handleUnEnrollment = async () => {
-    console.log("handling unenrollment logic...");
-
     if (stdCourseRel.enrolled) {
       // Unenroll Student
       const response = await unEnrollCourse(user.id, courseInfo.id);
@@ -218,8 +216,6 @@ const CoursePage = () => {
   };
 
   const handleReview = async (rating, reason) => {
-    console.log("handling review logic....");
-    console.log(rating, reason);
     setShow(false);
 
     const crsInfo = {
@@ -239,6 +235,7 @@ const CoursePage = () => {
     );
 
     if (response.status === "success") {
+      // Successfully added review
       setAlertObj({
         type: "success",
         title: "Success",
@@ -248,6 +245,7 @@ const CoursePage = () => {
       setReviewsList((prev) => [response.review, ...prev]);
       setStdCourseRel((prev) => ({ ...prev, reviewed: true }));
     } else {
+      // Error with submitting review to server
       setAlertObj({
         type: "danger",
         title: "Error",
@@ -455,6 +453,7 @@ const CoursePage = () => {
           {alertObj.message}
         </Alert>
       )}
+      {/* Delete/Edit Course Button During Course Set-Up */}
       {loading && <CenterSpinner />}
       {!loading && body}
     </Container>

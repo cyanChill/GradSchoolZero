@@ -52,16 +52,26 @@ const useCourseFetch = () => {
     });
   };
 
+  // Function to edit course
+  const editCourse = async (courseId, updatedContents) => {};
+
+  // Function to delete course
+  const deleteCourse = async (courseId) => {
+    /* 
+      Update course list in server (find & delete entry)
+    */
+  };
+
   // Fetch the courses with less than 5 students
   const listToBeCancelledCourse = async () => {
     const res = await fetch(
-      `http://localhost:2543/grades?courseInfo.semester=${semester}&courseInfo.year=${year}&grade_ne=W&grade_ne=DW`
+      `http://localhost:2543/grades?term.semester=${semester}&term.year=${year}&grade_ne=W&grade_ne=DW`
     );
     const data = await res.json();
     const enrolledMap = {};
 
     data.forEach((enrollment) => {
-      const courseId = enrollment.courseInfo.id;
+      const courseId = enrollment.course.id;
       if (!enrolledMap[courseId]) enrolledMap[courseId] = 0;
       enrolledMap[courseId]++;
     });
@@ -70,9 +80,10 @@ const useCourseFetch = () => {
     return Object.keys(shouldBeCancelled);
   };
 
+  // Cancel Course
   const cancelCourse = (courseId) => {
     /* 
-      Update local course list (use filter to remove), update course list in server (find & delete entry)
+      - Delete course using "deleteCourse" function
       - Also if there's any students enrolled, give them special registration flag
     */
   };
@@ -539,8 +550,33 @@ const useCourseFetch = () => {
     });
   };
 
+  // Group an array of classes by their major
+  const groupClassByMajor = async (classArr) => {
+    const coursesRes = await fetch("http://localhost:2543/courses");
+    const coursesData = await coursesRes.json();
+
+    const coursesMap = {};
+
+    classArr.forEach((course) => {
+      const courseEntry = coursesData.find(
+        (x) => x.code === course.course.code
+      );
+
+      if (!coursesMap[courseEntry.department])
+        coursesMap[courseEntry.department] = [];
+
+      coursesMap[courseEntry.department] = [
+        ...coursesMap[courseEntry.department],
+        course,
+      ];
+    });
+
+    return coursesMap;
+  };
+
   return {
     addCourse,
+    deleteCourse,
     cancelCourse,
     enrollCourse,
     unEnrollCourse,
@@ -554,6 +590,7 @@ const useCourseFetch = () => {
     addStudentFromWaitlist,
     removeStudentFromWaitlist,
     setStdGrade,
+    groupClassByMajor,
   };
 };
 

@@ -363,6 +363,34 @@
         }
       ],
       "waitList": []
+    },
+    {
+      "id": "dd268e8e-410f-4a9e-b076-38e105faa7c9",
+      "course": {
+        "id": "689bdd87-ff4a-4985-857e-322bee90e7ef",
+        "code": "I2800",
+        "name": "Advanced Chemical Thermodynamics"
+      },
+      "instructor": {
+        "id": "fe8aa17d-5171-4b96-99b6-11d0795b4b73",
+        "name": "Aderyn Adam"
+      },
+      "term": {
+        "semester": "Fall",
+        "year": 2021
+      },
+      "capacity": {
+        "max": 5,
+        "available": 5
+      },
+      "time": [
+        {
+          "day": "Sun",
+          "start": "12:00",
+          "end": "14:30"
+        }
+      ],
+      "waitList": []
     }
   ],
   "grades": [
@@ -498,7 +526,10 @@
   "tabooWords": [
     {
       "id": "taboolist",
-      "tabooList": ["simp", "ass"]
+      "tabooList": [
+        "simp",
+        "ass"
+      ]
     }
   ],
   "term": [
