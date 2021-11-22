@@ -11,7 +11,7 @@ import {
   Form,
   Modal,
 } from "react-bootstrap";
-import { useParams } from "react-router";
+import { useParams, Redirect } from "react-router";
 import { Link } from "react-router-dom";
 import { FaRegStar } from "react-icons/fa";
 import { BiCheck, BiX } from "react-icons/bi";
@@ -439,6 +439,12 @@ const CoursePage = () => {
     );
   }
 
+  let deleteCourseBtn = null;
+
+  if (user.type === "registrar" && termInfo.phase === "set-up") {
+    deleteCourseBtn = <DeleteCourseBtn courseId={courseInfo.id} />;
+  }
+
   return (
     <Container>
       <BackButton />
@@ -453,9 +459,10 @@ const CoursePage = () => {
           {alertObj.message}
         </Alert>
       )}
-      {/* Delete/Edit Course Button During Course Set-Up */}
+      {/* Delete Course Button During Course Set-Up */}
       {loading && <CenterSpinner />}
       {!loading && body}
+      {deleteCourseBtn}
     </Container>
   );
 };
@@ -610,6 +617,49 @@ const ReviewModal = ({ show, handleClose, submitReview }) => {
         </Button>
       </Modal.Footer>
     </Modal>
+  );
+};
+
+const DeleteCourseBtn = ({ courseId }) => {
+  const { deleteCourse } = useCourseFetch();
+  const [show, setShow] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const handleClose = () => setShow(false);
+
+  const handleContinue = async () => {
+    await deleteCourse(courseId);
+    setSuccess(true);
+  };
+
+  if (success) {
+    return <Redirect to="/courses" />;
+  }
+
+  return (
+    <div className="my-3 d-flex justify-content-center align-items-center">
+      <Button variant="danger" onClick={() => setShow(true)}>
+        Delete Course?
+      </Button>
+
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete This Course</Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ color: "red" }}>
+          <span className="fw-bold">Warning:</span> The irreversibly delete the
+          course from the database.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleContinue}>
+            Continue
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
   );
 };
 

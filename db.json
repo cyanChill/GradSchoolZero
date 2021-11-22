@@ -526,10 +526,7 @@
   "tabooWords": [
     {
       "id": "taboolist",
-      "tabooList": [
-        "simp",
-        "ass"
-      ]
+      "tabooList": ["simp", "ass"]
     }
   ],
   "term": [

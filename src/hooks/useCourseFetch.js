@@ -52,40 +52,41 @@ const useCourseFetch = () => {
     });
   };
 
-  // Function to edit course
-  const editCourse = async (courseId, updatedContents) => {};
-
   // Function to delete course
   const deleteCourse = async (courseId) => {
-    /* 
-      Update course list in server (find & delete entry)
-    */
+    await fetch(`http://localhost:2543/classes/${courseId}`, {
+      method: "DELETE",
+    });
   };
 
   // Fetch the courses with less than 5 students
   const listToBeCancelledCourse = async () => {
     const res = await fetch(
-      `http://localhost:2543/grades?term.semester=${semester}&term.year=${year}&grade_ne=W&grade_ne=DW`
+      `http://localhost:2543/classes?term.semester=${semester}&term.year=${year}`
     );
     const data = await res.json();
-    const enrolledMap = {};
 
-    data.forEach((enrollment) => {
-      const courseId = enrollment.course.id;
-      if (!enrolledMap[courseId]) enrolledMap[courseId] = 0;
-      enrolledMap[courseId]++;
-    });
+    const shouldBeCancelled = data.filter(
+      (course) => +course.capacity.max - +course.capacity.available < 5
+    );
 
-    const shouldBeCancelled = _.pickBy(enrolledMap, (val, key) => val < 5);
-    return Object.keys(shouldBeCancelled);
+    const shouldBeCancelledCourseIds = shouldBeCancelled.map(
+      (course) => course.course.id
+    );
+
+    return shouldBeCancelledCourseIds;
   };
 
   // Cancel Course
-  const cancelCourse = (courseId) => {
+  const cancelCourse = async (courseId) => {
     /* 
       - Delete course using "deleteCourse" function
       - Also if there's any students enrolled, give them special registration flag
+         - On the enrolled user, give them a property of "specReg" and set it to true to give them special registration
+         - Need to add a button to end special registration
     */
+    const courseRes = await fetch(`http://localhost:2543/classes/${courseId}`);
+    const courseData = await courseRes.json();
   };
 
   // Function to enroll student into a course
