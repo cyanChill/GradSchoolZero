@@ -22,7 +22,8 @@ const useComplaintsFetch = () => {
 
     if (outcome === "approve") {
       if (
-        complaintInfo.reporter.type === "instructor" &&
+        (complaintInfo.reporter.type === "instructor" ||
+          complaintInfo.reporter.type === "registrar") &&
         complaintInfo.extra.outcome === "de-registration"
       ) {
         const courseRes = await fetch(

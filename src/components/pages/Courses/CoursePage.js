@@ -15,6 +15,7 @@ import { useParams, Redirect } from "react-router";
 import { Link } from "react-router-dom";
 import { FaRegStar } from "react-icons/fa";
 import { BiCheck, BiX } from "react-icons/bi";
+import { GoReport } from "react-icons/go";
 
 import CenterSpinner from "../../UI/CenterSpinner";
 import LabelDescripField from "../../UI/LabelDescripField";
@@ -27,6 +28,7 @@ import { convert23Time } from "../../../helpers/time";
 import { gradeEquiv } from "../../../helpers/grades";
 import { GlobalContext } from "../../../GlobalContext";
 import useReviewFetch from "../../../hooks/useReviewFetch";
+import useInfractions from "../../../hooks/useInfractions";
 import classes from "./CoursePage.module.css";
 
 const CoursePage = () => {
@@ -44,6 +46,7 @@ const CoursePage = () => {
   const { user } = userHook;
   const { termInfo } = termHook;
   const { addReview } = useReviewFetch();
+  const { submitComplaint } = useInfractions();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [courseInfo, setCourseInfo] = useState({});
@@ -297,19 +300,54 @@ const CoursePage = () => {
     );
   };
 
+  // Function to submit report by instructor
+  const submitComplaintHandler = async (reason, outcome, std) => {
+    const extra = {
+      outcome,
+      courseId: courseInfo.id,
+    };
+    const offender = {
+      id: std.id,
+      name: std.name,
+      type: "student",
+    };
+    const res = await submitComplaint(user, offender, reason, extra);
+
+    if (res.status === "success") {
+      setAlertObj({
+        type: "success",
+        title: "Success",
+        message: res.message,
+      });
+    } else {
+      setAlertObj({
+        type: "danger",
+        title: "Error",
+        message: res.message,
+      });
+    }
+  };
+
   // Setting the student widgets for the page
   const studentWidgets = studentsList.map((stud) => {
-    if (
-      (stdCourseRel.isCourseProf || user.type === "registrar") &&
-      termInfo.phase === "grading"
-    ) {
-      return (
-        <StudentGradeWidget
-          key={stud.id}
-          stdInfo={stud}
-          updateGrade={updateGrade}
-        />
-      );
+    if (stdCourseRel.isCourseProf || user.type === "registrar") {
+      if (termInfo.phase === "grading") {
+        return (
+          <StudentGradeWidget
+            key={stud.id}
+            stdInfo={stud}
+            updateGrade={updateGrade}
+          />
+        );
+      } else {
+        return (
+          <StudentReportWidget
+            key={stud.id}
+            stdInfo={stud}
+            submitHandler={submitComplaintHandler}
+          />
+        );
+      }
     }
 
     return (
@@ -557,6 +595,109 @@ const StudentGradeWidget = ({ stdInfo, updateGrade }) => {
   );
 };
 
+const StudentReportWidget = ({ stdInfo, submitHandler }) => {
+  const { id, name } = stdInfo;
+  const [show, setShow] = useState(false);
+  const [reportOutcome, setReportOutcome] = useState("");
+  const [reportOutcomeError, setReportOutcomeError] = useState(false);
+  const [reason, setReason] = useState("");
+  const [reasonError, setReasonError] = useState(false);
+
+  const handleClose = () => {
+    setShow(false);
+    setReason("");
+    setReasonError(false);
+    setReportOutcome("");
+    setReportOutcomeError(false);
+  };
+
+  const handleSubmit = () => {
+    setReasonError(false);
+    setReportOutcomeError(false);
+
+    if (reason.trim().length < 100) {
+      setReasonError(true);
+      return;
+    }
+
+    if (!reportOutcome) {
+      setReportOutcomeError(true);
+      return;
+    }
+
+    handleClose();
+
+    submitHandler(reason, reportOutcome, stdInfo);
+  };
+
+  return (
+    <div className={classes.waitlist}>
+      <Row className="d-flex align-items-center">
+        <Col>
+          <Link to={`/profile/${id}`} className={classes.link}>
+            {name}
+          </Link>
+        </Col>
+        <Col sm="auto">
+          <GoReport onClick={() => setShow(true)} className={classes.report} />
+        </Col>
+      </Row>
+
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Submit a Report</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <Form.Group className="mb-3">
+            <Form.Label column sm="auto">
+              Reason:
+            </Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={4}
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              className={reasonError ? "is-invalid" : ""}
+            />
+            <Form.Control.Feedback type="invalid">
+              Please write some more in your reason for this report
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Report Outcome:</Form.Label>
+            <Form.Select
+              name="reportOutcome"
+              defaultValue=""
+              onChange={(e) => setReportOutcome(e.target.value)}
+              className={reportOutcomeError ? "is-invalid" : ""}
+            >
+              <option value="" disabled>
+                Select an Outcome
+              </option>
+              <option value="warning">Warning</option>
+              <option value="de-registration">De-Registration</option>
+            </Form.Select>
+            <Form.Control.Feedback type="invalid">
+              Please select an outcome.
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleSubmit}>
+            Submit
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
+  );
+};
+
 const ReviewModal = ({ show, handleClose, submitReview }) => {
   const [rating, setRating] = useState(3);
   const [reason, setReason] = useState("");
@@ -596,7 +737,6 @@ const ReviewModal = ({ show, handleClose, submitReview }) => {
           <Form.Control
             as="textarea"
             rows={4}
-            name="interests"
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             className={reasonError ? "is-invalid" : ""}

@@ -30,6 +30,17 @@
   transform-origin: center;
 }
 
+.report {
+  color: red;
+  transition: all 250ms ease-in-out;
+}
+
+.report:hover {
+  cursor: pointer;
+  transform: scale(1.2);
+  transform-origin: center;
+}
+
 @media (max-width: 768px) {
   .review {
     font-size: 0.85rem;
