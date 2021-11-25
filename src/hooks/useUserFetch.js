@@ -166,6 +166,8 @@ const useUserFetch = () => {
       userData: {
         name: userData.name,
         type: userData.type,
+        removed: userData.removed,
+        graduated: userData.graduated,
       },
       gradeData,
       taughtData,
@@ -237,7 +239,7 @@ const useUserFetch = () => {
   // Updates all student's GPA
   const updateAllStudGPA = async () => {
     const studRes = await fetch(
-      "http://localhost:2543/users?type=student&removed=false"
+      "http://localhost:2543/users?type=student&removed=false&graduated=false"
     );
     const studData = await studRes.json();
 
@@ -265,12 +267,12 @@ const useUserFetch = () => {
     if (data.GPA < 2) {
       // Expell student if their GPA is < 2
       await removeUser(id);
-    } else if (data.GPA > 2 && data.GPA < 2.5) {
-      // Notify user that a meeting is required if their GPA is between 2 and 2.5
+    } else if (data.GPA > 2 && data.GPA < 2.25) {
+      // Notify user that a meeting is required if their GPA is between 2 and 2.25
       await addWarning(
         data,
         "Student requires interview with registrar for having an unoptimal GPA",
-        0
+        1
       );
     } else {
       const termGPA = await getStudSemesterGPA(id, semester, year);
@@ -297,7 +299,7 @@ const useUserFetch = () => {
   // Function to run the GPA checks on all students
   const condCheckAllStudGPA = async (semester, year) => {
     const studRes = await fetch(
-      "http://localhost:2543/users?type=student&removed=false"
+      "http://localhost:2543/users?type=student&removed=false&graduated=false"
     );
     const studData = await studRes.json();
 

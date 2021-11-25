@@ -14,7 +14,6 @@ import {
 import { useParams, Redirect } from "react-router";
 import { Link } from "react-router-dom";
 import { FaRegStar } from "react-icons/fa";
-import { BiCheck, BiX } from "react-icons/bi";
 import { GoReport } from "react-icons/go";
 
 import CenterSpinner from "../../UI/CenterSpinner";
@@ -424,6 +423,7 @@ const CoursePage = () => {
             />
             {/* Enroll & Write Review Buttons Row*/}
             {!user.suspended &&
+              !user.graduated &&
               (user.type === "student" || user.type === "registrar") && (
                 <Row>
                   <Col xs="auto">

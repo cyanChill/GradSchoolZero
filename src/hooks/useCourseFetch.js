@@ -428,58 +428,80 @@ const useCourseFetch = () => {
       }
     }
 
-    // Updating Course Info [add waitlist person (given they don't have time conflicts & have < 4 courses) or then increment avaliable to 1]
-    const courseInfoRes = await fetch(
-      `http://localhost:2543/classes/${courseId}`
-    );
-    const courseInfoData = await courseInfoRes.json();
-    let waitlist = courseInfoData.waitList;
-
-    let success = false;
-
-    while (!success && waitlist.length > 0) {
-      // call addStudentFromWaitlist function
-      const waitlistStd = waitlist[0];
-      const result = await addStudentFromWaitlist(
-        waitlistStd,
-        courseId,
-        termInfo
+    if (phase === "registration") {
+      // Updating Course Info [add waitlist person (given they don't have time conflicts & have < 4 courses) or then increment avaliable to 1]
+      const courseInfoRes = await fetch(
+        `http://localhost:2543/classes/${courseId}`
       );
-      waitlist.shift();
+      const courseInfoData = await courseInfoRes.json();
+      let waitlist = courseInfoData.waitList;
 
-      if (result.status === "error") continue;
-      success = true;
-    }
+      let success = false;
 
-    let updatedCourseData = {
-      ...courseInfoData,
-      waitList: waitlist,
-    };
+      while (!success && waitlist.length > 0) {
+        // call addStudentFromWaitlist function
+        const waitlistStd = waitlist[0];
+        const result = await addStudentFromWaitlist(
+          waitlistStd,
+          courseId,
+          termInfo
+        );
+        waitlist.shift();
 
-    if (!success) {
-      // Increment "avaliable" by 1 of the class' capacity
-      updatedCourseData = {
-        ...updatedCourseData,
-        capacity: {
-          ...updatedCourseData.capacity,
-          available: +updatedCourseData.capacity.available + 1,
-        },
+        if (result.status === "error") continue;
+        success = true;
+      }
+
+      let updatedCourseData = {
+        ...courseInfoData,
+        waitList: waitlist,
       };
+
+      if (!success) {
+        // Increment "avaliable" by 1 of the class' capacity
+        updatedCourseData = {
+          ...updatedCourseData,
+          capacity: {
+            ...updatedCourseData.capacity,
+            available: +updatedCourseData.capacity.available + 1,
+          },
+        };
+      }
+
+      await fetch(`http://localhost:2543/classes/${courseId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedCourseData),
+      });
+
+      return {
+        status: "success",
+        message:
+          "Successfully left course & added next avaliable waitlist student to course",
+      };
+    } else {
+      // Update course avalability
+      const courseInfoRes = await fetch(
+        `http://localhost:2543/classes/${courseId}`
+      );
+      const courseInfoData = await courseInfoRes.json();
+
+      await fetch(`http://localhost:2543/classes/${courseId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...courseInfoData,
+          capacity: {
+            max: courseInfoData.max,
+            available: courseInfoData.available + 1,
+          },
+        }),
+      });
     }
-
-    await fetch(`http://localhost:2543/classes/${courseId}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedCourseData),
-    });
-
-    return {
-      status: "success",
-      message:
-        "Successfully left course & added next avaliable waitlist student to course",
-    };
   };
 
   const addStudentFromWaitlist = async (stdInfo, courseId, termInfo) => {
