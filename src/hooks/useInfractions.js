@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 const useInfractions = () => {
@@ -73,7 +72,7 @@ const useInfractions = () => {
     Get a list of all users with more than 3 warnings such that we can suspend
     them once the time comes
   */
-  const getNewSuspendedUsers = async () => {
+  const getAllSuspendedableUsers = async () => {
     const res = await fetch("http://localhost:2543/users?warningCnt_gte=3");
     const data = await res.json();
     return data;
@@ -81,7 +80,6 @@ const useInfractions = () => {
 
   // Send a comaplaint request
   const submitComplaint = async (reporter, offender, reason, extra) => {
-    console.log(reporter, offender, reason, extra);
     const complaintObj = {
       id: uuidv4(),
       reporter: {
@@ -114,12 +112,70 @@ const useInfractions = () => {
     return { status: "error", message: "Failed to submit report to server" };
   };
 
+  // Function to remove the suspended flag on all users
+  const removeAllSuspendedFlag = async () => {
+    const studRes = await fetch("http://localhost:2543/users?suspended=true");
+    const studData = await studRes.json();
+
+    for (const stud of studData) {
+      await fetch(`http://localhost:2543/users/${stud.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...stud, suspended: false }),
+      });
+    }
+  };
+
+  // Suspend a user
+  const suspendUser = async (id) => {
+    const res = await fetch(`http://localhost:2543/users/${id}`);
+    const data = await res.json();
+
+    if (data.warningCnt >= 3) {
+      await fetch(`http://localhost:2543/users/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...data,
+          suspended: true,
+          warningCnt: data.warningCnt - 3,
+        }),
+      });
+    }
+  };
+
+  // Suspened all possible users that can be suspended
+  const suspendAllSuspendableUsers = async () => {
+    const suspendableUsers = await getAllSuspendedableUsers();
+
+    for (const person of suspendableUsers) {
+      await fetch(`http://localhost:2543/users/${person.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...person,
+          suspended: true,
+          warningCnt: person.warningCnt - 3,
+        }),
+      });
+    }
+  };
+
   return {
     addWarning,
     remove1WarningCnt,
     getUserWarnings,
-    getNewSuspendedUsers,
+    getAllSuspendedableUsers,
     submitComplaint,
+    removeAllSuspendedFlag,
+    suspendUser,
+    suspendAllSuspendableUsers,
   };
 };
 
