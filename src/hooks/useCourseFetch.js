@@ -1,17 +1,11 @@
 import _ from "lodash";
-import { useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { GlobalContext } from "../GlobalContext";
 import { checkConflicts } from "../helpers/time";
-import { gradeMap } from "../helpers/grades";
+import { calculateGPA, gradeMap } from "../helpers/grades";
+import { calcAvgRating } from "../helpers/rating";
 import useInfractions from "./useInfractions";
 
 const useCourseFetch = () => {
-  const {
-    termHook: {
-      termInfo: { semester, year, phase },
-    },
-  } = useContext(GlobalContext);
   const { addWarning } = useInfractions();
 
   // Function to add a course to the database
@@ -20,8 +14,10 @@ const useCourseFetch = () => {
     instructorId,
     instructorName,
     time,
-    capacity
+    capacity,
+    termInfo
   ) => {
+    const { semester, year } = termInfo;
     const courseObj = {
       id: uuidv4(),
       course: {
@@ -61,8 +57,10 @@ const useCourseFetch = () => {
     });
   };
 
-  // Fetch the courses with less than 5 students
-  const listToBeCancelledCourse = async () => {
+  // Get a list of the courses that can be cancelled
+  const listToBeCancelledCourse = async (termInfo) => {
+    const { semester, year } = termInfo;
+
     const res = await fetch(
       `http://localhost:2543/classes?term.semester=${semester}&term.year=${year}`
     );
@@ -73,7 +71,7 @@ const useCourseFetch = () => {
     );
 
     const shouldBeCancelledCourseIds = shouldBeCancelled.map(
-      (course) => course.course.id
+      (course) => course.id
     );
 
     return shouldBeCancelledCourseIds;
@@ -90,7 +88,7 @@ const useCourseFetch = () => {
     const studentsGradesObj = await studentsRes.json();
 
     // Give student who have this class the special registration property
-    await studentsGradesObj.forEach(async (student) => {
+    for (const student of studentsGradesObj) {
       const userInfoRes = await fetch(
         `http://localhost:2543/users/${student.student.id}`
       );
@@ -112,7 +110,7 @@ const useCourseFetch = () => {
       await fetch(`http://localhost:2543/grades/${student.id}`, {
         method: "DELETE",
       });
-    });
+    }
 
     // Warn the instructor for teaching a cancelled class
     const instructorId = courseData.instructor.id;
@@ -144,18 +142,31 @@ const useCourseFetch = () => {
   };
 
   // Function to enroll student into a course
-  const enrollCourse = async (user, courseInfo) => {
+  const enrollCourse = async (user, courseInfo, termInfo) => {
     const {
       id: courseId,
       course: { code, name: courseName },
       instructor,
     } = courseInfo;
-    const { id: stdId, name: stdName, specReg } = user;
+    const { id: stdId, name: stdName, specReg, suspended, expelled } = user;
+    const { semester, year, phase } = termInfo;
 
     if (phase !== "registration" || (phase !== "registration" && !specReg))
       return {
         error: "Can't Enroll",
         details: "Phase isn't in course-registration",
+      };
+
+    if (suspended)
+      return {
+        error: "Can't Enroll",
+        details: "User is suspended",
+      };
+
+    if (expelled)
+      return {
+        error: "Can't Enroll",
+        details: "User is expelled",
       };
 
     // Get student grades
@@ -165,7 +176,7 @@ const useCourseFetch = () => {
     const studGradeData = await studGradeRes.json();
 
     // Get number of courses the student is currently taking
-    const coursesCurrTaking = studGradeData.map(
+    const coursesCurrTaking = studGradeData.filter(
       (grade) => grade.term.semester === semester && +grade.term.year === +year
     );
     const numCoursesCurrTaking = coursesCurrTaking.length;
@@ -194,10 +205,11 @@ const useCourseFetch = () => {
       !withdrawn &&
       (numTaken === 0 || (numTaken === 1 && gradeDist["F"] === 1))
     ) {
-      const allCourseTimes = coursesCurrTaking.reduce(
-        (allCourses, newCourse) => allCourses.concat(newCourse.time),
-        courseInfo.time
-      );
+      const allCourseTimes =
+        coursesCurrTaking.reduce(
+          (allCourses, newCourse) => allCourses.concat(newCourse.time),
+          courseInfo.time
+        ) || courseInfo.time;
       const conflicts = checkConflicts(allCourseTimes);
 
       if (!conflicts) {
@@ -369,7 +381,15 @@ const useCourseFetch = () => {
     return { status: "error", message: "Failed to leave waitlist" };
   };
 
-  const unEnrollCourse = async (userId, courseId) => {
+  const unEnrollCourse = async (userId, courseId, termInfo) => {
+    const { phase, semester, year } = termInfo;
+
+    if (phase === "grading")
+      return {
+        status: "error",
+        message: "Cannot withdraw from course during Grading Period",
+      };
+
     // Removing User From Course
     const gradeEntryRes = await fetch(
       `http://localhost:2543/grades?course.id=${courseId}&student.id=${userId}`
@@ -392,6 +412,22 @@ const useCourseFetch = () => {
 
     if (!res.ok) return { status: "error", message: "Failed to leave course" };
 
+    // Check to see if user has dropped all courses - if they did, they're suspended (add 3 warnings)
+    if (phase === "running") {
+      const currTakingRes = await fetch(
+        `http://localhost:2543/grades?student.id=${userId}&term.semester=${semester}&term.year=${year}&grade_ne=W&grade_ne=DW`
+      );
+      const currTakingData = await currTakingRes.json();
+
+      if (currTakingData.length === 0) {
+        await addWarning(
+          gradeEntry.student,
+          "Student has dropped all their courses",
+          3
+        );
+      }
+    }
+
     // Updating Course Info [add waitlist person (given they don't have time conflicts & have < 4 courses) or then increment avaliable to 1]
     const courseInfoRes = await fetch(
       `http://localhost:2543/classes/${courseId}`
@@ -404,7 +440,11 @@ const useCourseFetch = () => {
     while (!success && waitlist.length > 0) {
       // call addStudentFromWaitlist function
       const waitlistStd = waitlist[0];
-      const result = await addStudentFromWaitlist(waitlistStd, courseId);
+      const result = await addStudentFromWaitlist(
+        waitlistStd,
+        courseId,
+        termInfo
+      );
       waitlist.shift();
 
       if (result.status === "error") continue;
@@ -442,8 +482,10 @@ const useCourseFetch = () => {
     };
   };
 
-  const addStudentFromWaitlist = async (stdInfo, courseId) => {
+  const addStudentFromWaitlist = async (stdInfo, courseId, termInfo) => {
     const { id: stdId, name: stdName } = stdInfo;
+    const { semester, year } = termInfo;
+
     const courseInfoRes = await fetch(
       `http://localhost:2543/classes/${courseId}`
     );
@@ -528,7 +570,9 @@ const useCourseFetch = () => {
     });
   };
 
-  const getCourseList = async () => {
+  const getCourseList = async (termInfo) => {
+    const { semester, year } = termInfo;
+
     const res = await fetch(
       `http://localhost:2543/classes?term.semester=${semester}&term.year=${year}`
     );
@@ -629,16 +673,94 @@ const useCourseFetch = () => {
     return coursesMap;
   };
 
+  // Check to see if the semester has courses
+  const semesterHasCourse = async (semester, year) => {
+    const coursesRes = await fetch(
+      `http://localhost:2543/classes?term.semester=${semester}&term.year=${year}`
+    );
+    const coursesData = await coursesRes.json();
+
+    return coursesData.length > 0;
+  };
+
+  // Get a class' GPA
+  const getClassGPA = async (courseId) => {
+    const gradesRes = await fetch(
+      `http://localhost:2543/grades?course.id=${courseId}`
+    );
+    const gradesData = await gradesRes.json();
+
+    const justGrades = gradesData
+      .map((grade) => grade.grade)
+      .filter((grade) => grade.length !== "");
+
+    const gpa = calculateGPA(justGrades);
+    return isNaN(parseInt(gpa)) ? null : +gpa;
+  };
+
+  // Get Course Rating
+  const getCourseAvgRating = async (courseName, courseCode) => {
+    const courseReviewsRes = await fetch(
+      `http://localhost:2543/reviews?course.name=${courseName}&course.code=${courseCode}`
+    );
+    const courseReviewsData = await courseReviewsRes.json();
+
+    if (courseReviewsData.length === 0) return null;
+
+    return calcAvgRating(courseReviewsData);
+  };
+
+  // Update Base Course Rating [template course]
+  const updateBaseCourseRating = async (name, code) => {
+    const baseCourseRes = await fetch(
+      `http://localhost:2543/courses?code=${code}&name=${name}`
+    );
+    const baseCourseData = await baseCourseRes.json();
+    const baseCourse = baseCourseData[0];
+
+    const reviewsRes = await fetch(
+      `http://localhost:2543/reviews?course.code=${code}&course.name=${name}`
+    );
+    const reviewsData = await reviewsRes.json();
+
+    const newRating =
+      reviewsData.length === 0 ? null : calcAvgRating(reviewsData);
+
+    await fetch(`http://localhost:2543/courses/${baseCourse.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        ...baseCourse,
+        rating: newRating,
+      }),
+    });
+  };
+
+  // Update All (Base) Class Ratings for the course that courses that just concluded
+  const updateAllClassRatings = async (semester, year) => {
+    const courseRes = await fetch(
+      `http://localhost:2543/classes?term.semester=${semester}&term.year=${year}`
+    );
+    const courseData = await courseRes.json();
+
+    for (const completedClass of courseData) {
+      await updateBaseCourseRating(
+        completedClass.course.name,
+        completedClass.course.code
+      );
+    }
+  };
+
   return {
     addCourse,
     deleteCourse,
-    cancelCourse,
     enrollCourse,
     unEnrollCourse,
     leaveWaitlist,
     getCourseInfo,
     getCourseList,
-    listToBeCancelledCourse,
     getAllBaseCourses,
     checkIsEnrolled,
     checkIfWaitlist,
@@ -646,6 +768,13 @@ const useCourseFetch = () => {
     removeStudentFromWaitlist,
     setStdGrade,
     groupClassByMajor,
+    cancelCourse,
+    listToBeCancelledCourse,
+    semesterHasCourse,
+    getClassGPA,
+    getCourseAvgRating,
+    updateBaseCourseRating,
+    updateAllClassRatings,
   };
 };
 
