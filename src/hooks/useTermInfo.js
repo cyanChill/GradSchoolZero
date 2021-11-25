@@ -47,6 +47,8 @@ const useTermInfo = () => {
   );
   const [loading, setLoading] = useState(false);
 
+  const [shouldRefresh, setShouldRefresh] = useState(false);
+
   // Function that does the semester phase change logic
   const nextPhase = async () => {
     setLoading(true);
@@ -313,10 +315,36 @@ const useTermInfo = () => {
     setLoading(false);
   };
 
+  const fulfillRefresh = async () => {
+    await refreshTermInfo();
+    setShouldRefresh(false);
+  };
+
   useEffect(() => {
+    const shouldRefreshEverything = async () => {
+      const locallySavedTermInfo = sessionStorage.getItem("term");
+
+      const res = await fetch(`http://localhost:2543/term/terminfo`);
+      const data = await res.json();
+
+      if (
+        !locallySavedTermInfo ||
+        data.phase !== locallySavedTermInfo.phase ||
+        data.semester !== locallySavedTermInfo.semester ||
+        data.year !== locallySavedTermInfo.year
+      ) {
+        setShouldRefresh(true);
+      }
+    };
+
     if (!termInfo.phase) {
       refreshTermInfo();
     }
+
+    shouldRefreshEverything();
+  }, []);
+
+  useEffect(() => {
     sessionStorage.setItem("term", JSON.stringify(termInfo));
   }, [termInfo]);
 
@@ -327,6 +355,7 @@ const useTermInfo = () => {
     getPhaseInfo,
     getNextPhaseInfo,
     endSpecialRegistration,
+    fulfillRefresh,
   };
 };
 

@@ -339,6 +339,14 @@ const useUserFetch = () => {
     }
   };
 
+  const refreshUserInfo = async () => {
+    if (!user.id) return;
+
+    const res = await fetch(`http://localhost:2543/users/${user.id}`);
+    const data = await res.json();
+    setUserInfo(data);
+  };
+
   useEffect(() => {
     sessionStorage.setItem("user", JSON.stringify(user));
   }, [user]);
@@ -361,6 +369,7 @@ const useUserFetch = () => {
     condCheckAllStudGPA,
     studFailCourseTwice,
     expellAllStudFailCourseTwice,
+    refreshUserInfo,
   };
 };
 

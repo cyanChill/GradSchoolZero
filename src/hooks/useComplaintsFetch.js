@@ -7,12 +7,6 @@ const useComplaintsFetch = () => {
   const [complaintsList, setComplaintsList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const addComplaint = async (complaintInfo) => {
-    /* 
-      Update local complaint list, update complaint list in server (add entry)
-    */
-  };
-
   /*
     Removes the complaint from the database and take certain actions based on the
     outcome decided
@@ -88,7 +82,6 @@ const useComplaintsFetch = () => {
   return {
     complaintsList,
     loading,
-    addComplaint,
     resolveComplaint,
     refreshComplaintsList,
   };
