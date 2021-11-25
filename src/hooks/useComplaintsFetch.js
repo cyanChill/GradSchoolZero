@@ -40,10 +40,10 @@ const useComplaintsFetch = () => {
           value: 1,
         };
       }
-    } else if (complaintInfo.reporter.userType === "instructor") {
+    } else if (complaintInfo.reporter.type === "instructor") {
       // If the registrar reject the complaint by an instructor
       warningInfo = {
-        user: complaintInfo.offender,
+        user: complaintInfo.reporter,
         reason: "You have been warned due to a false report",
         value: 1,
       };

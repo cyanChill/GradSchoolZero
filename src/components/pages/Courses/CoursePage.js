@@ -23,6 +23,7 @@ import useCourseFetch from "../../../hooks/useCourseFetch";
 import BackButton from "../../UI/BackButton";
 import LinkBoxWidget from "../../UI/LinkBoxWidget/LinkBoxWidget";
 import HorizFormInputField from "../../UI/HorizFormInputField";
+import AcceptRejectWidget from "../../UI/AcceptRejectWidget/AcceptRejectWidget";
 
 import { convert23Time } from "../../../helpers/time";
 import { gradeEquiv } from "../../../helpers/grades";
@@ -369,15 +370,16 @@ const CoursePage = () => {
   ));
 
   // Setting the waitlist widgets for the page
-  const waitlistWidgets = waitlist.map((std) => (
-    <WaitlistWidget
-      key={std.id}
-      waitlistInfo={std}
-      handleResult={handleWaitlist}
-      phase={termInfo.phase}
-      userType={user.type}
-    />
-  ));
+  const waitlistWidgets =
+    termInfo.phase === "registration" || user.type === "registrar"
+      ? waitlist.map((std) => (
+          <WaitlistWidget
+            key={std.id}
+            waitlistInfo={std}
+            handleResult={handleWaitlist}
+          />
+        ))
+      : [];
 
   if (error) {
     return (
@@ -539,37 +541,19 @@ const ReviewWidget = ({ reviewInfo, userType }) => {
   );
 };
 
-const WaitlistWidget = ({ waitlistInfo, handleResult, phase, userType }) => {
+const WaitlistWidget = ({ waitlistInfo, handleResult }) => {
   const { id, name } = waitlistInfo;
 
   return (
-    <div className={classes.waitlist}>
-      <Row className="d-flex align-items-center">
-        <Col>
-          <Link to={`/profile/${id}`} className={classes.link}>
-            {name}
-          </Link>
-        </Col>
-        {(phase === "registration" || userType === "registrar") && (
-          <Col sm="auto" className="text-center">
-            <Button
-              variant="success"
-              className="mx-1"
-              onClick={() => handleResult(waitlistInfo, "approve")}
-            >
-              <BiCheck />
-            </Button>
-            <Button
-              variant="danger"
-              className="mx-1"
-              onClick={() => handleResult(waitlistInfo, "reject")}
-            >
-              <BiX />
-            </Button>
-          </Col>
-        )}
-      </Row>
-    </div>
+    <AcceptRejectWidget
+      leftCol={
+        <Link to={`/profile/${id}`} className={classes.link}>
+          {name}
+        </Link>
+      }
+      handleAccept={() => handleResult(waitlistInfo, "approve")}
+      handleReject={() => handleResult(waitlistInfo, "reject")}
+    />
   );
 };
 
@@ -577,7 +561,7 @@ const StudentGradeWidget = ({ stdInfo, updateGrade }) => {
   const { id, name, grade } = stdInfo;
 
   return (
-    <div className={classes.waitlist}>
+    <div className={classes.widget}>
       <Row className="d-flex align-items-center">
         <Col>
           <Link to={`/profile/${id}`} className={classes.link}>
@@ -640,7 +624,7 @@ const StudentReportWidget = ({ stdInfo, submitHandler }) => {
   };
 
   return (
-    <div className={classes.waitlist}>
+    <div className={classes.widget}>
       <Row className="d-flex align-items-center">
         <Col>
           <Link to={`/profile/${id}`} className={classes.link}>

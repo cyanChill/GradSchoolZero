@@ -5,6 +5,7 @@ import { BiCheck, BiX } from "react-icons/bi";
 import BackHeader from "../../UI/BackHeader";
 import LabelDescripField from "../../UI/LabelDescripField";
 import CenterSpinner from "../../UI/CenterSpinner";
+import AcceptRejectWidget from "../../UI/AcceptRejectWidget/AcceptRejectWidget";
 import { GlobalContext } from "../../../GlobalContext";
 
 import classes from "./ComplaintsPage.module.css";
@@ -58,70 +59,52 @@ const ComplaintWidget = ({ complaint, handleResult }) => {
     extra: { outcome },
   } = complaint;
 
-  return (
-    <div className={classes.complaint}>
-      <Row className="d-flex align-items-center">
+  const leftCol = (
+    <Col>
+      <Row>
         <Col>
-          <Row>
-            <Col>
-              <LabelDescripField
-                label="Reporter: "
-                description={
-                  <>
-                    <Link
-                      to={`/profile/${reporter.id}`}
-                      className={classes.link}
-                    >
-                      {reporter.name}
-                    </Link>{" "}
-                    ({reporter.type})
-                  </>
-                }
-              />
-            </Col>
-
-            <Col>
-              <LabelDescripField
-                label="Offender: "
-                description={
-                  <>
-                    <Link
-                      to={`/profile/${offender.id}`}
-                      className={classes.link}
-                    >
-                      {offender.name}
-                    </Link>{" "}
-                    ({offender.type})
-                  </>
-                }
-              />
-            </Col>
-          </Row>
-
-          <LabelDescripField label="Description: " description={reason} />
-
-          {reporter.type === "instructor" && (
-            <LabelDescripField label="Outcome: " description={outcome} />
-          )}
+          <LabelDescripField
+            label="Reporter: "
+            description={
+              <>
+                <Link to={`/profile/${reporter.id}`} className={classes.link}>
+                  {reporter.name}
+                </Link>{" "}
+                ({reporter.type})
+              </>
+            }
+          />
         </Col>
-        <Col sm="auto" className="text-center">
-          <Button
-            variant="success"
-            className="mx-1"
-            onClick={() => handleResult(complaint, "approve")}
-          >
-            <BiCheck />
-          </Button>
-          <Button
-            variant="danger"
-            className="mx-1"
-            onClick={() => handleResult(complaint, "reject")}
-          >
-            <BiX />
-          </Button>
+
+        <Col>
+          <LabelDescripField
+            label="Offender: "
+            description={
+              <>
+                <Link to={`/profile/${offender.id}`} className={classes.link}>
+                  {offender.name}
+                </Link>{" "}
+                ({offender.type})
+              </>
+            }
+          />
         </Col>
       </Row>
-    </div>
+
+      <LabelDescripField label="Description: " description={reason} />
+
+      {reporter.type === "instructor" && (
+        <LabelDescripField label="Outcome: " description={outcome} />
+      )}
+    </Col>
+  );
+
+  return (
+    <AcceptRejectWidget
+      leftCol={leftCol}
+      handleAccept={() => handleResult(complaint, "approve")}
+      handleReject={() => handleResult(complaint, "reject")}
+    />
   );
 };
 

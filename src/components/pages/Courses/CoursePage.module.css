@@ -16,7 +16,7 @@
   color: rgb(73, 73, 73);
 }
 
-.waitlist {
+.widget {
   width: 100%;
   box-shadow: 0px 2px 5px 3px rgba(0, 0, 0, 0.27);
   padding: 1rem;
@@ -24,7 +24,7 @@
   transition: all 150ms ease-in-out;
 }
 
-.waitlist:hover {
+.widget:hover {
   transform: scale(0.99);
   background-color: #fafafa;
   transform-origin: center;
