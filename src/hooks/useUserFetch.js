@@ -53,6 +53,7 @@ const useUserFetch = () => {
             graduated: false,
             honorRoll: [],
             GPA: null,
+            applyGrad: false,
           }
         : userInfo.type === "instructor"
         ? {
@@ -368,6 +369,49 @@ const useUserFetch = () => {
     return { top3: top3Data };
   };
 
+  const applyForGrad = async (id) => {
+    const userRes = await fetch(`http://localhost:2543/users/${id}`);
+    const userData = await userRes.json();
+
+    await fetch(`http://localhost:2543/users/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        ...userData,
+        applyGrad: true,
+      }),
+    });
+  };
+
+  const getAllGradApp = async () => {
+    const res = await fetch(`http://localhost:2543/users?applyGrad=true`);
+    const data = await res.json();
+    return data;
+  };
+
+  const handleGradApp = async (userInfo, outcome) => {
+    if (outcome === "reject") {
+      await addWarning(userInfo, "Reckless graduation application", 1);
+    }
+
+    const userRes = await fetch(`http://localhost:2543/users/${userInfo.id}`);
+    const userData = await userRes.json();
+
+    await fetch(`http://localhost:2543/users/${userInfo.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        ...userData,
+        applyGrad: false,
+        graduated: outcome === "accept",
+      }),
+    });
+  };
+
   useEffect(() => {
     sessionStorage.setItem("user", JSON.stringify(user));
   }, [user]);
@@ -393,6 +437,9 @@ const useUserFetch = () => {
     refreshUserInfo,
     getUserInfractions,
     getProgramStudStats,
+    applyForGrad,
+    getAllGradApp,
+    handleGradApp,
   };
 };
 

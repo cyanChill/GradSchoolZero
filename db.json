@@ -30,7 +30,8 @@
       "graduated": false,
       "removed": false,
       "honorRoll": [],
-      "GPA": null
+      "GPA": null,
+      "applyGrad": true
     },
     {
       "id": "104713d0-d46f-4a4e-930f-ea63bc48f915",
@@ -44,7 +45,8 @@
       "graduated": false,
       "removed": false,
       "honorRoll": [],
-      "GPA": null
+      "GPA": null,
+      "applyGrad": false
     },
     {
       "id": "185d11e4-87e1-48ef-9bf9-20db45cf6cc8",
@@ -562,7 +564,7 @@
       },
       "offender": {
         "id": "185d11e4-87e1-48ef-9bf9-20db45cf6cc8",
-        "name": "Behnam Sidsel",
+        "name": "George Simon",
         "type": "instructor"
       },
       "reason": "Test complaint",
@@ -575,7 +577,7 @@
       "id": "297a7b91-72ee-4788-877d-f6c53f35763c",
       "reporter": {
         "id": "185d11e4-87e1-48ef-9bf9-20db45cf6cc8",
-        "name": "Behnam Sidsel",
+        "name": "George Simon",
         "type": "instructor"
       },
       "offender": {
@@ -593,7 +595,7 @@
       "id": "246c57e2-9225-4fb2-a7cd-55a36d61e8f9",
       "reporter": {
         "id": "185d11e4-87e1-48ef-9bf9-20db45cf6cc8",
-        "name": "Behnam Sidsel",
+        "name": "George Simon",
         "type": "instructor"
       },
       "offender": {

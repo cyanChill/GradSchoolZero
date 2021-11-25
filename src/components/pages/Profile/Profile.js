@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { GlobalContext } from "../../../GlobalContext";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, Redirect } from "react-router-dom";
 import {
   Container,
   Card,
@@ -34,7 +34,7 @@ const defaultOrgInfo = {
 const Profile = () => {
   const { id } = useParams();
   const { userHook, termHook } = useContext(GlobalContext);
-  const { getUserInfoFromId, user } = userHook;
+  const { getUserInfoFromId, user, applyForGrad, refreshUserInfo } = userHook;
   const { termInfo } = termHook;
   const { submitComplaint } = useInfractions();
 
@@ -47,6 +47,17 @@ const Profile = () => {
   );
   const [error, setError] = useState(false);
   const [alertObj, setAlertObj] = useState(null);
+
+  const handleApplyGrad = async () => {
+    await applyForGrad(user.id);
+    await refreshUserInfo();
+
+    setAlertObj({
+      type: "success",
+      title: "Success",
+      message: "Successfully Applied For Graduation",
+    });
+  };
 
   useEffect(() => {
     const populateData = async () => {
@@ -133,6 +144,10 @@ const Profile = () => {
       });
     }
   };
+
+  if (!id && user.type === "registrar") {
+    return <Redirect to="/registrar" />;
+  }
 
   if (loading) {
     return <CenterSpinner />;
@@ -226,11 +241,19 @@ const Profile = () => {
         {profileInfo.userData.name}'s Profile
       </h1>
       {body}
-      {profileInfo.id !== user.id && (
-        <div className="d-flex justify-content-center align-items-center my-3">
-          <ReportButtonModal submitHandler={submitReportHandler} />
-        </div>
-      )}
+      <div className="d-flex justify-content-center align-items-center my-3 gap-2">
+        {/* Apply for graduation button */}
+        {!id && !user.applyGrad && user.type === "student" && (
+          <Button onClick={handleApplyGrad}>Apply For Graduation</Button>
+        )}
+
+        {/* Report user button */}
+        {id &&
+          profileInfo.id !== user.id &&
+          profileInfo.type !== "registrar" && (
+            <ReportButtonModal submitHandler={submitReportHandler} />
+          )}
+      </div>
     </Container>
   );
 };
