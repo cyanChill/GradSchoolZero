@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { calculateGPA } from "../helpers/grades";
+import useInfractions from "./useInfractions";
 
 const defaultUserInfo = {
   id: "",
@@ -10,6 +12,8 @@ const defaultUserInfo = {
 };
 
 const useUserFetch = () => {
+  const { addWarning } = useInfractions();
+
   const [isLoggedIn, setIsLoggedIn] = useState(
     sessionStorage.getItem("isLoggedIn") ? true : false
   );
@@ -18,18 +22,6 @@ const useUserFetch = () => {
       ? JSON.parse(sessionStorage.getItem("user"))
       : defaultUserInfo
   );
-
-  /* 
-    Also have functions to get other info on the user such as: 
-    - classes currently taking
-    - grades/previous courses (can calculate gpa with this)
-    - reviews given
-
-    (instructors)
-    - courses currently teaching
-    - courses previously taught
-    - rating
-  */
 
   // Function to see if an email is being used by a different user
   const checkUserEmailIsUsed = async (email) => {
@@ -46,12 +38,34 @@ const useUserFetch = () => {
 
   // Function to create a user
   const createUser = async (userInfo) => {
+    const baseStructure = {
+      ...userInfo,
+      warningCnt: 0,
+      suspended: false,
+      removed: false,
+    };
+
+    const body =
+      userInfo.type === "student"
+        ? {
+            ...baseStructure,
+            specReg: false,
+            graduated: false,
+            honorRoll: [],
+            GPA: null,
+          }
+        : userInfo.type === "instructor"
+        ? {
+            ...baseStructure,
+            rating: null,
+          }
+        : baseStructure;
     const res = await fetch("http://localhost:2543/users", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify(userInfo),
+      body: JSON.stringify(body),
     });
 
     return res.status === 201;
@@ -157,6 +171,174 @@ const useUserFetch = () => {
     };
   };
 
+  const warnAllStudForLessCourse = async (semester, year) => {
+    const studRes = await fetch(
+      "http://localhost:2543/users?type=student&graduated=false&suspended=false&removed=false"
+    );
+    const studData = await studRes.json();
+
+    for (const stud of studData) {
+      const studGradRes = await fetch(
+        `http://localhost:2543/grades?student.id=${stud.id}&semester=${semester}&year=${year}`
+      );
+      const studGradData = await studGradRes.json();
+
+      if (studGradData.length < 2) {
+        await addWarning(stud, "Student taking less than 2 courses", 1);
+      }
+    }
+  };
+
+  // Function to expell a student
+  const removeUser = async (userId) => {
+    const res = await fetch(`http://localhost:2543/users/${userId}`);
+    const data = await res.json();
+
+    await fetch(`http://localhost:2543/users/${userId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...data, removed: true }),
+    });
+  };
+
+  // Function to get student's gpa
+  const getStudGPA = async (id) => {
+    const gradesRes = await fetch(
+      `http://localhost:2543/grades?student.id=${id}&grade_ne=W&grade_new=DW`
+    );
+    const gradesData = await gradesRes.json();
+    const gradeArr = gradesData
+      .map((grade) => grade.grade)
+      .filter((grade) => grade !== "");
+
+    if (gradeArr.length === 0) return null;
+
+    return calculateGPA(gradeArr);
+  };
+
+  // Function to get student GPA for this term
+  const getStudSemesterGPA = async (id, year, semester) => {
+    const gradesRes = await fetch(
+      `http://localhost:2543/grades?student.id=${id}&grade_ne=W&grade_new=DW&term.semester=${semester}&term.year=${year}`
+    );
+    const gradesData = await gradesRes.json();
+    const gradeArr = gradesData
+      .map((grade) => grade.grade)
+      .filter((grade) => grade !== "");
+
+    if (gradeArr.length === 0) return null;
+
+    return calculateGPA(gradeArr);
+  };
+
+  // Updates all student's GPA
+  const updateAllStudGPA = async () => {
+    const studRes = await fetch(
+      "http://localhost:2543/users?type=student&removed=false"
+    );
+    const studData = await studRes.json();
+
+    for (const stud of studData) {
+      const GPA = await getStudGPA(stud.id);
+
+      await fetch(`http://localhost:2543/users/${stud.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ ...stud, GPA }),
+      });
+    }
+  };
+
+  // Function to run the 3 GPA checks that triggers some actions for students
+  const condCheckStudGPA = async (id, semester, year) => {
+    const res = await fetch(`http://localhost:2543/users/${id}`);
+    const data = await res.json();
+
+    // Case if student has no GPA
+    if (!data.GPA) return;
+
+    if (data.GPA < 2) {
+      // Expell student if their GPA is < 2
+      await removeUser(id);
+    } else if (data.GPA > 2 && data.GPA < 2.5) {
+      // Notify user that a meeting is required if their GPA is between 2 and 2.5
+      await addWarning(
+        data,
+        "Student requires interview with registrar for having an unoptimal GPA",
+        0
+      );
+    } else {
+      const termGPA = await getStudSemesterGPA(id, semester, year);
+
+      if (termGPA > 3.75 || data.GPA > 3.5) {
+        // Give honor roll to student with a term GPA > 3.75 or an overall GPA of 3.5
+        const newWarnCnt = data.warningCnt > 0 ? data.warningCnt - 1 : 0;
+
+        await fetch(`http://localhost:2543/users/${id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            ...data,
+            warningCnt: newWarnCnt,
+            honorRoll: [...data.honorRoll, { semester, year }],
+          }),
+        });
+      }
+    }
+  };
+
+  // Function to run the GPA checks on all students
+  const condCheckAllStudGPA = async (semester, year) => {
+    const studRes = await fetch(
+      "http://localhost:2543/users?type=student&removed=false"
+    );
+    const studData = await studRes.json();
+
+    for (const stud of studData) {
+      await condCheckStudGPA(stud.id, semester, year);
+    }
+  };
+
+  // Function to check if a student failed a course twice & expell them
+  const studFailCourseTwice = async (id) => {
+    const res = await fetch(
+      `http://localhost:2543/grades?student.id=${id}&grade=F`
+    );
+    const data = await res.json();
+    const courseMap = {};
+
+    data.forEach((courseGrade) => {
+      if (!courseMap[courseGrade.course.code])
+        courseMap[courseGrade.course.code] = 0;
+      courseMap[courseGrade.course.code]++;
+    });
+
+    const failedCourseTwice = Object.values(courseMap).includes(2);
+
+    if (failedCourseTwice) {
+      // Expell Student
+      await removeUser(id);
+    }
+  };
+
+  // Function to expell all students who failed the same course twice
+  const expellAllStudFailCourseTwice = async () => {
+    const studRes = await fetch(
+      "http://localhost:2543/users?type=student&removed=false"
+    );
+    const studData = await studRes.json();
+
+    for (const stud of studData) {
+      await studFailCourseTwice(stud.id);
+    }
+  };
+
   useEffect(() => {
     sessionStorage.setItem("user", JSON.stringify(user));
   }, [user]);
@@ -170,6 +352,15 @@ const useUserFetch = () => {
     createUser,
     changePassword,
     getUserInfoFromId,
+    warnAllStudForLessCourse,
+    removeUser,
+    getStudGPA,
+    updateAllStudGPA,
+    getStudSemesterGPA,
+    condCheckStudGPA,
+    condCheckAllStudGPA,
+    studFailCourseTwice,
+    expellAllStudFailCourseTwice,
   };
 };
 
