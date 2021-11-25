@@ -753,6 +753,20 @@ const useCourseFetch = () => {
     }
   };
 
+  const getProgramClassStats = async () => {
+    const top3Res = await fetch(
+      `http://localhost:2543/courses?_sort=rating&_order=desc_limit=3`
+    );
+    const top3Data = await top3Res.json();
+
+    const bottom3Res = await fetch(
+      `http://localhost:2543/courses?_sort=rating&_order=asc_limit=3`
+    );
+    const bottom3Data = await bottom3Res.json();
+
+    return { top3: top3Data, bottom3: bottom3Data };
+  };
+
   return {
     addCourse,
     deleteCourse,
@@ -775,6 +789,7 @@ const useCourseFetch = () => {
     getCourseAvgRating,
     updateBaseCourseRating,
     updateAllClassRatings,
+    getProgramClassStats,
   };
 };
 

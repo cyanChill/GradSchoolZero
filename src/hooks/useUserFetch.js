@@ -347,6 +347,27 @@ const useUserFetch = () => {
     setUserInfo(data);
   };
 
+  const getUserInfractions = async (id) => {
+    const userRes = await fetch(`http://localhost:2543/users/${id}`);
+    const userData = await userRes.json();
+
+    const warningsRes = await fetch(
+      `http://localhost:2543/warnings?user.id=${id}&_sort=date&_order=desc_limit=3`
+    );
+    const warningsData = await warningsRes.json();
+
+    return { warningCnt: userData.warningCnt, latest3Warnings: warningsData };
+  };
+
+  const getProgramStudStats = async () => {
+    const top3Res = await fetch(
+      `http://localhost:2543/users?type=student&_sort=GPA&_order=desc_limit=3`
+    );
+    const top3Data = await top3Res.json();
+
+    return { top3: top3Data };
+  };
+
   useEffect(() => {
     sessionStorage.setItem("user", JSON.stringify(user));
   }, [user]);
@@ -370,6 +391,8 @@ const useUserFetch = () => {
     studFailCourseTwice,
     expellAllStudFailCourseTwice,
     refreshUserInfo,
+    getUserInfractions,
+    getProgramStudStats,
   };
 };
 
