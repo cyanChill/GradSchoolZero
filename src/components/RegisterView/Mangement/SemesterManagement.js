@@ -10,19 +10,32 @@ const SemesterManagement = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [alertInfo, setAlertInfo] = useState(null);
+  const [disable, setDisable] = useState(false);
 
   const { termHook } = useContext(GlobalContext);
-  const { loading, termInfo, getPhaseInfo, getNextPhaseInfo, nextPhase } =
-    termHook;
+  const {
+    loading,
+    termInfo,
+    getPhaseInfo,
+    getNextPhaseInfo,
+    nextPhase,
+    endSpecialRegistration,
+  } = termHook;
 
   const currTermInfo = getPhaseInfo(termInfo.phase);
   const nextTerm = getNextPhaseInfo();
   const nextTermInfo = getPhaseInfo(nextTerm.phase);
 
   const handleContinue = async () => {
+    setDisable(true);
     const res = await nextPhase();
     setAlertInfo(res);
+    setDisable(false);
     handleClose();
+  };
+
+  const handleEndSpecReg = async () => {
+    await endSpecialRegistration();
   };
 
   let body = <CenterSpinner />;
@@ -68,6 +81,8 @@ const SemesterManagement = () => {
         btnLabel="Back to Management Page"
         headerTitle="Semester Management"
       />
+
+      {termInfo.specReg && <SpecRegAlert handleEnd={handleEndSpecReg} />}
       {body}
 
       <Modal show={show} onHide={handleClose} centered>
@@ -82,7 +97,7 @@ const SemesterManagement = () => {
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="danger" onClick={handleContinue}>
+          <Button variant="danger" onClick={handleContinue} disabled={disable}>
             Continue
           </Button>
         </Modal.Footer>
@@ -105,6 +120,25 @@ const PhaseWidget = ({ phase, semester, year, phaseDescription }) => {
         />
       </Card.Body>
     </Card>
+  );
+};
+
+const SpecRegAlert = ({ handleEnd }) => {
+  return (
+    <Alert variant="warning">
+      <Alert.Heading>Special Registration Phase Is Ongoing</Alert.Heading>
+      <p>
+        The Special Registration Phase allows students of cancelled courses the
+        chance to enroll into a course.
+      </p>
+      <p>Clicking the below button will end the Special Registration Phase.</p>
+      <hr />
+      <div className="d-flex justify-content-end">
+        <Button onClick={handleEnd} variant="outline-danger">
+          End Special Registration Phase
+        </Button>
+      </div>
+    </Alert>
   );
 };
 

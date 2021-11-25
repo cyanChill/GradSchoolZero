@@ -117,7 +117,7 @@ const CoursePage = () => {
   }, []);
 
   const handleEnrollment = async () => {
-    const response = await enrollCourse(user, courseInfo);
+    const response = await enrollCourse(user, courseInfo, termInfo);
 
     if (response.error) {
       // Recieved an error from trying to enroll
@@ -169,7 +169,7 @@ const CoursePage = () => {
   const handleUnEnrollment = async () => {
     if (stdCourseRel.enrolled) {
       // Unenroll Student
-      const response = await unEnrollCourse(user.id, courseInfo.id);
+      const response = await unEnrollCourse(user.id, courseInfo.id, termInfo);
       if (response.status === "success") {
         setStdCourseRel((prev) => ({
           ...prev,
@@ -260,7 +260,11 @@ const CoursePage = () => {
   // Function to handle accepting/rejecting student on waitlist
   const handleWaitlist = async (waitlistInfo, status) => {
     if (status === "approve") {
-      const res = await addStudentFromWaitlist(waitlistInfo, courseInfo.id);
+      const res = await addStudentFromWaitlist(
+        waitlistInfo,
+        courseInfo.id,
+        termInfo
+      );
       setWaitlist((prev) => prev.filter((std) => std.id !== waitlistInfo.id));
 
       if (res.status === "success") {
@@ -417,36 +421,41 @@ const CoursePage = () => {
               description={capacity.max}
             />
             {/* Enroll & Write Review Buttons Row*/}
-            {(user.type === "student" || user.type === "registrar") && (
-              <Row>
-                <Col xs="auto">
-                  {!stdCourseRel.enrolled &&
-                    !stdCourseRel.waitlist &&
-                    (termInfo.phase === "registration" ||
-                      (termInfo.phase !== "registration" && user.specReg)) && (
-                      <Button variant="success" onClick={handleEnrollment}>
-                        {capacity.available > 0 ? "Enroll" : "Join Waitlist"}
+            {!user.suspended &&
+              (user.type === "student" || user.type === "registrar") && (
+                <Row>
+                  <Col xs="auto">
+                    {!stdCourseRel.enrolled &&
+                      !stdCourseRel.waitlist &&
+                      (termInfo.phase === "registration" ||
+                        (termInfo.phase !== "registration" &&
+                          user.specReg)) && (
+                        <Button variant="success" onClick={handleEnrollment}>
+                          {capacity.available > 0 ? "Enroll" : "Join Waitlist"}
+                        </Button>
+                      )}
+                    {(stdCourseRel.enrolled || stdCourseRel.waitlist) && (
+                      <Button variant="danger" onClick={handleUnEnrollment}>
+                        {stdCourseRel.enrolled ? "Withdraw" : "Leave Waitlist"}
                       </Button>
                     )}
-                  {(stdCourseRel.enrolled || stdCourseRel.waitlist) && (
-                    <Button variant="danger" onClick={handleUnEnrollment}>
-                      {stdCourseRel.enrolled ? "Withdraw" : "Leave Waitlist"}
-                    </Button>
-                  )}
-                </Col>
-                {/* Show review button if they're enrolled and didn't write a review for this course and doesn't have a grade assigned to them */}
-                {stdCourseRel.enrolled &&
-                  !stdCourseRel.reviewed &&
-                  termInfo.phase !== "registration" &&
-                  !stdCourseRel.hasGrade && (
-                    <Col>
-                      <Button variant="secondary" onClick={() => setShow(true)}>
-                        Write Review
-                      </Button>
-                    </Col>
-                  )}
-              </Row>
-            )}
+                  </Col>
+                  {/* Show review button if they're enrolled and didn't write a review for this course and doesn't have a grade assigned to them */}
+                  {stdCourseRel.enrolled &&
+                    !stdCourseRel.reviewed &&
+                    termInfo.phase !== "registration" &&
+                    !stdCourseRel.hasGrade && (
+                      <Col>
+                        <Button
+                          variant="secondary"
+                          onClick={() => setShow(true)}
+                        >
+                          Write Review
+                        </Button>
+                      </Col>
+                    )}
+                </Row>
+              )}
           </Card.Body>
         </Card>
 

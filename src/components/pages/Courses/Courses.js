@@ -16,7 +16,7 @@ const Courses = () => {
   useEffect(() => {
     const populateCourseList = async () => {
       setLoading(true);
-      const data = await getCourseList();
+      const data = await getCourseList(termInfo);
       const courseMap = await groupClassByMajor(data);
       setCourseList(courseMap);
       setLoading(false);
