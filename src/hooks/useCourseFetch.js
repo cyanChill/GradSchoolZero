@@ -41,20 +41,23 @@ const useCourseFetch = () => {
       waitList: [],
     };
 
-    await fetch("http://localhost:2543/classes", {
+    const res = await fetch("http://localhost:2543/classes", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
       body: JSON.stringify(courseObj),
     });
+
+    return res.ok;
   };
 
   // Function to delete course
   const deleteCourse = async (courseId) => {
-    await fetch(`http://localhost:2543/classes/${courseId}`, {
+    const res = await fetch(`http://localhost:2543/classes/${courseId}`, {
       method: "DELETE",
     });
+    return res.ok;
   };
 
   // Get a list of the courses that can be cancelled
@@ -113,32 +116,14 @@ const useCourseFetch = () => {
     }
 
     // Warn the instructor for teaching a cancelled class
-    const instructorId = courseData.instructor.id;
-    const instructorUserObjRes = await fetch(
-      `http://localhost:2543/users/${instructorId}`
-    );
-    const instructorUserObjData = await instructorUserObjRes.json();
-    const instructorWarnings = +instructorUserObjData.warningCnt || 0;
-    const updatedInstructorInfo = {
-      ...instructorUserObjData,
-      warningCnt: instructorWarnings + 1,
-    };
-
-    // Give Warning
     await addWarning(courseData.instructor, "Teaching a cancelled course", 1);
 
-    await fetch(`http://localhost:2543/users/${instructorId}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedInstructorInfo),
-    });
-
     // Remove Course from Database
-    await fetch(`http://localhost:2543/classes/${courseId}`, {
+    const res = await fetch(`http://localhost:2543/classes/${courseId}`, {
       method: "DELETE",
     });
+
+    return res.ok;
   };
 
   // Function to enroll student into a course
@@ -151,21 +136,24 @@ const useCourseFetch = () => {
     const { id: stdId, name: stdName, specReg, suspended, expelled } = user;
     const { semester, year, phase } = termInfo;
 
-    if (phase !== "registration" || (phase !== "registration" && !specReg))
+    if (phase !== "registration" && !specReg)
       return {
-        error: "Can't Enroll",
+        status: "error",
+        title: "Can't Enroll",
         details: "Phase isn't in course-registration",
       };
 
     if (suspended)
       return {
-        error: "Can't Enroll",
+        status: "error",
+        title: "Can't Enroll",
         details: "User is suspended",
       };
 
     if (expelled)
       return {
-        error: "Can't Enroll",
+        status: "error",
+        title: "Can't Enroll",
         details: "User is expelled",
       };
 
@@ -242,7 +230,8 @@ const useCourseFetch = () => {
 
           if (!updateRes.ok)
             return {
-              error: "Failed to Enroll",
+              status: "error",
+              title: "Failed to Enroll",
               details: "An unknown error has occur when updating the database",
             };
 
@@ -276,11 +265,13 @@ const useCourseFetch = () => {
 
           if (gradePostRes.ok)
             return {
-              status: "Successfully Enrolled",
+              status: "success",
+              title: "Successfully Enrolled",
               details: "Successfully enrolled into course",
             };
           return {
-            error: "Failed to Enroll",
+            status: "error",
+            title: "Failed to Enroll",
             details: "Failed to post to server",
           };
         } else {
@@ -309,17 +300,20 @@ const useCourseFetch = () => {
 
           if (updateResponse.ok)
             return {
-              status: "Successfully Joined Waitlist",
+              status: "success",
+              title: "Successfully Joined Waitlist",
               details: "Successfully updated waitlist",
             };
           return {
-            error: "Failed to Update",
+            status: "error",
+            title: "Failed to Update",
             details: "Failed to update waitlist with new student",
           };
         }
       } else {
         return {
-          error: "Time Conflicts",
+          status: "error",
+          title: "Time Conflicts",
           details:
             "Adding this course will lead to time conflicts with some of the other enrolled courses",
         };
@@ -327,31 +321,39 @@ const useCourseFetch = () => {
     } else {
       // Taken Class Twice (Both F)
       if (numTaken === 2 && gradeDist["F"] === 2)
-        return { error: "Expulsion", details: "Failed course twice" };
+        return {
+          status: "error",
+          title: "Expulsion",
+          details: "Failed course twice",
+        };
 
       // Taken class once or twice but didn't get an F the 2nd time (or a "W" or "DW")
       if (numTaken === 1 || numTaken === 2)
         return {
-          error: "Passed",
+          status: "error",
+          title: "Passed",
           details: "Passed course already",
         };
 
       // Taking 4 classes
       if (numCoursesCurrTaking === 4)
         return {
-          error: "Course Limit",
+          status: "error",
+          title: "Course Limit",
           details: "Taking the max number of courses allowed",
         };
 
       // Withdrawn from this course already
       if (withdrawn)
         return {
-          error: "Withdrawn",
+          status: "error",
+          title: "Withdrawn",
           details: "Student have withdrawn from this course",
         };
 
       return {
-        error: "Unknown",
+        status: "error",
+        title: "Unknown",
         details: "Some other factor that doesn't allow the student to enroll",
       };
     }
@@ -481,7 +483,7 @@ const useCourseFetch = () => {
       return {
         status: "success",
         message:
-          "Successfully left course & added next avaliable waitlist student to course",
+          "Successfully left course & added next available waitlist student to course",
       };
     } else {
       // Update course avalability
@@ -503,6 +505,11 @@ const useCourseFetch = () => {
           },
         }),
       });
+
+      return {
+        status: "success",
+        message: "Successfully left course",
+      };
     }
   };
 
@@ -587,13 +594,15 @@ const useCourseFetch = () => {
       waitList: courseData.waitList.filter((std) => std.id !== stdId),
     };
 
-    await fetch(`http://localhost:2543/classes/${courseId}`, {
+    const res = await fetch(`http://localhost:2543/classes/${courseId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(updatedCourseData),
     });
+
+    return res.ok;
   };
 
   const getCourseList = async (termInfo) => {
@@ -666,13 +675,18 @@ const useCourseFetch = () => {
       grade,
     };
 
-    await fetch(`http://localhost:2543/grades/${studGradeObjData[0].id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newStdGradeObj),
-    });
+    const res = await fetch(
+      `http://localhost:2543/grades/${studGradeObjData[0].id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newStdGradeObj),
+      }
+    );
+
+    return res.ok;
   };
 
   // Group an array of classes by their major
@@ -752,7 +766,7 @@ const useCourseFetch = () => {
     const newRating =
       reviewsData.length === 0 ? null : calcAvgRating(reviewsData);
 
-    await fetch(`http://localhost:2543/courses/${baseCourse.id}`, {
+    const res = await fetch(`http://localhost:2543/courses/${baseCourse.id}`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",
@@ -762,6 +776,8 @@ const useCourseFetch = () => {
         rating: newRating,
       }),
     });
+
+    return res.ok;
   };
 
   // Update All (Base) Class Ratings for the course that courses that just concluded
@@ -794,6 +810,7 @@ const useCourseFetch = () => {
     return { top3: top3Data, bottom3: bottom3Data };
   };
 
+  
   return {
     addCourse,
     deleteCourse,

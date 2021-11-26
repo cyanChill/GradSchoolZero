@@ -22,7 +22,7 @@ const useTermInfo = () => {
     warnAllStudForLessCourse,
     updateAllStudGPA,
     condCheckAllStudGPA,
-    expellAllStudFailCourseTwice,
+    expelAllStudFailCourseTwice,
   } = useUserFetch();
   const {
     suspendAllInstructorsNoCourse,
@@ -70,7 +70,7 @@ const useTermInfo = () => {
 
       /*
         0. Update all student's GPA
-        1. Expell Student With GPA <2
+        1. Expel Student With GPA <2
         2. Warn Student With a GPA Between 2 and 2.5 Demanding an Interview (+0 warningCnt)
         3. Give Student HonorRoll For Term (Append to HonorRoll Array in DB) if GPA >3.75 this Semester or >3.5 Overall & remove 1 warning from their warning count (given it's >0)
       */
@@ -78,7 +78,7 @@ const useTermInfo = () => {
       await condCheckAllStudGPA(termInfo.semester, termInfo.year);
 
       // Expell Student Who Failed the Same Course Twice
-      await expellAllStudFailCourseTwice();
+      await expelAllStudFailCourseTwice();
 
       // Suspend all users with warningCnt >= 3
       await suspendAllSuspendableUsers();
@@ -141,7 +141,7 @@ const useTermInfo = () => {
     const termRes = await fetch("http://localhost:2543/term/terminfo");
     const termData = await termRes.json();
 
-    await fetch(`http://localhost:2543/term/terminfo`, {
+    const res = await fetch(`http://localhost:2543/term/terminfo`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -150,6 +150,8 @@ const useTermInfo = () => {
     });
 
     setTermInfo((prev) => ({ ...prev, specReg: state }));
+
+    return res.ok;
   };
 
   // Function to remove special registration flag from students
@@ -158,7 +160,7 @@ const useTermInfo = () => {
     const studRes = await fetch("http://localhost:2543/users?specReg=true");
     const studData = await studRes.json();
 
-    await studData.forEach(async (stud) => {
+    const res = await studData.forEach(async (stud) => {
       await fetch(`http://localhost:2543/users/${stud.id}`, {
         method: "PATCH",
         headers: {
@@ -170,6 +172,7 @@ const useTermInfo = () => {
 
     // End Special Registration
     await setSpecRegFlag(false);
+    return res.ok;
   };
 
   // Function to get the new values for phase, semester, and year

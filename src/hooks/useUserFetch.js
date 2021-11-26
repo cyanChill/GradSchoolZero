@@ -69,7 +69,7 @@ const useUserFetch = () => {
       body: JSON.stringify(body),
     });
 
-    return res.status === 201;
+    return res.ok;
   };
 
   // Function to login a user
@@ -197,13 +197,15 @@ const useUserFetch = () => {
     const res = await fetch(`http://localhost:2543/users/${userId}`);
     const data = await res.json();
 
-    await fetch(`http://localhost:2543/users/${userId}`, {
+    const patchRes = await fetch(`http://localhost:2543/users/${userId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ ...data, removed: true }),
     });
+
+    return patchRes.ok;
   };
 
   // Function to get student's gpa
@@ -325,13 +327,15 @@ const useUserFetch = () => {
     const failedCourseTwice = Object.values(courseMap).includes(2);
 
     if (failedCourseTwice) {
-      // Expell Student
+      // Expel Student
       await removeUser(id);
     }
+
+    return failedCourseTwice;
   };
 
-  // Function to expell all students who failed the same course twice
-  const expellAllStudFailCourseTwice = async () => {
+  // Function to expel all students who failed the same course twice
+  const expelAllStudFailCourseTwice = async () => {
     const studRes = await fetch(
       "http://localhost:2543/users?type=student&removed=false"
     );
@@ -379,7 +383,7 @@ const useUserFetch = () => {
     const userRes = await fetch(`http://localhost:2543/users/${id}`);
     const userData = await userRes.json();
 
-    await fetch(`http://localhost:2543/users/${id}`, {
+    const res = await fetch(`http://localhost:2543/users/${id}`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",
@@ -389,6 +393,8 @@ const useUserFetch = () => {
         applyGrad: true,
       }),
     });
+
+    return res.ok;
   };
 
   // Function to get all current graduation applications
@@ -407,7 +413,7 @@ const useUserFetch = () => {
     const userRes = await fetch(`http://localhost:2543/users/${userInfo.id}`);
     const userData = await userRes.json();
 
-    await fetch(`http://localhost:2543/users/${userInfo.id}`, {
+    const res = await fetch(`http://localhost:2543/users/${userInfo.id}`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",
@@ -418,6 +424,8 @@ const useUserFetch = () => {
         graduated: outcome === "accept",
       }),
     });
+
+    return res.ok;
   };
 
   // Function to get all suspended users
@@ -427,7 +435,7 @@ const useUserFetch = () => {
     return data;
   };
 
-  // Functions to get all fired/expelled users
+  // Functions to get all fired/expeled users
   const getAllRemovedUsers = async () => {
     const res = await fetch(`http://localhost:2543/users?removed=true`);
     const data = await res.json();
@@ -455,7 +463,7 @@ const useUserFetch = () => {
     condCheckStudGPA,
     condCheckAllStudGPA,
     studFailCourseTwice,
-    expellAllStudFailCourseTwice,
+    expelAllStudFailCourseTwice,
     refreshUserInfo,
     getUserInfractions,
     getProgramStudStats,

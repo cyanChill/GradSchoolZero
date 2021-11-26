@@ -42,6 +42,7 @@ const CoursePage = () => {
     addStudentFromWaitlist,
     removeStudentFromWaitlist,
     setStdGrade,
+    getCourseAvgRating,
   } = useCourseFetch();
   const { userHook, termHook } = useContext(GlobalContext);
   const { user } = userHook;
@@ -68,13 +69,20 @@ const CoursePage = () => {
     const populateData = async () => {
       setLoading(true);
       const courseInfoData = await getCourseInfo(id);
+      const courseRating = await getCourseAvgRating(
+        courseInfoData.courseData.course.name,
+        courseInfoData.courseData.course.code
+      );
 
       if (courseInfoData === "error") {
         setError(true);
         return;
       }
 
-      setCourseInfo(courseInfoData.courseData);
+      setCourseInfo({
+        ...courseInfoData.courseData,
+        overallRating: courseRating,
+      });
       setStudentList(courseInfoData.enrolledInfo);
       if (user.type === "registrar") {
         setReviewsList(courseInfoData.reviewsData);
@@ -120,11 +128,11 @@ const CoursePage = () => {
   const handleEnrollment = async () => {
     const response = await enrollCourse(user, courseInfo, termInfo);
 
-    if (response.error) {
+    if (response.status === "error") {
       // Recieved an error from trying to enroll
       setAlertObj({
         type: "danger",
-        title: response.error,
+        title: response.title,
         message: response.details,
       });
 
@@ -161,7 +169,7 @@ const CoursePage = () => {
 
       setAlertObj({
         type: "success",
-        title: response.status,
+        title: response.title,
         message: response.details,
       });
     }
@@ -395,11 +403,12 @@ const CoursePage = () => {
   let body = null;
 
   if (!loading) {
-    const { course, instructor, capacity, time } = courseInfo;
+    const { course, instructor, capacity, time, overallRating } = courseInfo;
 
-    const timeField = time.map((time, idx) => (
+    const timeField = time.map((classTime, idx) => (
       <span key={idx} className={classes.secondary}>
-        {time.day} {convert23Time(time.start)}—{convert23Time(time.end)}
+        {classTime.day} {convert23Time(classTime.start)}—
+        {convert23Time(classTime.end)}
         {idx !== time.length - 1 && ", "}
       </span>
     ));
@@ -421,6 +430,14 @@ const CoursePage = () => {
             <LabelDescripField
               label="Max Capacity:"
               description={capacity.max}
+            />
+            <LabelDescripField
+              label="Course Rating:"
+              description={
+                overallRating
+                  ? `${overallRating}/5`
+                  : "This course has not been rated previously"
+              }
             />
             {/* Enroll & Write Review Buttons Row*/}
             {!user.suspended &&

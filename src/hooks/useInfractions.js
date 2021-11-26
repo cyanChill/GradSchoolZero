@@ -27,7 +27,7 @@ const useInfractions = () => {
     const userData = await userInfoRes.json();
     const warningCnt = +userData.warningCnt || 0;
 
-    await fetch(`http://localhost:2543/users/${userInfo.id}`, {
+    const res = await fetch(`http://localhost:2543/users/${userInfo.id}`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",
@@ -37,6 +37,8 @@ const useInfractions = () => {
         warningCnt: warningCnt + warningCntVal,
       }),
     });
+
+    return res.ok;
   };
 
   // Remove 1 warning from the warning counter on a user
@@ -46,7 +48,7 @@ const useInfractions = () => {
     let warningCnt = +userData.warningCnt || 0;
     if (warningCnt > 0) warningCnt--;
 
-    await fetch(`http://localhost:2543/users/${userId}`, {
+    const res = await fetch(`http://localhost:2543/users/${userId}`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json",
@@ -56,6 +58,8 @@ const useInfractions = () => {
         warningCnt: warningCnt,
       }),
     });
+
+    return res.ok;
   };
 
   /* 
@@ -172,7 +176,7 @@ const useInfractions = () => {
     const res = await fetch(`http://localhost:2543/users/${id}`);
     const data = await res.json();
 
-    await fetch(`http://localhost:2543/users/${id}`, {
+    const patchRes = await fetch(`http://localhost:2543/users/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -182,6 +186,8 @@ const useInfractions = () => {
         suspended: false,
       }),
     });
+
+    return patchRes.ok;
   };
 
   return {

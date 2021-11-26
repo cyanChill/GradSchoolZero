@@ -54,13 +54,18 @@ const useComplaintsFetch = () => {
     }
 
     // Remove complaint from complaints database
-    await fetch(`http://localhost:2543/complaints/${complaintInfo.id}`, {
-      method: "DELETE",
-    });
+    const res = await fetch(
+      `http://localhost:2543/complaints/${complaintInfo.id}`,
+      {
+        method: "DELETE",
+      }
+    );
 
     setComplaintsList((prev) =>
       prev.filter((complaint) => complaint.id !== complaintInfo.id)
     );
+
+    return res.ok;
   };
 
   /*

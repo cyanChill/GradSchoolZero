@@ -44,7 +44,8 @@ const useInstructorFetch = () => {
     });
     setInstructorList(newInstructorList);
 
-    await removeUser(instructorId);
+    const res = await removeUser(instructorId);
+    return res;
   };
 
   // Function to "suspend" all instructors not teaching a course
