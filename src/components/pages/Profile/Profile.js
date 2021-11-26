@@ -22,6 +22,7 @@ const defaultOrgInfo = {
 };
 
 const Profile = () => {
+  
   const { id } = useParams();
   const { userHook, termHook } = useContext(GlobalContext);
   const { getUserInfoFromId, user } = userHook;

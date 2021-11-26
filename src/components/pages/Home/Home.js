@@ -1,9 +1,8 @@
 import { useContext, useState } from "react";
 import { GlobalContext } from "../../../GlobalContext";
 import { Button, Container, Alert } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Grid, Paper } from "@mui/material";
-import { Route } from "react-router-dom";
 import RegistrarMangementPage from "../../RegisterView/Mangement/RegistrarManagementPage";
 import "./Home.css";
 
@@ -11,7 +10,7 @@ const Home = ({ history }) => {
   const isBackgroundRed = true;
   const { userHook } = useContext(GlobalContext);
   const { isLoggedIn, user } = userHook;
-  console.log(user);
+  // console.log(user);
 
   const clearAlert = () => {
     let state = { ...history.location.state };
@@ -19,15 +18,16 @@ const Home = ({ history }) => {
     history.replace({ ...history.location, state });
   };
 
+  const x = user.type === "student";
+  if (x) {
+    return <Redirect to="/profile" />;
+  }
+
   return (
     <div>
       {(() => {
         if (user.type === "registrar") {
           return <RegistrarMangementPage />;
-        } else if (user.type === "instructor") {
-          return <h1>Instructor</h1>;
-        } else if (user.type === "student") {
-          return <h1>student</h1>;
         } else {
           return (
             <>
