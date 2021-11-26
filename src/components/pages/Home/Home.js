@@ -18,16 +18,17 @@ const Home = ({ history }) => {
     history.replace({ ...history.location, state });
   };
 
-  const x = user.type === "student" || "instructor";
-  if (x) {
-    return <Redirect to="/profile" />;
-  }
+  // const x = user.type === "student" || "instructor";
+  // if (x) {
+  // }
 
   return (
     <div>
       {(() => {
         if (user.type === "registrar") {
           return <RegistrarMangementPage />;
+        } else if (user.type === "student" || user.type === "instructor") {
+          return <Redirect to="/profile" />;
         } else {
           return (
             <>
