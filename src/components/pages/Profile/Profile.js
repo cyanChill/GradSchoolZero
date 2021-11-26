@@ -34,8 +34,14 @@ const defaultOrgInfo = {
 const Profile = () => {
   const { id } = useParams();
   const { userHook, termHook } = useContext(GlobalContext);
-  const { getUserInfoFromId, user, applyForGrad, refreshUserInfo, removeUser } =
-    userHook;
+  const {
+    getUserInfoFromId,
+    user,
+    applyForGrad,
+    refreshUserInfo,
+    removeUser,
+    getUserInfractions,
+  } = userHook;
   const { termInfo } = termHook;
   const { submitComplaint, addWarning } = useInfractions();
 
@@ -48,6 +54,7 @@ const Profile = () => {
   );
   const [error, setError] = useState(false);
   const [alertObj, setAlertObj] = useState(null);
+  const [userInfracInfo, setUserInfracInfo] = useState(null);
 
   useEffect(() => {
     const populateData = async () => {
@@ -96,6 +103,12 @@ const Profile = () => {
       });
 
       setOrganizedData({ currCourses, prevCourses, currTeach, prevTeach });
+
+      if (!id) {
+        const userInfractions = await getUserInfractions(userId);
+        setUserInfracInfo(userInfractions);
+      }
+
       setLoading(false);
     };
 
@@ -257,6 +270,35 @@ const Profile = () => {
     );
   }
 
+  let formattedWarningInfo = null;
+
+  if (userInfracInfo) {
+    const { warningCnt, latest3Warnings } = userInfracInfo;
+
+    let headingMsg = `You currently have ${warningCnt} warnings. You are ${
+      3 - warningCnt
+    } warnings away from being suspended.`;
+    if (warningCnt >= 3) {
+      headingMsg = `You currently have ${warningCnt} warnings. You will be suspended in the next semester`;
+    }
+
+    formattedWarningInfo = (
+      <Alert variant={warningCnt > 1 ? "danger" : "warning"} className="my-3">
+        <Alert.Heading>{headingMsg}</Alert.Heading>
+        {warningCnt > 0 && (
+          <>
+            <p className="my-2">Your current warnings include:</p>
+            {latest3Warnings.map((warning) => (
+              <p key={warning.id} className="my-2 text-muted font-monospace">
+                ({new Date(warning.date).toDateString()}) {warning.reason}
+              </p>
+            ))}
+          </>
+        )}
+      </Alert>
+    );
+  }
+
   return (
     <Container>
       {alertObj && (
@@ -274,6 +316,9 @@ const Profile = () => {
         {profileInfo.userData.name}'s Profile
       </h1>
 
+      {/* Display user's warning information given this is their personal profile */}
+      {!id && formattedWarningInfo}
+
       {body}
 
       {/* Requires user to be logged in to see the following: */}
@@ -288,30 +333,36 @@ const Profile = () => {
               <Button onClick={handleApplyGrad}>Apply For Graduation</Button>
             )}
 
-          {/* Report user button */}
-          {id &&
-            !profileInfo.userData.removed &&
+          {/* Buttons will appear if user isn't expelled/fired and hasn't graduated*/}
+          {!profileInfo.userData.removed &&
             !profileInfo.userData.graduated &&
-            profileInfo.userData.id !== user.id &&
             profileInfo.userData.type !== "registrar" && (
-              <ReportButtonModal submitHandler={submitReportHandler} />
-            )}
+              <>
+                {/* Report user button */}
+                {id && profileInfo.userData.id !== user.id && (
+                  <ReportButtonModal submitHandler={submitReportHandler} />
+                )}
 
-          {/* Remove user button*/}
-          {profileInfo.userData.type !== "registrar" &&
-            !profileInfo.userData.graduated &&
-            !profileInfo.userData.removed && (
-              <RemoveUserButtonModal
-                submitHandler={submitRemovalHandler}
-                profileUserType={profileInfo.userData.type}
-              />
-            )}
+                {/* Registrar Only: */}
+                {user.type === "registrar" && (
+                  <>
+                    {/* Remove user button*/}
+                    {
+                      <RemoveUserButtonModal
+                        submitHandler={submitRemovalHandler}
+                        profileUserType={profileInfo.userData.type}
+                      />
+                    }
 
-          {/* Warn user button*/}
-          {profileInfo.userData.type !== "registrar" &&
-            !profileInfo.userData.removed &&
-            !profileInfo.userData.graduated && (
-              <WarnUserButtonModal submitHandler={submitWarningHandler} />
+                    {/* Warn user button*/}
+                    {
+                      <WarnUserButtonModal
+                        submitHandler={submitWarningHandler}
+                      />
+                    }
+                  </>
+                )}
+              </>
             )}
         </div>
       )}
