@@ -357,6 +357,7 @@ const useCourseFetch = () => {
     }
   };
 
+  // Function to remove a user from the waitlist of a cousre
   const leaveWaitlist = async (userId, courseId) => {
     const latestCourseRes = await fetch(
       `http://localhost:2543/classes/${courseId}`
@@ -381,6 +382,7 @@ const useCourseFetch = () => {
     return { status: "error", message: "Failed to leave waitlist" };
   };
 
+  // Function to unenroll a student from a course & add the next valid waitlist student
   const unEnrollCourse = async (userId, courseId, termInfo) => {
     const { phase, semester, year } = termInfo;
 
@@ -504,6 +506,7 @@ const useCourseFetch = () => {
     }
   };
 
+  // Function to add a student from the waitlist to the course (given they're allowed to enroll)
   const addStudentFromWaitlist = async (stdInfo, courseId, termInfo) => {
     const { id: stdId, name: stdName } = stdInfo;
     const { semester, year } = termInfo;
@@ -575,6 +578,7 @@ const useCourseFetch = () => {
     return { status: "error", message: "Database failed to enroll student" };
   };
 
+  // Function to remove the student from the waitlist
   const removeStudentFromWaitlist = async (stdId, courseId) => {
     const courseRes = await fetch(`http://localhost:2543/classes/${courseId}`);
     const courseData = await courseRes.json();
@@ -775,6 +779,7 @@ const useCourseFetch = () => {
     }
   };
 
+  // Function to get the top 3 and bottom 3 rated classes
   const getProgramClassStats = async () => {
     const top3Res = await fetch(
       `http://localhost:2543/courses?_sort=rating&_order=desc&_limit=3&rating_ne=null`

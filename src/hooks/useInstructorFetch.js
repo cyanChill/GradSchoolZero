@@ -47,6 +47,7 @@ const useInstructorFetch = () => {
     await removeUser(instructorId);
   };
 
+  // Function to "suspend" all instructors not teaching a course
   const suspendAllInstructorsNoCourse = async (semester, year) => {
     const instRes = await fetch(
       "http://localhost:2543/users?type=instructor&suspended=false&removed=false"
@@ -69,6 +70,7 @@ const useInstructorFetch = () => {
     }
   };
 
+  // Function to get an instructor's average rating
   const getInstructorAvgRating = async (instId) => {
     const instReviewsRes = await fetch(
       `http://localhost:2543/reviews?instructor.id=${instId}`
@@ -80,6 +82,7 @@ const useInstructorFetch = () => {
     return calcAvgRating(instReviewsData);
   };
 
+  // Function to update all instructor ratings in the database given any new reviews since the last update
   const updateAllInstrucRating = async () => {
     const instRes = await fetch(
       "http://localhost:2543/users?type=instructor&removed=false"
@@ -99,6 +102,7 @@ const useInstructorFetch = () => {
     }
   };
 
+  // Function to warn all instructors with an overall rating of less than 2
   const warnLess2RateInstructors = async () => {
     const instRes = await fetch(
       "http://localhost:2543/users?type=instructor&removed=false"
@@ -112,6 +116,7 @@ const useInstructorFetch = () => {
     }
   };
 
+  // Function to check if an instructor failled to assign all their grades to their students
   const instructorAssignAllGrades = async (instId) => {
     const instGradesRes = await fetch(
       `http://localhost:2543/grades?instructor.id=${instId}`
@@ -121,6 +126,7 @@ const useInstructorFetch = () => {
     return instGradesData.some((grade) => !grade.grade);
   };
 
+  // Function to warn all instructors that failed to assign all their grades for their students
   const warnAllFailGradeAssign = async () => {
     const instRes = await fetch(
       "http://localhost:2543/users?type=instructor&removed=false"
@@ -140,6 +146,7 @@ const useInstructorFetch = () => {
     }
   };
 
+  // Function to check if an instructor have given grades that resulted in a suspicious class gpa
   const instructorWithSuspiciousClassGPA = async (instId, semester, year) => {
     const instCoursesRes = await fetch(
       `http://localhost:2543/classes?instructor.id=${instId}&semester=${semester}&year=${year}`
@@ -156,6 +163,7 @@ const useInstructorFetch = () => {
     return result;
   };
 
+  // Function to notify all suspicious instructors (ie: they have a course GPA < 2.5 or > 3.5)
   const notifyAllSupiciousInstructor = async (semester, year) => {
     const instRes = await fetch(
       "http://localhost:2543/users?type=instructor&removed=false"

@@ -68,7 +68,7 @@ const useTabooFetch = () => {
     setTabooList(newTabooList);
   };
 
-  // Function to refresh local copy of taboo list (to prevent constant fetching)
+  // Function to refresh local copy of taboo list
   const refreshTabooList = async () => {
     setLoading(true);
     const res = await fetch(`http://localhost:2543/tabooWords`);

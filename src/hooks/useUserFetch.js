@@ -342,6 +342,7 @@ const useUserFetch = () => {
     }
   };
 
+  // Function to refresh the user info
   const refreshUserInfo = async () => {
     if (!user.id) return;
 
@@ -350,6 +351,7 @@ const useUserFetch = () => {
     setUserInfo(data);
   };
 
+  // Get the user's warning count and latest 3 warnings
   const getUserInfractions = async (id) => {
     const userRes = await fetch(`http://localhost:2543/users/${id}`);
     const userData = await userRes.json();
@@ -362,6 +364,7 @@ const useUserFetch = () => {
     return { warningCnt: userData.warningCnt, latest3Warnings: warningsData };
   };
 
+  // Get the top 3 student gpas
   const getProgramStudStats = async () => {
     const top3Res = await fetch(
       `http://localhost:2543/users?type=student&_sort=GPA&_order=desc_limit=3`
@@ -371,6 +374,7 @@ const useUserFetch = () => {
     return { top3: top3Data };
   };
 
+  // Set the applyGrad flag for the user to true (will display in graduation applications on the registrar side)
   const applyForGrad = async (id) => {
     const userRes = await fetch(`http://localhost:2543/users/${id}`);
     const userData = await userRes.json();
@@ -387,12 +391,14 @@ const useUserFetch = () => {
     });
   };
 
+  // Function to get all current graduation applications
   const getAllGradApp = async () => {
     const res = await fetch(`http://localhost:2543/users?applyGrad=true`);
     const data = await res.json();
     return data;
   };
 
+  // Function to handle how we deal with the graduation application
   const handleGradApp = async (userInfo, outcome) => {
     if (outcome === "reject") {
       await addWarning(userInfo, "Reckless graduation application", 1);
@@ -414,12 +420,14 @@ const useUserFetch = () => {
     });
   };
 
+  // Function to get all suspended users
   const getAllSuspendedUsers = async () => {
     const res = await fetch(`http://localhost:2543/users?suspended=true`);
     const data = await res.json();
     return data;
   };
 
+  // Functions to get all fired/expelled users
   const getAllRemovedUsers = async () => {
     const res = await fetch(`http://localhost:2543/users?removed=true`);
     const data = await res.json();

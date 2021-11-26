@@ -8,6 +8,7 @@ const useReviewFetch = () => {
   const { countTabooWords, censorTabooWords } = tabooHook;
   const { addWarning } = useInfractions();
 
+  // Function to add a review to the database
   const addReview = async (
     courseInfo,
     instructorInfo,

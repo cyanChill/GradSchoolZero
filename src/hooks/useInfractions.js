@@ -167,6 +167,7 @@ const useInfractions = () => {
     }
   };
 
+  // Function to unsuspend a user
   const unSuspendUser = async (id) => {
     const res = await fetch(`http://localhost:2543/users/${id}`);
     const data = await res.json();
