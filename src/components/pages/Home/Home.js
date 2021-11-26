@@ -18,7 +18,7 @@ const Home = ({ history }) => {
     history.replace({ ...history.location, state });
   };
 
-  const x = user.type === "student";
+  const x = user.type === "student" || "instructor";
   if (x) {
     return <Redirect to="/profile" />;
   }
