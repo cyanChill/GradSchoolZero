@@ -112,6 +112,13 @@
       "name": "Aderyn Adam",
       "email": "aadam@gradschoolzero.edu",
       "password": "password"
+    },
+    {
+      "id": "f426c26b-c941-47fc-ac30-c0f1ca8263db",
+      "name": "Nafis Khan",
+      "email": "nafiskhan@gradschoolzero.edu",
+      "password": "bGnbzIjg4Z",
+      "type": "student"
     }
   ],
   "courses": [
@@ -493,7 +500,10 @@
   "tabooWords": [
     {
       "id": "taboolist",
-      "tabooList": ["simp", "ass"]
+      "tabooList": [
+        "simp",
+        "ass"
+      ]
     }
   ],
   "term": [
