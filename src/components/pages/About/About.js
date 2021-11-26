@@ -11,17 +11,17 @@ const About = () => {
         <h2 className="text-uppercase">We're the original -</h2>
         <h2 className="text-uppercase">And we're still meeting the need.</h2>
 
-        <div class="custom-show-hide-text">
+        <div className="custom-show-hide-text">
           <a
             id="custom-show-more"
-            class="custom-show-less"
+            className="custom-show-less"
             href="#custom-show-less"
           >
             Show Less
           </a>
           <a
             id="custom-show-less"
-            class="custom-show-more"
+            className="custom-show-more"
             href="#custom-show-more"
           >
             Read More
@@ -57,28 +57,28 @@ const About = () => {
 
         {/* new cards */}
 
-        <div class="custom-container">
-          <div class="custom-card">
-            <div class="custom-box">
-              <div class="custom-content">
+        <div className="custom-container">
+          <div className="custom-card">
+            <div className="custom-box">
+              <div className="custom-content">
                 <h2>1961</h2>
                 <h3>Established</h3>
               </div>
             </div>
           </div>
 
-          <div class="custom-card">
-            <div class="custom-box">
-              <div class="custom-content">
+          <div className="custom-card">
+            <div className="custom-box">
+              <div className="custom-content">
                 <h2>12161</h2>
                 <h3>Students</h3>
               </div>
             </div>
           </div>
 
-          <div class="custom-card">
-            <div class="custom-box">
-              <div class="custom-content">
+          <div className="custom-card">
+            <div className="custom-box">
+              <div className="custom-content">
                 <h2>832</h2>
                 <h3>Faculty</h3>
               </div>
@@ -89,17 +89,17 @@ const About = () => {
         <div className="custom-bottomCover"></div>
 
         {/* old cards */}
-        {/* <div class="columns">
-  <div class="row">
-    <div class="col">
+        {/* <div className="columns">
+  <div className="row">
+    <div className="col">
       <p>Established</p>
         <p>1903</p>
     </div>
-    <div class="col">
+    <div className="col">
     <p>Students</p>
         <p>5157</p>
     </div>
-    <div class="col">
+    <div className="col">
     <p>Faculty</p>
         <p>721</p>
     </div>
