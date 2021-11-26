@@ -167,6 +167,22 @@ const useInfractions = () => {
     }
   };
 
+  const unSuspendUser = async (id) => {
+    const res = await fetch(`http://localhost:2543/users/${id}`);
+    const data = await res.json();
+
+    await fetch(`http://localhost:2543/users/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...data,
+        suspended: false,
+      }),
+    });
+  };
+
   return {
     addWarning,
     remove1WarningCnt,
@@ -176,6 +192,7 @@ const useInfractions = () => {
     removeAllSuspendedFlag,
     suspendUser,
     suspendAllSuspendableUsers,
+    unSuspendUser,
   };
 };
 

@@ -414,6 +414,18 @@ const useUserFetch = () => {
     });
   };
 
+  const getAllSuspendedUsers = async () => {
+    const res = await fetch(`http://localhost:2543/users?suspended=true`);
+    const data = await res.json();
+    return data;
+  };
+
+  const getAllRemovedUsers = async () => {
+    const res = await fetch(`http://localhost:2543/users?removed=true`);
+    const data = await res.json();
+    return data;
+  };
+
   useEffect(() => {
     sessionStorage.setItem("user", JSON.stringify(user));
   }, [user]);
@@ -442,6 +454,8 @@ const useUserFetch = () => {
     applyForGrad,
     getAllGradApp,
     handleGradApp,
+    getAllSuspendedUsers,
+    getAllRemovedUsers,
   };
 };
 
