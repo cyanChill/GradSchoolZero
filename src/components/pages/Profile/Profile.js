@@ -174,12 +174,12 @@ const Profile = () => {
     });
   };
 
-  if (!id && user.type === "registrar") {
-    return <Redirect to="/registrar" />;
-  }
-
   if (loading) {
     return <CenterSpinner />;
+  }
+
+  if (!id && user.type === "registrar") {
+    return <Redirect to="/registrar" />;
   }
 
   if (error) {
@@ -280,12 +280,18 @@ const Profile = () => {
       {user.name !== "" && (
         <div className="d-flex justify-content-center align-items-center my-3 gap-2">
           {/* Apply for graduation button */}
-          {!id && !user.applyGrad && user.type === "student" && (
-            <Button onClick={handleApplyGrad}>Apply For Graduation</Button>
-          )}
+          {!id &&
+            !user.applyGrad &&
+            !user.graduated &&
+            !user.removed &&
+            user.type === "student" && (
+              <Button onClick={handleApplyGrad}>Apply For Graduation</Button>
+            )}
 
           {/* Report user button */}
           {id &&
+            !profileInfo.userData.removed &&
+            !profileInfo.userData.graduated &&
             profileInfo.userData.id !== user.id &&
             profileInfo.userData.type !== "registrar" && (
               <ReportButtonModal submitHandler={submitReportHandler} />
@@ -293,6 +299,7 @@ const Profile = () => {
 
           {/* Remove user button*/}
           {profileInfo.userData.type !== "registrar" &&
+            !profileInfo.userData.graduated &&
             !profileInfo.userData.removed && (
               <RemoveUserButtonModal
                 submitHandler={submitRemovalHandler}
@@ -301,9 +308,11 @@ const Profile = () => {
             )}
 
           {/* Warn user button*/}
-          {profileInfo.userData.type !== "registrar" && (
-            <WarnUserButtonModal submitHandler={submitWarningHandler} />
-          )}
+          {profileInfo.userData.type !== "registrar" &&
+            !profileInfo.userData.removed &&
+            !profileInfo.userData.graduated && (
+              <WarnUserButtonModal submitHandler={submitWarningHandler} />
+            )}
         </div>
       )}
     </Container>
@@ -316,7 +325,7 @@ const createWidgetGroups = (arr, canSeeAll) => {
       <Widget
         key={course.id}
         name={`[${course.course.code}] ${course.course.name}`}
-        courseId={course.course.id || course.id}
+        courseId={course.id}
         grade={course.grade}
         canSeeAll={canSeeAll}
       />

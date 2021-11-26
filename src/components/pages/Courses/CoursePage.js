@@ -23,6 +23,7 @@ import BackButton from "../../UI/BackButton";
 import LinkBoxWidget from "../../UI/LinkBoxWidget/LinkBoxWidget";
 import HorizFormInputField from "../../UI/HorizFormInputField";
 import AcceptRejectWidget from "../../UI/AcceptRejectWidget/AcceptRejectWidget";
+import DualColWidget from "../../UI/DualColWidget/DualColWidget";
 
 import { convert23Time } from "../../../helpers/time";
 import { gradeEquiv } from "../../../helpers/grades";
@@ -518,26 +519,34 @@ const CoursePage = () => {
 const ReviewWidget = ({ reviewInfo, userType }) => {
   const formattedDate = new Date(reviewInfo.date).toDateString();
 
+  const leftCol = (
+    <h3 className="d-flex align-items-center">
+      {reviewInfo.rating}
+      <FaRegStar />
+    </h3>
+  );
+
+  const rightCol = (
+    <>
+      <p className={`my-1 ${classes.secondary}`}>
+        {userType === "registrar" && (
+          <span className="fw-bold">{reviewInfo.reviewer.name} </span>
+        )}
+        {formattedDate}
+      </p>
+      <p className="my-1">{reviewInfo.reason}</p>
+    </>
+  );
+
   return (
-    <div className={classes.review}>
-      <Row className="d-flex align-items-center">
-        <Col sm="auto">
-          <h3 className="d-flex align-items-center">
-            {reviewInfo.rating}
-            <FaRegStar />
-          </h3>
-        </Col>
-        <Col>
-          <p className={`my-1 ${classes.secondary}`}>
-            {userType === "registrar" && (
-              <span className="fw-bold">{reviewInfo.reviewer.name} </span>
-            )}
-            {formattedDate}
-          </p>
-          <p className="my-1">{reviewInfo.reason}</p>
-        </Col>
-      </Row>
-    </div>
+    <DualColWidget
+      leftCol={{
+        body: leftCol,
+        breakPoints: { sm: "auto" },
+        className: "review",
+      }}
+      rightCol={{ body: rightCol, className: "review" }}
+    />
   );
 };
 
@@ -560,31 +569,37 @@ const WaitlistWidget = ({ waitlistInfo, handleResult }) => {
 const StudentGradeWidget = ({ stdInfo, updateGrade }) => {
   const { id, name, grade } = stdInfo;
 
+  const leftCol = (
+    <Link to={`/profile/${id}`} className={classes.link}>
+      {name}
+    </Link>
+  );
+
+  const rightCol = (
+    <Form.Select
+      value={grade}
+      onChange={(e) => updateGrade(stdInfo, e.target.value)}
+    >
+      <option value="" disabled>
+        Select an Grade
+      </option>
+      {Object.keys(gradeEquiv).map((gradeLetter) => (
+        <option key={gradeLetter} value={gradeLetter}>
+          {gradeLetter}
+        </option>
+      ))}
+    </Form.Select>
+  );
+
   return (
-    <div className={classes.widget}>
-      <Row className="d-flex align-items-center">
-        <Col>
-          <Link to={`/profile/${id}`} className={classes.link}>
-            {name}
-          </Link>
-        </Col>
-        <Col sm="auto">
-          <Form.Select
-            value={grade}
-            onChange={(e) => updateGrade(stdInfo, e.target.value)}
-          >
-            <option value="" disabled>
-              Select an Grade
-            </option>
-            {Object.keys(gradeEquiv).map((gradeLetter) => (
-              <option key={gradeLetter} value={gradeLetter}>
-                {gradeLetter}
-              </option>
-            ))}
-          </Form.Select>
-        </Col>
-      </Row>
-    </div>
+    <DualColWidget
+      leftCol={{ body: leftCol }}
+      rightCol={{
+        body: rightCol,
+        breakPoints: { sm: "auto" },
+        className: "text-center",
+      }}
+    />
   );
 };
 
@@ -623,18 +638,26 @@ const StudentReportWidget = ({ stdInfo, submitHandler }) => {
     submitHandler(reason, reportOutcome, stdInfo);
   };
 
+  const leftCol = (
+    <Link to={`/profile/${id}`} className={classes.link}>
+      {name}
+    </Link>
+  );
+
+  const rightCol = (
+    <GoReport onClick={() => setShow(true)} className={classes.report} />
+  );
+
   return (
-    <div className={classes.widget}>
-      <Row className="d-flex align-items-center">
-        <Col>
-          <Link to={`/profile/${id}`} className={classes.link}>
-            {name}
-          </Link>
-        </Col>
-        <Col sm="auto">
-          <GoReport onClick={() => setShow(true)} className={classes.report} />
-        </Col>
-      </Row>
+    <>
+      <DualColWidget
+        leftCol={{ body: leftCol }}
+        rightCol={{
+          body: rightCol,
+          breakPoints: { sm: "auto" },
+          className: "text-center",
+        }}
+      />
 
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
@@ -687,7 +710,7 @@ const StudentReportWidget = ({ stdInfo, submitHandler }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </>
   );
 };
 
