@@ -60,7 +60,47 @@ const About = () => {
 
 
 
-<div class="columns">
+
+{/* new cards */}
+
+<div class="container">
+  <div class="card">
+    <div class="box">
+      <div class="content">
+        <h2>1961</h2>
+        <h3>Established</h3>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="box">
+      <div class="content">
+        <h2>12161</h2>
+        <h3>Students</h3>
+       
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="box">
+      <div class="content">
+        <h2>832</h2>
+        <h3>Faculty</h3>
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div className="bottomCover"></div>
+
+
+{/* old cards */}
+{/* <div class="columns">
   <div class="row">
     <div class="col">
       <p>Established</p>
@@ -75,46 +115,10 @@ const About = () => {
         <p>721</p>
     </div>
   </div>
-</div>
+</div> */}
 
-<div className="bottomCover">
-  <h1>a new image will go here</h1>
-</div>
 
-<div class="container">
-  <div class="card">
-    <div class="box">
-      <div class="content">
-        <h2>01</h2>
-        <h3>Card One</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, totam velit? Iure nemo labore inventore?</p>
-        <a href="#">Read More</a>
-      </div>
-    </div>
-  </div>
 
-  <div class="card">
-    <div class="box">
-      <div class="content">
-        <h2>02</h2>
-        <h3>Card Two</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, totam velit? Iure nemo labore inventore?</p>
-        <a href="#">Read More</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="box">
-      <div class="content">
-        <h2>03</h2>
-        <h3>Card Three</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, totam velit? Iure nemo labore inventore?</p>
-        <a href="#">Read More</a>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 
