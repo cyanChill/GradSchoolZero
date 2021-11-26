@@ -527,7 +527,7 @@ const ReviewWidget = ({ reviewInfo, userType }) => {
   );
 
   const rightCol = (
-    <>
+    <div className="text-break">
       <p className={`my-1 ${classes.secondary}`}>
         {userType === "registrar" && (
           <span className="fw-bold">{reviewInfo.reviewer.name} </span>
@@ -535,7 +535,7 @@ const ReviewWidget = ({ reviewInfo, userType }) => {
         {formattedDate}
       </p>
       <p className="my-1">{reviewInfo.reason}</p>
-    </>
+    </div>
   );
 
   return (
@@ -654,7 +654,7 @@ const StudentReportWidget = ({ stdInfo, submitHandler }) => {
         leftCol={{ body: leftCol }}
         rightCol={{
           body: rightCol,
-          breakPoints: { sm: "auto" },
+          breakPoints: { xs: "auto" },
           className: "text-center",
         }}
       />

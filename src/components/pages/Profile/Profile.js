@@ -320,17 +320,21 @@ const Profile = () => {
 };
 
 const createWidgetGroups = (arr, canSeeAll) => {
-  return arr.map((course) => (
-    <Col key={course.id} md="6" lg="6" className="my-2">
-      <Widget
-        key={course.id}
-        name={`[${course.course.code}] ${course.course.name}`}
-        courseId={course.id}
-        grade={course.grade}
-        canSeeAll={canSeeAll}
-      />
-    </Col>
-  ));
+  return arr.map((course) => {
+    const courseId = course.grade ? course.course.id : course.id;
+
+    return (
+      <Col key={course.id} md="6" lg="6" className="my-2">
+        <Widget
+          key={course.id}
+          name={`[${course.course.code}] ${course.course.name}`}
+          courseId={courseId}
+          grade={course.grade}
+          canSeeAll={canSeeAll}
+        />
+      </Col>
+    );
+  });
 };
 
 const Widget = ({ name, courseId, grade, canSeeAll }) => {

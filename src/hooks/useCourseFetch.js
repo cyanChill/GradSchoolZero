@@ -777,12 +777,12 @@ const useCourseFetch = () => {
 
   const getProgramClassStats = async () => {
     const top3Res = await fetch(
-      `http://localhost:2543/courses?_sort=rating&_order=desc_limit=3`
+      `http://localhost:2543/courses?_sort=rating&_order=desc&_limit=3&rating_ne=null`
     );
     const top3Data = await top3Res.json();
 
     const bottom3Res = await fetch(
-      `http://localhost:2543/courses?_sort=rating&_order=asc_limit=3`
+      `http://localhost:2543/courses?_sort=rating&_order=asc&_limit=3&rating_ne=null`
     );
     const bottom3Data = await bottom3Res.json();
 

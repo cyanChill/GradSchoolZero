@@ -75,7 +75,7 @@ const InfractionsPage = () => {
         </Alert>
       )}
 
-      <div className="d-flex justify-content-center">
+      <div className="d-flex justify-content-center my-3">
         <Button onClick={handleRefresh}>Refresh</Button>
       </div>
       <Tabs defaultActiveKey="suspended" className="mb-3">
