@@ -12,7 +12,11 @@
       "type": "instructor",
       "name": "instructor",
       "email": "instructor@gradschoolzero.edu",
-      "password": "password"
+      "password": "password",
+      "warningCnt": 0,
+      "suspended": false,
+      "removed": false,
+      "rating": null
     },
     {
       "id": "37798a5b-413a-4c1e-9e32-34a57f71d17e",
@@ -20,98 +24,161 @@
       "name": "student",
       "email": "student@gradschoolzero.edu",
       "password": "password",
-      "warningCnt": 1
+      "specReg": false,
+      "warningCnt": 1,
+      "suspended": false,
+      "graduated": false,
+      "removed": false,
+      "honorRoll": [],
+      "GPA": null,
+      "applyGrad": true
     },
     {
       "id": "104713d0-d46f-4a4e-930f-ea63bc48f915",
       "type": "student",
       "name": "student2",
       "email": "student2@gradschoolzero.edu",
-      "password": "password"
+      "password": "password",
+      "specReg": false,
+      "warningCnt": 0,
+      "suspended": false,
+      "graduated": false,
+      "removed": false,
+      "honorRoll": [],
+      "GPA": null,
+      "applyGrad": false
     },
     {
       "id": "185d11e4-87e1-48ef-9bf9-20db45cf6cc8",
       "type": "instructor",
       "name": "George Simon",
       "email": "gsimon@gradschoolzero.edu",
-      "password": "password"
+      "password": "password",
+      "warningCnt": 0,
+      "suspended": false,
+      "removed": false,
+      "rating": null
     },
     {
       "id": "81db7f41-504d-4e06-a90c-8c73b9e01d00",
       "type": "instructor",
       "name": "David Ifa",
       "email": "difa@gradschoolzero.edu",
-      "password": "password"
+      "password": "password",
+      "warningCnt": 0,
+      "suspended": false,
+      "removed": false,
+      "rating": null
     },
     {
       "id": "24c949ba-af1e-4c6f-9aca-5d5b1161c66b",
       "type": "instructor",
       "name": "Behnam Sidsel",
       "email": "bsidsel@gradschoolzero.edu",
-      "password": "password"
+      "password": "password",
+      "warningCnt": 0,
+      "suspended": false,
+      "removed": false,
+      "rating": null
     },
     {
       "id": "37b50cf3-459d-4ef9-a094-418b1e6e7fd0",
       "type": "instructor",
       "name": "Oni Cledwyn",
       "email": "ocledwyn@gradschoolzero.edu",
-      "password": "password"
+      "password": "password",
+      "warningCnt": 0,
+      "suspended": false,
+      "removed": false,
+      "rating": null
     },
     {
       "id": "f0c17587-81d7-4291-b016-e83a99b4136d",
       "type": "instructor",
       "name": "Alfhildr Melano",
       "email": "amelano@gradschoolzero.edu",
-      "password": "password"
+      "password": "password",
+      "warningCnt": 0,
+      "suspended": false,
+      "removed": false,
+      "rating": null
     },
     {
       "id": "975f23bc-0779-4f7f-85e2-89f086ad986c",
       "type": "instructor",
       "name": "Elena Patroklos",
       "email": "epatroklos@gradschoolzero.edu",
-      "password": "password"
+      "password": "password",
+      "warningCnt": 0,
+      "suspended": false,
+      "removed": false,
+      "rating": null
     },
     {
       "id": "fea28b7d-cfc5-4b12-9bc5-2fa18c46bae7",
       "type": "instructor",
       "name": "Olindo Klara",
       "email": "oklara@gradschoolzero.edu",
-      "password": "password"
+      "password": "password",
+      "warningCnt": 0,
+      "suspended": false,
+      "removed": false,
+      "rating": null
     },
     {
       "id": "dbf492b3-29e2-4bd2-af45-90bc0bf63f21",
       "type": "instructor",
       "name": "Jamal Cyrillus",
       "email": "jcyrillus@gradschoolzero.edu",
-      "password": "password"
+      "password": "password",
+      "warningCnt": 0,
+      "suspended": false,
+      "removed": false,
+      "rating": null
     },
     {
       "id": "cd341c1a-bf53-497c-a78e-676623607646",
       "type": "instructor",
       "name": "Dakila Claudia",
       "email": "dclaudia@gradschoolzero.edu",
-      "password": "password"
+      "password": "password",
+      "warningCnt": 0,
+      "suspended": false,
+      "removed": false,
+      "rating": null
     },
     {
       "id": "5b6f40e4-8431-4f8a-a8af-db0b389e2035",
       "type": "instructor",
       "name": "Giobbe Rishi",
       "email": "grishi@gradschoolzero.edu",
-      "password": "password"
+      "password": "password",
+      "warningCnt": 0,
+      "suspended": false,
+      "removed": false,
+      "rating": null
     },
     {
       "id": "1cf5d84d-2782-410a-9e35-beac64e6264b",
       "type": "instructor",
       "name": "Ibb Ridley",
       "email": "iridley@gradschoolzero.edu",
-      "password": "password"
+      "password": "password",
+      "warningCnt": 0,
+      "suspended": false,
+      "removed": false,
+      "rating": null
     },
     {
       "id": "fe8aa17d-5171-4b96-99b6-11d0795b4b73",
       "type": "instructor",
       "name": "Aderyn Adam",
       "email": "aadam@gradschoolzero.edu",
-      "password": "password"
+      "password": "password",
+      "warningCnt": 0,
+      "suspended": false,
+      "removed": false,
+      "rating": null
     }
   ],
   "courses": [
@@ -119,121 +186,141 @@
       "id": "65bd754b-9a81-4591-9907-f50e5c8eeab1",
       "department": "Computer Science",
       "code": "I0600",
-      "name": "Advanced Algorithms"
+      "name": "Advanced Algorithms",
+      "rating": null
     },
     {
       "id": "19e428c9-fb2b-483d-9b47-57ffee078a48",
       "department": "Computer Science",
       "code": "I0802",
-      "name": "Web/Geographical Information Systems"
+      "name": "Web/Geographical Information Systems",
+      "rating": null
     },
     {
       "id": "7425d8ab-9a10-46a4-b6d0-90c1b1dda2de",
       "department": "Computer Science",
       "code": "I4200",
-      "name": "Computer Architecture"
+      "name": "Computer Architecture",
+      "rating": null
     },
     {
       "id": "f968b316-173b-4030-af15-81b71953787f",
       "department": "Computer Science",
       "code": "I9606",
-      "name": "Concurrent Shared Memory Systems"
+      "name": "Concurrent Shared Memory Systems",
+      "rating": null
     },
     {
       "id": "c7bdcc4d-4be3-4e4d-a6ca-f7fdf4f09f0e",
       "department": "Computer Science",
       "code": "I4300",
-      "name": "Computer Communications"
+      "name": "Computer Communications",
+      "rating": null
     },
     {
       "id": "eebe6a46-d632-4db4-92dc-b8679943a13d",
       "department": "Electrical Engineering",
       "code": "I4400",
-      "name": "Advanced Computer Architecture"
+      "name": "Advanced Computer Architecture",
+      "rating": null
     },
     {
       "id": "c04f1db7-e81f-48f5-804b-d68639764c94",
       "department": "Electrical Engineering",
       "code": "G3300",
-      "name": "Mobile Robotics"
+      "name": "Mobile Robotics",
+      "rating": null
     },
     {
       "id": "0430da69-589e-461a-b834-641693786830",
       "department": "Electrical Engineering",
       "code": "I5501",
-      "name": "Introduction to Robotics"
+      "name": "Introduction to Robotics",
+      "rating": null
     },
     {
       "id": "2a2c95b7-6857-4fb8-9970-9f804dc189db",
       "department": "Electrical Engineering",
       "code": "I5700",
-      "name": "Advanced Digital Integrated Circuits"
+      "name": "Advanced Digital Integrated Circuits",
+      "rating": null
     },
     {
       "id": "40c5b83c-bdb2-40f2-b75c-7029dd79ed0f",
       "department": "Electrical Engineering",
       "code": "I2500",
-      "name": "Advanced Embedded Systems"
+      "name": "Advanced Embedded Systems",
+      "rating": null
     },
     {
       "id": "bf080f4c-be2b-461e-9fc7-cf9ee5eb6326",
       "department": "Biomedical Engineering",
       "code": "I2000",
-      "name": "Cell and Tissue Engineering"
+      "name": "Cell and Tissue Engineering",
+      "rating": null
     },
     {
       "id": "2cfd6045-2404-46fc-9faa-2853d67c4374",
       "department": "Biomedical Engineering",
       "code": "I4300",
-      "name": "Physiology for Biomedical Engineers"
+      "name": "Physiology for Biomedical Engineers",
+      "rating": null
     },
     {
       "id": "3d134c1f-4957-4948-acb3-a77d2f3beebb",
       "department": "Biomedical Engineering",
       "code": "I2200",
-      "name": "Cell and Tissue Transport"
+      "name": "Cell and Tissue Transport",
+      "rating": null
     },
     {
       "id": "bf10bdda-9944-42c5-b4bc-9ed00c59eea1",
       "department": "Biomedical Engineering",
       "code": "I3000",
-      "name": "Neural Engineering and Applied Bioelectricity"
+      "name": "Neural Engineering and Applied Bioelectricity",
+      "rating": null
     },
     {
       "id": "3c1a36b0-9dce-46c4-b4a0-1fcea5df94fb",
       "department": "Biomedical Engineering",
       "code": "G3200",
-      "name": "Neural Systems and Behavior"
+      "name": "Neural Systems and Behavior",
+      "rating": null
     },
     {
       "id": "689bdd87-ff4a-4985-857e-322bee90e7ef",
       "department": "Chemical Engineering",
       "code": "I2800",
-      "name": "Advanced Chemical Thermodynamics"
+      "name": "Advanced Chemical Thermodynamics",
+      "rating": null
     },
     {
       "id": "f74cd3fc-42ee-4218-b106-ed8b812093cd",
       "department": "Chemical Engineering",
       "code": "I3300",
-      "name": "Advanced Chemical Reaction Engineering"
+      "name": "Advanced Chemical Reaction Engineering",
+      "rating": null
     },
     {
       "id": "016384a7-7982-4d10-98f8-41095379678d",
       "department": "Chemical Engineering",
       "code": "I5200",
-      "name": "Powder Science and Technology"
+      "name": "Powder Science and Technology",
+      "rating": null
     },
     {
       "id": "19172666-7bd6-4dd9-93f9-a7b2975f84ff",
       "department": "Chemical Engineering",
       "code": "I5500",
-      "name": "Interfacial Phenomena"
+      "name": "Interfacial Phenomena",
+      "rating": null
     },
     {
       "id": "b3d052e5-1164-4f08-9e78-185409014b6c",
       "department": "Chemical Engineering",
       "code": "I5700",
-      "name": "Advanced Materials Engineering"
+      "name": "Advanced Materials Engineering",
+      "rating": null
     }
   ],
   "classes": [
@@ -254,7 +341,7 @@
       },
       "capacity": {
         "max": 5,
-        "available": 5
+        "available": 4
       },
       "time": [
         {
@@ -268,7 +355,12 @@
           "end": "11:45"
         }
       ],
-      "waitList": []
+      "waitList": [
+        {
+          "id": "104713d0-d46f-4a4e-930f-ea63bc48f915",
+          "name": "student2"
+        }
+      ]
     },
     {
       "id": "dcf7aa6c-c6fd-4664-adc9-2c81c7e55b9e",
@@ -358,6 +450,34 @@
         }
       ],
       "waitList": []
+    },
+    {
+      "id": "dd268e8e-410f-4a9e-b076-38e105faa7c9",
+      "course": {
+        "id": "689bdd87-ff4a-4985-857e-322bee90e7ef",
+        "code": "I2800",
+        "name": "Advanced Chemical Thermodynamics"
+      },
+      "instructor": {
+        "id": "fe8aa17d-5171-4b96-99b6-11d0795b4b73",
+        "name": "Aderyn Adam"
+      },
+      "term": {
+        "semester": "Fall",
+        "year": 2021
+      },
+      "capacity": {
+        "max": 5,
+        "available": 5
+      },
+      "time": [
+        {
+          "day": "Sun",
+          "start": "12:00",
+          "end": "14:30"
+        }
+      ],
+      "waitList": []
     }
   ],
   "grades": [
@@ -444,7 +564,7 @@
       },
       "offender": {
         "id": "185d11e4-87e1-48ef-9bf9-20db45cf6cc8",
-        "name": "Behnam Sidsel",
+        "name": "George Simon",
         "type": "instructor"
       },
       "reason": "Test complaint",
@@ -457,7 +577,7 @@
       "id": "297a7b91-72ee-4788-877d-f6c53f35763c",
       "reporter": {
         "id": "185d11e4-87e1-48ef-9bf9-20db45cf6cc8",
-        "name": "Behnam Sidsel",
+        "name": "George Simon",
         "type": "instructor"
       },
       "offender": {
@@ -475,7 +595,7 @@
       "id": "246c57e2-9225-4fb2-a7cd-55a36d61e8f9",
       "reporter": {
         "id": "185d11e4-87e1-48ef-9bf9-20db45cf6cc8",
-        "name": "Behnam Sidsel",
+        "name": "George Simon",
         "type": "instructor"
       },
       "offender": {
@@ -501,14 +621,18 @@
       "id": "terminfo",
       "phase": "set-up",
       "semester": "Fall",
-      "year": 2021
+      "year": 2021,
+      "specReg": false
     }
   ],
   "warnings": [
     {
       "id": "0ff2d83a-732d-4559-94e4-dfca6206fc8b",
       "date": "2021-11-21T04:24:56.673Z",
-      "userId": "37798a5b-413a-4c1e-9e32-34a57f71d17e",
+      "user": {
+        "id": "37798a5b-413a-4c1e-9e32-34a57f71d17e",
+        "name": "student"
+      },
       "reason": "You have been warned due to a report",
       "value": 1
     }
@@ -531,6 +655,7 @@
       },
       "rating": 4.5,
       "reason": "This course wasn't that bad.",
+      "show": true,
       "date": "2021-11-20T22:29:36.445Z"
     }
   ]

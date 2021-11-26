@@ -4,6 +4,7 @@
   padding: 1rem;
   margin: 0.75rem 0;
   transition: all 150ms ease-in-out;
+  word-break: break-all;
 }
 
 .complaint:hover {

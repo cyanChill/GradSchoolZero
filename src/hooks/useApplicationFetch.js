@@ -40,7 +40,7 @@ const useApplicationFetch = () => {
     });
     setApplicationsList((prev) => [...prev, application]);
 
-    return res.status === 201;
+    return res.ok;
   };
 
   // Get the information on the application based on it's id
@@ -56,12 +56,17 @@ const useApplicationFetch = () => {
 
   // Remove the application from the database based on it's id
   const removeApplication = async (applicationId) => {
-    await fetch(`http://localhost:2543/applications/${applicationId}`, {
-      method: "DELETE",
-    });
+    const res = await fetch(
+      `http://localhost:2543/applications/${applicationId}`,
+      {
+        method: "DELETE",
+      }
+    );
     setApplicationsList((prev) =>
       prev.filter((application) => application.id !== applicationId)
     );
+
+    return res.ok;
   };
 
   // Refresh the local instance of the application list (saved to reduce fetching)

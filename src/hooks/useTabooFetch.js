@@ -35,7 +35,7 @@ const useTabooFetch = () => {
       ? tabooList
       : [...tabooList, formattedWord];
 
-    await fetch(`http://localhost:2543/tabooWords/taboolist`, {
+    const res = await fetch(`http://localhost:2543/tabooWords/taboolist`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -46,6 +46,7 @@ const useTabooFetch = () => {
     });
 
     setTabooList(newTabooList);
+    return res.ok;
   };
 
   // Function to remove a taboo word in the data base
@@ -55,7 +56,7 @@ const useTabooFetch = () => {
       (tabooword) => tabooword !== formattedWord
     );
 
-    await fetch(`http://localhost:2543/tabooWords/taboolist`, {
+    const res = await fetch(`http://localhost:2543/tabooWords/taboolist`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -66,9 +67,10 @@ const useTabooFetch = () => {
     });
 
     setTabooList(newTabooList);
+    return res.ok;
   };
 
-  // Function to refresh local copy of taboo list (to prevent constant fetching)
+  // Function to refresh local copy of taboo list
   const refreshTabooList = async () => {
     setLoading(true);
     const res = await fetch(`http://localhost:2543/tabooWords`);

@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
 import { Container, Button } from "react-bootstrap";
 import { GlobalContext } from "../../../GlobalContext";
 import classes from "./ApplicationsPage.module.css";
