@@ -29,6 +29,22 @@ const Courses = () => {
     populateCourseList();
   }, []);
 
+  const phase =
+    termInfo.phase === "set-up"
+      ? "Class Set-Up Period"
+      : termInfo.phase === "registration"
+      ? "Course Registration"
+      : termInfo.phase === "running"
+      ? "Class Running Period"
+      : "Grading Period";
+
+  const currentPhase = (
+    <h2 className="my-3">
+      The current phase is:{" "}
+      <span className="font-monospace text-muted">{phase}</span>
+    </h2>
+  );
+
   const coursesWidgets = Object.keys(courseList).map((category) => (
     <div key={category}>
       <h2 className="my-2">{category}</h2>
@@ -48,6 +64,7 @@ const Courses = () => {
 
   return (
     <Container>
+      {currentPhase}
       <Statistics />
       <h1 className="my-3 text-center">
         {`${termInfo.semester} ${termInfo.year}`} Courses:

@@ -174,22 +174,26 @@
       "type": "instructor",
       "name": "Aderyn Adam",
       "email": "aadam@gradschoolzero.edu",
-<<<<<<< HEAD
-      "password": "password"
+      "password": "password",
+      "warningCnt": 0,
+      "suspended": false,
+      "removed": false,
+      "rating": null
     },
     {
       "id": "f426c26b-c941-47fc-ac30-c0f1ca8263db",
       "name": "Nafis Khan",
       "email": "nafiskhan@gradschoolzero.edu",
       "password": "bGnbzIjg4Z",
-      "type": "student"
-=======
-      "password": "password",
+      "type": "student",
+      "specReg": false,
       "warningCnt": 0,
       "suspended": false,
+      "graduated": false,
       "removed": false,
-      "rating": null
->>>>>>> origin/main
+      "honorRoll": [],
+      "GPA": null,
+      "applyGrad": false
     }
   ],
   "courses": [
@@ -624,10 +628,7 @@
   "tabooWords": [
     {
       "id": "taboolist",
-      "tabooList": [
-        "simp",
-        "ass"
-      ]
+      "tabooList": ["simp", "ass"]
     }
   ],
   "term": [
