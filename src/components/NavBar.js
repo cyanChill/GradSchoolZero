@@ -62,7 +62,6 @@ const UserInteract = ({ isLoggedIn }) => {
     /* Displayed for all logged-in users */
     return (
       <>
-
         <Nav.Link as={Link} to="/settings" className="m-1">
           Settings
         </Nav.Link>
