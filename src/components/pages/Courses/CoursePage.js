@@ -344,7 +344,11 @@ const CoursePage = () => {
   // Setting the student widgets for the page
   const studentWidgets = studentsList.map((stud) => {
     if (stdCourseRel.isCourseProf || user.type === "registrar") {
-      if (termInfo.phase === "grading") {
+      if (
+        termInfo.phase === "grading" &&
+        courseInfo.term.semester === termInfo.semester &&
+        courseInfo.term.year === termInfo.year
+      ) {
         return (
           <StudentGradeWidget
             key={stud.id}
