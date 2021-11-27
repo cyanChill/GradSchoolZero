@@ -32,7 +32,6 @@ const defaultOrgInfo = {
 };
 
 const Profile = () => {
-  
   const { id } = useParams();
   const { userHook, termHook } = useContext(GlobalContext);
   const {
@@ -373,7 +372,8 @@ const Profile = () => {
 
 const createWidgetGroups = (arr, canSeeAll) => {
   return arr.map((course) => {
-    const courseId = course.grade ? course.course.id : course.id;
+    console.log(course);
+    const courseId = course.grade !== undefined ? course.course.id : course.id;
 
     return (
       <Col key={course.id} md="6" lg="6" className="my-2">
