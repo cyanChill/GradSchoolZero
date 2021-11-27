@@ -62,14 +62,10 @@ const UserInteract = ({ isLoggedIn }) => {
     /* Displayed for all logged-in users */
     return (
       <>
-        <NavDropdown title="More" id="basic-nav-dropdown" className="m-1">
-          <NavDropdown.Item as={Link} to="/profile">
-            Profile
-          </NavDropdown.Item>
-          <NavDropdown.Item as={Link} to="/settings">
-            Settings
-          </NavDropdown.Item>
-        </NavDropdown>
+
+        <Nav.Link as={Link} to="/settings" className="m-1">
+          Settings
+        </Nav.Link>
 
         <Button variant="danger" as={Link} to="/logout" className="m-1">
           Log Out
