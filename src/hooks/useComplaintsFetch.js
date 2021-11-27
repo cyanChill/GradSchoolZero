@@ -7,12 +7,6 @@ const useComplaintsFetch = () => {
   const [complaintsList, setComplaintsList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const addComplaint = async (complaintInfo) => {
-    /* 
-      Update local complaint list, update complaint list in server (add entry)
-    */
-  };
-
   /*
     Removes the complaint from the database and take certain actions based on the
     outcome decided
@@ -22,7 +16,8 @@ const useComplaintsFetch = () => {
 
     if (outcome === "approve") {
       if (
-        complaintInfo.reporter.type === "instructor" &&
+        (complaintInfo.reporter.type === "instructor" ||
+          complaintInfo.reporter.type === "registrar") &&
         complaintInfo.extra.outcome === "de-registration"
       ) {
         const courseRes = await fetch(
@@ -40,36 +35,37 @@ const useComplaintsFetch = () => {
         });
       } else {
         warningInfo = {
-          userId: complaintInfo.offender.id,
+          user: complaintInfo.offender,
           reason: "You have been warned due to a report",
           value: 1,
         };
       }
-    } else if (complaintInfo.reporter.userType === "instructor") {
+    } else if (complaintInfo.reporter.type === "instructor") {
       // If the registrar reject the complaint by an instructor
       warningInfo = {
-        userId: complaintInfo.reporter.id,
+        user: complaintInfo.reporter,
         reason: "You have been warned due to a false report",
         value: 1,
       };
     }
 
     if (warningInfo) {
-      await addWarning(
-        warningInfo.userId,
-        warningInfo.reason,
-        warningInfo.value
-      );
+      await addWarning(warningInfo.user, warningInfo.reason, warningInfo.value);
     }
 
     // Remove complaint from complaints database
-    await fetch(`http://localhost:2543/complaints/${complaintInfo.id}`, {
-      method: "DELETE",
-    });
+    const res = await fetch(
+      `http://localhost:2543/complaints/${complaintInfo.id}`,
+      {
+        method: "DELETE",
+      }
+    );
 
     setComplaintsList((prev) =>
       prev.filter((complaint) => complaint.id !== complaintInfo.id)
     );
+
+    return res.ok;
   };
 
   /*
@@ -91,7 +87,6 @@ const useComplaintsFetch = () => {
   return {
     complaintsList,
     loading,
-    addComplaint,
     resolveComplaint,
     refreshComplaintsList,
   };

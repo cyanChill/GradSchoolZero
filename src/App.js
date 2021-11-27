@@ -9,7 +9,7 @@ import RegistrarRoute from "./components/Routes/RegistrarRoute";
 
 import NavBar from "./components/NavBar";
 import Home from "./components/pages/Home/Home";
-import About from "./components/pages/About";
+import About from "./components/pages/About/About";
 import Courses from "./components/pages/Courses/Courses";
 import Profile from "./components/pages/Profile/Profile";
 import Login from "./components/pages/Login";

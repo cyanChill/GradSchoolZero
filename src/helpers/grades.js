@@ -42,8 +42,8 @@ const calculateGPA = (gradesArr) => {
   );
 
   return validGrades.length === 0
-    ? "The student haven't taken any courses yet"
+    ? null
     : (total / validGrades.length).toFixed(2);
 };
 
-export { calculateGPA, gradeMap };
+export { calculateGPA, gradeMap, gradeEquiv };

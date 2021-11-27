@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect } from "react";
 import { GlobalContext } from "../../../GlobalContext";
-import useInstructorFetch from "../../../hooks/useInstructorFetch";
 import useCourseFetch from "../../../hooks/useCourseFetch";
 
 import FormAlerts from "../../UI/FormAlerts";
@@ -28,9 +27,9 @@ import CenterSpinner from "../../UI/CenterSpinner";
 const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 const CreateCourseForm = () => {
-  const { termHook } = useContext(GlobalContext);
+  const { termHook, instructorHook } = useContext(GlobalContext);
   const { termInfo } = termHook;
-  const { nonSuspsendedInstructors: instructors } = useInstructorFetch();
+  const { nonSuspsendedInstructors: instructors } = instructorHook;
   const { addCourse, getAllBaseCourses } = useCourseFetch();
 
   const [baseCourses, setBaseCourses] = useState([]);
@@ -162,7 +161,8 @@ const CreateCourseForm = () => {
       instructorId,
       instructorName,
       courseTimes,
-      maxCapacity
+      maxCapacity,
+      termInfo
     );
 
     setLoading(false);
@@ -177,8 +177,8 @@ const CreateCourseForm = () => {
     );
   }
 
-  /* Check if current phase is course setup */
-  if (termInfo.phase !== "set-up") {
+  /* Check if current phase is course setup or registration */
+  if (termInfo.phase === "running" || termInfo.phase === "grading") {
     return (
       <Container>
         <BackButton />
