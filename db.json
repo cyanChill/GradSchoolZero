@@ -341,6 +341,7 @@
   "classes": [
     {
       "id": "61f18133-b4a8-43c7-97ae-d99cbb8eaa5e",
+      "section": "F21S0000",
       "course": {
         "id": "65bd754b-9a81-4591-9907-f50e5c8eeab1",
         "code": "I0600",
@@ -379,6 +380,7 @@
     },
     {
       "id": "dcf7aa6c-c6fd-4664-adc9-2c81c7e55b9e",
+      "section": "F21S0000",
       "course": {
         "id": "19e428c9-fb2b-483d-9b47-57ffee078a48",
         "code": "I0802",
@@ -412,6 +414,7 @@
     },
     {
       "id": "39684ebc-8139-4dab-a488-ea30363764eb",
+      "section": "F21S0000",
       "course": {
         "id": "7425d8ab-9a10-46a4-b6d0-90c1b1dda2de",
         "code": "I4200",
@@ -440,6 +443,7 @@
     },
     {
       "id": "dbd37b53-afb3-4ab1-83cd-4b310ed71108",
+      "section": "F21S0000",
       "course": {
         "id": "c7bdcc4d-4be3-4e4d-a6ca-f7fdf4f09f0e",
         "code": "I4300",
@@ -468,6 +472,7 @@
     },
     {
       "id": "dd268e8e-410f-4a9e-b076-38e105faa7c9",
+      "section": "F21S0000",
       "course": {
         "id": "689bdd87-ff4a-4985-857e-322bee90e7ef",
         "code": "I2800",
@@ -490,6 +495,98 @@
           "day": "Sun",
           "start": "12:00",
           "end": "14:30"
+        }
+      ],
+      "waitList": []
+    },
+    {
+      "id": "e3ca0569-99b7-4a78-85a5-dba4b9d8c30d",
+      "section": "F21S001",
+      "course": {
+        "id": "65bd754b-9a81-4591-9907-f50e5c8eeab1",
+        "code": "I0600",
+        "name": "Advanced Algorithms"
+      },
+      "instructor": {
+        "id": "185d11e4-87e1-48ef-9bf9-20db45cf6cc8",
+        "name": "George Simon"
+      },
+      "term": {
+        "semester": "Fall",
+        "year": 2021
+      },
+      "capacity": {
+        "max": 5,
+        "available": 5
+      },
+      "time": [
+        {
+          "day": "Mon",
+          "start": "13:30",
+          "end": "14:45"
+        },
+        {
+          "day": "Wed",
+          "start": "13:30",
+          "end": "14:45"
+        }
+      ],
+      "waitList": []
+    },
+    {
+      "id": "0bd8c02e-dfaa-4d0b-ac82-8edb1779b763",
+      "section": "F21S001",
+      "course": {
+        "id": "c7bdcc4d-4be3-4e4d-a6ca-f7fdf4f09f0e",
+        "code": "I4300",
+        "name": "Computer Communications"
+      },
+      "instructor": {
+        "id": "f0c17587-81d7-4291-b016-e83a99b4136d",
+        "name": "Alfhildr Melano"
+      },
+      "term": {
+        "semester": "Fall",
+        "year": 2021
+      },
+      "capacity": {
+        "max": 5,
+        "available": 5
+      },
+      "time": [
+        {
+          "day": "Mon",
+          "start": "10:30",
+          "end": "13:00"
+        }
+      ],
+      "waitList": []
+    },
+    {
+      "id": "9332df71-57d8-49eb-bf06-d107600186bc",
+      "section": "F21S001",
+      "course": {
+        "id": "689bdd87-ff4a-4985-857e-322bee90e7ef",
+        "code": "I2800",
+        "name": "Advanced Chemical Thermodynamics"
+      },
+      "instructor": {
+        "id": "dbf492b3-29e2-4bd2-af45-90bc0bf63f21",
+        "name": "Jamal Cyrillus"
+      },
+      "term": {
+        "semester": "Fall",
+        "year": 2021
+      },
+      "capacity": {
+        "max": 5,
+        "available": 5
+      },
+      "time": [
+        {
+          "day": "Mon",
+          "start": "10:30",
+          "end": "13:00"
         }
       ],
       "waitList": []
@@ -634,7 +731,7 @@
   "term": [
     {
       "id": "terminfo",
-      "phase": "set-up",
+      "phase": "registration",
       "semester": "Fall",
       "year": 2021,
       "specReg": false
