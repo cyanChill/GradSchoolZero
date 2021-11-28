@@ -14,7 +14,7 @@
       "email": "instructor@gradschoolzero.edu",
       "password": "password",
       "warningCnt": 0,
-      "suspended": false,
+      "suspended": true,
       "removed": false,
       "rating": null
     },
@@ -194,6 +194,17 @@
       "honorRoll": [],
       "GPA": null,
       "applyGrad": false
+    },
+    {
+      "id": "1cf5d84d-2882-410a-9e35-beac64e6264b",
+      "type": "instructor",
+      "name": "John Doe",
+      "email": "jdoe@gradschoolzero.edu",
+      "password": "password",
+      "warningCnt": 0,
+      "suspended": false,
+      "removed": true,
+      "rating": null
     }
   ],
   "courses": [
@@ -731,7 +742,7 @@
   "term": [
     {
       "id": "terminfo",
-      "phase": "registration",
+      "phase": "set-up",
       "semester": "Fall",
       "year": 2021,
       "specReg": false

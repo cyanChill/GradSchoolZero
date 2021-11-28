@@ -373,12 +373,14 @@ const Profile = () => {
 const createWidgetGroups = (arr, canSeeAll) => {
   return arr.map((course) => {
     const courseId = course.grade !== undefined ? course.course.id : course.id;
+    const code =
+      course.grade === undefined ? course.section : course.course.code;
 
     return (
       <Col key={course.id} md="6" lg="6" className="my-2">
         <Widget
           key={course.id}
-          name={`[${course.course.code}] ${course.course.name}`}
+          name={`[${code}] ${course.course.name}`}
           courseId={courseId}
           grade={course.grade}
           canSeeAll={canSeeAll}
