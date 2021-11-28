@@ -139,7 +139,7 @@ const CoursePage = () => {
       return;
     } else {
       // Either enrolled or joined the waitlist
-      if (response.status === "Successfully Enrolled") {
+      if (response.title === "Successfully Enrolled") {
         setStdCourseRel((prev) => ({
           ...prev,
           enrolled: true,
@@ -152,7 +152,7 @@ const CoursePage = () => {
             name: user.name,
           },
         ]);
-      } else if (response.status === "Successfully Joined Waitlist") {
+      } else if (response.title === "Successfully Joined Waitlist") {
         setStdCourseRel((prev) => ({
           ...prev,
           waitlist: true,
@@ -424,6 +424,10 @@ const CoursePage = () => {
             <h2>{course.name}</h2>
             {timeField}
             <LabelDescripField
+              label="Section:"
+              description={courseInfo.section}
+            />
+            <LabelDescripField
               label="Instructor:"
               description={
                 <Link to={`/profile/${instructor.id}`} className={classes.link}>
@@ -455,7 +459,11 @@ const CoursePage = () => {
                         (termInfo.phase !== "registration" &&
                           user.specReg)) && (
                         <Button variant="success" onClick={handleEnrollment}>
-                          {capacity.available > 0 ? "Enroll" : "Join Waitlist"}
+                          {capacity.available > 0
+                            ? `Enroll ${capacity.max - capacity.available}/${
+                                capacity.max
+                              }`
+                            : "Join Waitlist"}
                         </Button>
                       )}
                     {(stdCourseRel.enrolled || stdCourseRel.waitlist) && (

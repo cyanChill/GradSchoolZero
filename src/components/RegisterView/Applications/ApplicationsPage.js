@@ -15,7 +15,7 @@ const ApplicationsPage = () => {
     <LinkBoxWidget
       key={application.id}
       to={`/applications/${application.id}`}
-      className={classes[application.type]}
+      className={`${classes[application.type]} my-2`}
       text={application.name}
     />
   ));

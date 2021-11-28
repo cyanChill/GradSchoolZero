@@ -53,7 +53,7 @@ const Courses = () => {
           <Col key={course.id} sm="6" className="my-2">
             <LinkBoxWidget
               to={`/courses/${course.id}`}
-              text={`[${course.course.code}] ${course.course.name}`}
+              text={`[${course.section}] ${course.course.name}`}
               className="my-0"
             />
           </Col>
@@ -135,8 +135,14 @@ const Statistics = () => {
     );
   });
 
+  const hasTable =
+    topClassList.length > 0 ||
+    bottomClassList.length > 0 ||
+    topStudList.length > 0;
+
   return (
-    <Row className="mt-3 mb-2">
+    <Row>
+      {hasTable && <hr className="my-2" />}
       {topClassList.length > 0 && (
         <Col xs="12" lg="4">
           <h2>Top Rated Courses</h2>
@@ -155,12 +161,17 @@ const Statistics = () => {
           {topStudList}
         </Col>
       )}
+      {hasTable && <hr className="my-2" />}
     </Row>
   );
 };
 
 const TopBottomCourseWidget = ({ classInfo }) => {
-  const leftCol = <span>{classInfo.name}</span>;
+  const leftCol = (
+    <Link to={`/allcourses/${classInfo.id}`} className={classes.link}>
+      {classInfo.name}
+    </Link>
+  );
   const rightCol = (
     <span className="text-muted font-monospace">{classInfo.rating}</span>
   );

@@ -28,9 +28,23 @@ const NavBar = () => {
               Home
             </Nav.Link>
 
-            <Nav.Link as={Link} to="/courses" className="m-1">
-              Classes
-            </Nav.Link>
+            <NavDropdown title="Classes" className="m-1">
+              <NavDropdown.Item as={Link} to="/allcourses">
+                All Courses
+              </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/courses">
+                Semester Courses
+              </NavDropdown.Item>
+            </NavDropdown>
+
+            <NavDropdown title="Users" className="m-1">
+              <NavDropdown.Item as={Link} to="/students">
+                Student
+              </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/instructors">
+                Instructor
+              </NavDropdown.Item>
+            </NavDropdown>
 
             <Nav.Link as={Link} to="/about" className="m-1">
               About

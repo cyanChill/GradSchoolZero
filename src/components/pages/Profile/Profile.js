@@ -339,7 +339,7 @@ const Profile = () => {
             profileInfo.userData.type !== "registrar" && (
               <>
                 {/* Report user button */}
-                {id && profileInfo.userData.id !== user.id && (
+                {id && id !== user.id && (
                   <ReportButtonModal submitHandler={submitReportHandler} />
                 )}
 
@@ -372,7 +372,6 @@ const Profile = () => {
 
 const createWidgetGroups = (arr, canSeeAll) => {
   return arr.map((course) => {
-    console.log(course);
     const courseId = course.grade !== undefined ? course.course.id : course.id;
 
     return (
