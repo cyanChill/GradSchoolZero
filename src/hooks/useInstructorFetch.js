@@ -27,10 +27,10 @@ const useInstructorFetch = () => {
 
   useEffect(() => {
     const newNonSuspdIns = instructorList.filter(
-      (instructor) => !instructor.suspended
+      (instructor) => !instructor.suspended && !instructor.removed
     );
     const newSuspdIns = instructorList.filter(
-      (instructor) => instructor.suspended
+      (instructor) => instructor.suspended && !instructor.removed
     );
     setNonSuspendedInstructors(newNonSuspdIns);
     setSuspendedInstructors(newSuspdIns);
@@ -188,6 +188,14 @@ const useInstructorFetch = () => {
     }
   };
 
+  const getNonSuspendedInstructors = async () => {
+    const res = await fetch(
+      "http://localhost:2543/users?type=instructor&removed=false&suspended=false"
+    );
+    const data = await res.json();
+    return data;
+  };
+
   return {
     instructorList,
     nonSuspsendedInstructors,
@@ -201,6 +209,7 @@ const useInstructorFetch = () => {
     warnAllFailGradeAssign,
     notifyAllSupiciousInstructor,
     updateAllInstrucRating,
+    getNonSuspendedInstructors,
   };
 };
 
