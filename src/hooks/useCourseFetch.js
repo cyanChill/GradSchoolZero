@@ -18,8 +18,21 @@ const useCourseFetch = () => {
     termInfo
   ) => {
     const { semester, year } = termInfo;
+    const num = await numCourseInstanceInSemester(
+      termInfo.semester,
+      termInfo.year,
+      courseBase.name,
+      courseBase.code
+    );
+    const startPad =
+      (1000 - num).toString().length >= 0 ? (1000 - num).toString().length : 0;
+
+    const section =
+      semester[0] + (year % 100) + "S" + num.toString().padStart(startPad, 0);
+
     const courseObj = {
       id: uuidv4(),
+      section,
       course: {
         id: courseBase.id,
         code: courseBase.code,
@@ -169,6 +182,15 @@ const useCourseFetch = () => {
     );
     const numCoursesCurrTaking = coursesCurrTaking.length;
 
+    // See if the person is currently taking a different instance of this course
+    const takingDiffInstance = studGradeData.filter(
+      (grade) =>
+        grade.term.semester === semester &&
+        +grade.term.year === +year &&
+        grade.course.name === courseName &&
+        grade.course.code === code
+    );
+
     // Filter out the grades for this course taken previously
     const prevGradesForCourse = studGradeData.filter(
       (grade) => grade.course.name === courseName
@@ -189,12 +211,23 @@ const useCourseFetch = () => {
       prevGradesForCourse.length - gradeDist["W"] - gradeDist["DW"];
 
     if (
+      takingDiffInstance.length === 0 &&
       numCoursesCurrTaking < 4 &&
       !withdrawn &&
       (numTaken === 0 || (numTaken === 1 && gradeDist["F"] === 1))
     ) {
+      // Get more details on the courses currently taking
+      const allCurrCourseDetails = [];
+      for (const crse of coursesCurrTaking) {
+        const currCrseDetailRes = await fetch(
+          `http://localhost:2543/classes/${crse.course.id}`
+        );
+        const currCrseDetailData = await currCrseDetailRes.json();
+        allCurrCourseDetails.push(currCrseDetailData);
+      }
+
       const allCourseTimes =
-        coursesCurrTaking.reduce(
+        allCurrCourseDetails.reduce(
           (allCourses, newCourse) => allCourses.concat(newCourse.time),
           courseInfo.time
         ) || courseInfo.time;
@@ -325,6 +358,14 @@ const useCourseFetch = () => {
           status: "error",
           title: "Expulsion",
           details: "Failed course twice",
+        };
+
+      // Taking a different instance of the course
+      if (takingDiffInstance.length > 0)
+        return {
+          status: "error",
+          title: "Currently Taking Course",
+          details: "Taking this course with a different instructor currently",
         };
 
       // Taken class once or twice but didn't get an F the 2nd time (or a "W" or "DW")
@@ -609,7 +650,7 @@ const useCourseFetch = () => {
     const { semester, year } = termInfo;
 
     const res = await fetch(
-      `http://localhost:2543/classes?term.semester=${semester}&term.year=${year}`
+      `http://localhost:2543/classes?term.semester=${semester}&term.year=${year}&_sort=course.name`
     );
     const data = await res.json();
     return data;
@@ -810,7 +851,38 @@ const useCourseFetch = () => {
     return { top3: top3Data, bottom3: bottom3Data };
   };
 
-  
+  // Function to get the basic courses (not course by semester)
+  const getBasicCourse = async () => {
+    const res = await fetch(`http://localhost:2543/courses`);
+    const data = await res.json();
+    return data;
+  };
+
+  // Function to get the basic course info from the basic course's id (template course id)
+  const getBasicCourseById = async (id) => {
+    const res = await fetch(`http://localhost:2543/courses/${id}`);
+    const data = await res.json();
+    return data;
+  };
+
+  // Function to get the all the previous and current instances of a course
+  const getBasicCourseInstances = async (name, code) => {
+    const res = await fetch(
+      `http://localhost:2543/classes?course.code=${code}&course.name=${name}`
+    );
+    const data = await res.json();
+    return data;
+  };
+
+  // Function to get number of instances of a course in semester
+  const numCourseInstanceInSemester = async (semester, year, name, code) => {
+    const res = await fetch(
+      `http://localhost:2543/classes?term.semester=${semester}&term.year=${year}&course.code=${code}&course.name=${name}`
+    );
+    const data = await res.json();
+    return data.length;
+  };
+
   return {
     addCourse,
     deleteCourse,
@@ -834,6 +906,10 @@ const useCourseFetch = () => {
     updateBaseCourseRating,
     updateAllClassRatings,
     getProgramClassStats,
+    getBasicCourse,
+    getBasicCourseById,
+    getBasicCourseInstances,
+    numCourseInstanceInSemester,
   };
 };
 

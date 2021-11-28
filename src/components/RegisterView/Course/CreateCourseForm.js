@@ -29,21 +29,24 @@ const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const CreateCourseForm = () => {
   const { termHook, instructorHook } = useContext(GlobalContext);
   const { termInfo } = termHook;
-  const { nonSuspsendedInstructors: instructors } = instructorHook;
+  const { getNonSuspendedInstructors } = instructorHook;
   const { addCourse, getAllBaseCourses } = useCourseFetch();
 
   const [baseCourses, setBaseCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [instructors, setInstructors] = useState([]);
 
   useEffect(() => {
-    const populateCourseBase = async () => {
+    const populateData = async () => {
       setLoading(true);
       const data = await getAllBaseCourses();
+      const instruct = await getNonSuspendedInstructors();
       setBaseCourses(data);
+      setInstructors(instruct);
       setLoading(false);
     };
 
-    populateCourseBase();
+    populateData();
   }, []);
 
   const [courseInfo, setCourseInfo] = useState({

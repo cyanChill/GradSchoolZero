@@ -28,6 +28,10 @@ import InfractionsPage from "./components/RegisterView/Infractions/InfractionsPa
 import ComplaintsPage from "./components/RegisterView/Complaints/ComplaintsPage";
 import GradAppsPage from "./components/RegisterView/Applications/GradAppsPage";
 import CoursePage from "./components/pages/Courses/CoursePage";
+import Students from "./components/pages/Students";
+import Instructors from "./components/pages/Instructors";
+import AllCourses from "./components/pages/Courses/AllCourses";
+import CourseHub from "./components/pages/Courses/CourseHub";
 
 const App = () => {
   return (
@@ -36,9 +40,13 @@ const App = () => {
 
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route exact path="/allcourses" component={AllCourses} />
+        <Route path="/allcourses/:id" component={CourseHub} />
         <Route exact path="/courses" component={Courses} />
         <Route path="/courses/:id" component={CoursePage} />
         <Route path="/about" component={About} />
+        <Route path="/students" component={Students} />
+        <Route path="/instructors" component={Instructors} />
 
         <ProtectedRoute exact path="/profile">
           <Profile />
