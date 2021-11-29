@@ -1,0 +1,16 @@
+.LoginP {
+  background-image: url("../../Photos/p6.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+  padding: 10%;
+  min-height: calc(100vh - var(--pad-top));
+  width: 100%;
+}
+.background-red {
+  background-color: red;
+}
+
+.background-blue {
+  background-color: blue;
+}
