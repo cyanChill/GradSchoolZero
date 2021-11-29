@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Button, Form, Container, Alert } from "react-bootstrap";
 import { GlobalContext } from "../../GlobalContext";
 import HorizFormInputField from "../UI/HorizFormInputField";
+import "./Apply.css";
 
 const ApplyPage = () => {
   const { applicationsHook } = useContext(GlobalContext);
@@ -86,7 +87,7 @@ const ApplyPage = () => {
   }
 
   return (
-    <Container>
+    <Container className="Apply">
       {/* Form Selection */}
       <div className="d-flex flex-row justify-content-evenly align-items-center mt-5 gap-3">
         <Button

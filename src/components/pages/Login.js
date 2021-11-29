@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { Redirect } from "react-router";
 import { GlobalContext } from "../../GlobalContext";
 import HorizFormInputField from "../UI/HorizFormInputField";
+import "./Login.css";
 
 import { Button, Form, Card, Container, Alert } from "react-bootstrap";
 
@@ -28,8 +29,8 @@ const Login = () => {
   }
 
   return (
-    <Container>
-      <Card style={{ maxWidth: "50rem" }} className="mx-auto mt-5">
+    <Container className="LoginP">
+      <Card  style={{ maxWidth: "50rem" }} className="mx-auto mt-5">
         <Card.Body>
           <h1 className="text-center">Login</h1>
 
