@@ -1,5 +1,4 @@
 import "./styles/App.scss";
-import { Container } from "react-bootstrap";
 
 /* For page routing */
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -12,9 +11,9 @@ import Home from "./components/pages/Home/Home";
 import About from "./components/pages/About/About";
 import Courses from "./components/pages/Courses/Courses";
 import Profile from "./components/pages/Profile/Profile";
-import Login from "./components/pages/Login";
+import Login from "./components/pages/Login/Login";
 import Logout from "./components/pages/Logout";
-import ApplyPage from "./components/pages/ApplyPage";
+import ApplyPage from "./components/pages/Apply/ApplyPage";
 import CreateUserForm from "./components/RegisterView/Applications/CreateUserForm";
 import CreateCourseForm from "./components/RegisterView/Course/CreateCourseForm";
 import ApplicationsPage from "./components/RegisterView/Applications/ApplicationsPage";

@@ -1,10 +1,9 @@
-.LoginP {
-  background-image: url("../Photos/p6.png");
+.Apply {
+  background-image: url("../../Photos/p5.png");
   background-size: cover;
   background-repeat: no-repeat;
   height: 100%;
-  text-align: center;
-  padding: 10%;
+  padding: 7%;
   min-height: calc(100vh - var(--pad-top));
   width: 100%;
 }
