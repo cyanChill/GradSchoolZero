@@ -455,6 +455,10 @@ const useUserFetch = () => {
     sessionStorage.setItem("user", JSON.stringify(user));
   }, [user]);
 
+  useEffect(() => {
+    refreshUserInfo();
+  }, []);
+
   return {
     isLoggedIn,
     user,
