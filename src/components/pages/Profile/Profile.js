@@ -270,6 +270,38 @@ const Profile = () => {
     );
   }
 
+  let graduatedInfo = null;
+
+  if (!id && user.graduated) {
+    graduatedInfo = (
+      <Alert variant="success" className="my-3">
+        <Alert.Heading>You have graduated from the program</Alert.Heading>
+      </Alert>
+    );
+  }
+
+  let removedInfo = null;
+
+  if (!id && user.removed) {
+    removedInfo = (
+      <Alert variant="danger" className="my-3">
+        <Alert.Heading>
+          You are {user.type === "student" ? "expelled" : "fired"}
+        </Alert.Heading>
+      </Alert>
+    );
+  }
+
+  let suspendedInfo = null;
+
+  if (!id && user.suspended) {
+    suspendedInfo = (
+      <Alert variant="danger" className="my-3">
+        <Alert.Heading>You are currently suspended</Alert.Heading>
+      </Alert>
+    );
+  }
+
   let formattedWarningInfo = null;
 
   if (userInfracInfo) {
@@ -316,8 +348,9 @@ const Profile = () => {
         {profileInfo.userData.name}'s Profile
       </h1>
 
-      {/* Display user's warning information given this is their personal profile */}
-      {!id && formattedWarningInfo}
+      {/* Display conditionally information */}
+      {!id &&
+        (graduatedInfo || removedInfo || suspendedInfo || formattedWarningInfo)}
 
       {body}
 

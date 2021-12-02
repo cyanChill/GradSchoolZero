@@ -450,6 +450,7 @@ const CoursePage = () => {
             {/* Enroll & Write Review Buttons Row*/}
             {!user.suspended &&
               !user.graduated &&
+              !user.removed &&
               (user.type === "student" || user.type === "registrar") && (
                 <Row>
                   <Col xs="auto">
@@ -749,7 +750,7 @@ const ReviewModal = ({ show, handleClose, submitReview }) => {
   const [reasonError, setReasonError] = useState(false);
 
   const handleSubmit = () => {
-    if (reason.trim().length < 100) {
+    if (reason.trim().length < 50) {
       setReasonError(true);
       return;
     }
