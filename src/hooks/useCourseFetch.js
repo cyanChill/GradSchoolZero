@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
 import { checkConflicts } from "../helpers/time";
 import { calculateGPA, gradeMap } from "../helpers/grades";
