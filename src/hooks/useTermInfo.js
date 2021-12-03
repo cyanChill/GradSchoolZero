@@ -160,7 +160,7 @@ const useTermInfo = () => {
     const studRes = await fetch("http://localhost:2543/users?specReg=true");
     const studData = await studRes.json();
 
-    const res = await studData.forEach(async (stud) => {
+    await studData.forEach(async (stud) => {
       await fetch(`http://localhost:2543/users/${stud.id}`, {
         method: "PATCH",
         headers: {
@@ -172,7 +172,6 @@ const useTermInfo = () => {
 
     // End Special Registration
     await setSpecRegFlag(false);
-    return res.ok;
   };
 
   // Function to get the new values for phase, semester, and year
