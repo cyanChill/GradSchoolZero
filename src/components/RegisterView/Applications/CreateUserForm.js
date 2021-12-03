@@ -22,6 +22,7 @@ const CreateUserForm = ({ location }) => {
   const { checkUserEmailIsUsed, createUser } = userHook;
 
   const [userInfo, setUserInfo] = useState({
+    name: "",
     email: "@gradschoolzero.edu",
     password: generate({ length: 10, numbers: true, strict: true }),
     type: inputInfo.type || "",
@@ -38,6 +39,7 @@ const CreateUserForm = ({ location }) => {
         setInputInfo({ applic, id, name, email, type, justification, reqJust });
         setUserInfo((prev) => ({
           ...prev,
+          name,
           email: `${name.replace(/\s/g, "").toLowerCase()}@gradschoolzero.edu`,
           type,
         }));
@@ -61,6 +63,13 @@ const CreateUserForm = ({ location }) => {
     e.preventDefault();
     setLoading(true);
 
+    // Check if email used for a different student
+    if (userInfo.name.trim() === "") {
+      setError("Please enter a name");
+      setLoading(false);
+      return;
+    }
+
     const usedEmail = await checkUserEmailIsUsed(userInfo.email);
 
     // Check if email used for a different student
@@ -74,7 +83,7 @@ const CreateUserForm = ({ location }) => {
     const formattedEmail = userInfo.email.toLowerCase();
     const creationStatus = await createUser({
       id: inputInfo.id,
-      name: inputInfo.name,
+      name: userInfo.name,
       email: formattedEmail,
       password: userInfo.password,
       type: userInfo.type,
@@ -93,7 +102,7 @@ const CreateUserForm = ({ location }) => {
   if (success) {
     return (
       <SuccessfulCreationAlert
-        name={inputInfo.name}
+        name={userInfo.name}
         email={inputInfo.email}
         userInfo={userInfo}
         justification={inputInfo.justification}
@@ -112,6 +121,18 @@ const CreateUserForm = ({ location }) => {
           {error && <FormAlerts errors={error} />}
 
           <Form onSubmit={handleCreate} className="mt-3">
+            <Form.Group className="mb-3">
+              <Form.Label>User Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter name"
+                name="name"
+                value={userInfo.name}
+                onChange={handleInputChange}
+                required
+              />
+            </Form.Group>
+
             <Form.Group className="mb-3">
               <Form.Label>User Email</Form.Label>
               <Form.Control

@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { BiCheck, BiX } from "react-icons/bi";
 import BackHeader from "../../UI/BackHeader";
 import LabelDescripField from "../../UI/LabelDescripField";
 import CenterSpinner from "../../UI/CenterSpinner";
