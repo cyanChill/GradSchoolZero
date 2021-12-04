@@ -5,6 +5,7 @@ import { Link, Redirect } from "react-router-dom";
 import { Grid } from "@mui/material";
 import RegistrarMangementPage from "../../RegisterView/Mangement/RegistrarManagementPage";
 import "./Home.css";
+import HomePageCard from "../../UI/HomePageCard/HomePageCard";
 
 const Home = ({ history }) => {
   const { userHook } = useContext(GlobalContext);
@@ -40,9 +41,9 @@ const Home = ({ history }) => {
               <Grid className="HomeP">
                 {isLoggedIn ? null : (
                   <div>
-                    <h1>
+                    <h1 className="font">
                       <marquee
-                        className="text-center"
+                        className="text-center text-black"
                         direction="down"
                         height="50"
                         width="100%"
@@ -52,16 +53,16 @@ const Home = ({ history }) => {
                         Welcome to GradSchoolZero
                       </marquee>{" "}
                     </h1>
-
-                    <h2>
+                    <h2 className="font text-black">
                       Applications are open for the Fall 2021 Semester for
                       Students and Instructors!
                     </h2>
-                    <Button as={Link} to="/apply">
+                    <Button as={Link} to="/apply ">
                       Apply Now
                     </Button>
                   </div>
                 )}
+                <HomePageCard />
               </Grid>
             </>
           );
