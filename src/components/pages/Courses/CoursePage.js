@@ -69,15 +69,16 @@ const CoursePage = () => {
     const populateData = async () => {
       setLoading(true);
       const courseInfoData = await getCourseInfo(id);
-      const courseRating = await getCourseAvgRating(
-        courseInfoData.courseData.course.name,
-        courseInfoData.courseData.course.code
-      );
 
       if (courseInfoData === "error") {
         setError(true);
         return;
       }
+
+      const courseRating = await getCourseAvgRating(
+        courseInfoData.courseData.course.name,
+        courseInfoData.courseData.course.code
+      );
 
       setCourseInfo({
         ...courseInfoData.courseData,
