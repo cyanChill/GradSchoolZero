@@ -31,6 +31,7 @@ import Students from "./components/pages/Students";
 import Instructors from "./components/pages/Instructors";
 import AllCourses from "./components/pages/Courses/AllCourses";
 import CourseHub from "./components/pages/Courses/CourseHub";
+import FooterPage from "./components/UI/Footer/Footer";
 
 const App = () => {
   return (
@@ -102,6 +103,7 @@ const App = () => {
         {/* Page not found */}
         <Route path="*" component={NotFound} />
       </Switch>
+      <FooterPage />
     </Router>
   );
 };

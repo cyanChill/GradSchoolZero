@@ -57,7 +57,7 @@ const Home = ({ history }) => {
                       Applications are open for the Fall 2021 Semester for
                       Students and Instructors!
                     </h2>
-                    <Button as={Link} to="/apply ">
+                    <Button as={Link} to="/apply">
                       Apply Now
                     </Button>
                   </div>

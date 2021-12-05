@@ -1,4 +1,5 @@
 import { Container } from "react-bootstrap";
+import FooterPage from "../../UI/Footer/Footer";
 import "./About.css";
 
 const About = () => {
@@ -105,6 +106,7 @@ const About = () => {
     </div>
   </div>
 </div> */}
+        <FooterPage />
       </Container>
     </div>
   );
