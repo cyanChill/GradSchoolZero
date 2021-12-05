@@ -31,6 +31,7 @@ import Students from "./components/pages/Students";
 import Instructors from "./components/pages/Instructors";
 import AllCourses from "./components/pages/Courses/AllCourses";
 import CourseHub from "./components/pages/Courses/CourseHub";
+import RefreshStats from "./components/RegisterView/RefreshStats";
 
 const App = () => {
   return (
@@ -98,6 +99,9 @@ const App = () => {
           </RegistrarRoute>
           <RegistrarRoute exact path="/grad-apps">
             <GradAppsPage />
+          </RegistrarRoute>
+          <RegistrarRoute exact path="/refresh">
+            <RefreshStats />
           </RegistrarRoute>
 
           {/* Page not found */}
