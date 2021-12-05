@@ -806,6 +806,8 @@ const useCourseFetch = () => {
     const newRating =
       reviewsData.length === 0 ? null : calcAvgRating(reviewsData);
 
+    if (!newRating) return true;
+
     const res = await fetch(`http://localhost:2543/courses/${baseCourse.id}`, {
       method: "PATCH",
       headers: {
@@ -822,8 +824,12 @@ const useCourseFetch = () => {
 
   // Update All (Base) Class Ratings for the course that courses that just concluded
   const updateAllClassRatings = async (semester, year) => {
+    const queryString = semester
+      ? `?term.semester=${semester}&term.year=${year}`
+      : "";
+
     const courseRes = await fetch(
-      `http://localhost:2543/classes?term.semester=${semester}&term.year=${year}`
+      `http://localhost:2543/classes${queryString}`
     );
     const courseData = await courseRes.json();
 
