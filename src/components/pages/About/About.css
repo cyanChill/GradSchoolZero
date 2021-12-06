@@ -210,7 +210,7 @@
   left: 20px;
   right: 20px;
   bottom: 20px;
-  background: #2a2b2f;
+  background: #2f5c97;
   border-radius: 15px;
   display: flex;
   justify-content: center;
@@ -269,7 +269,7 @@
   background: black;
   border-radius: 5px;
   text-decoration: none;
-  color: white;
+  color: fff;
   margin-top: 20px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   transition: 0.5s;
