@@ -21,8 +21,7 @@ const Applicant = () => {
   const justificationField = useRef();
   const { applicationsHook } = useContext(GlobalContext);
   const { loading, getApplicationInfo, removeApplication } = applicationsHook;
-
-  const [validated, setValidated] = useState(false);
+  const [isValid, setisValid] = useState(null);
   const [application, setApplication] = useState({
     id: "",
     type: "",
@@ -44,9 +43,10 @@ const Applicant = () => {
     } else {
       justificationField.current.required = false;
     }
-    setValidated(true);
+    setisValid(true);
 
-    if (reqJust.accept && !justification) {
+    if (reqJust.accept && !justification.trim()) {
+      setisValid(false);
       return;
     }
 
@@ -62,9 +62,10 @@ const Applicant = () => {
     } else {
       justificationField.current.required = false;
     }
-    setValidated(true);
+    setisValid(true);
 
-    if (reqJust.reject && !justification) {
+    if (reqJust.reject && !justification.trim()) {
+      setisValid(false);
       return;
     }
 
@@ -156,10 +157,7 @@ const Applicant = () => {
               description={application.description}
             />
           )}
-          <Form
-            noValidate
-            validated={validated && application.type === "student"}
-          >
+          <Form noValidate>
             <HorizFormInputField
               label="Justification"
               feedback="Justification is required."
@@ -169,6 +167,11 @@ const Applicant = () => {
                 value: justification,
                 onChange: (e) => setJustification(e.target.value),
                 ref: justificationField,
+                className: isValid
+                  ? "is-valid"
+                  : isValid === false
+                  ? "is-invalid"
+                  : "",
               }}
             />
             <Row>

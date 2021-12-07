@@ -14,7 +14,9 @@ const ManageTaboo = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    await addTabooWord(wordField);
+    if (!wordField.trim()) return;
+
+    await addTabooWord(wordField.trim());
     setWordField("");
   };
 

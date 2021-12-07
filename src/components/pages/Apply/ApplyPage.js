@@ -36,6 +36,13 @@ const ApplyPage = () => {
     e.preventDefault();
     setLoading(true);
 
+    // Check if name field is empty
+    if (formState.name.trim() === "") {
+      setError("The name field can't be empty.");
+      setLoading(false);
+      return;
+    }
+
     const usedEmail = await checkAppEmailIsUsed(formState.email);
 
     // Check if email used in application has been already used
@@ -51,7 +58,7 @@ const ApplyPage = () => {
     let application = {
       id: uuidv4(),
       type: formType,
-      name: formState.name,
+      name: formState.name.trim(),
       email: formattedEmail,
     };
 
