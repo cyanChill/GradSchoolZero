@@ -372,7 +372,7 @@ const useUserFetch = () => {
   // Get the top 3 student gpas
   const getProgramStudStats = async () => {
     const top3Res = await fetch(
-      `http://localhost:2543/users?type=student&_sort=GPA&_order=desc_limit=3`
+      `http://localhost:2543/users?type=student&_sort=GPA&GPA_ne=null&_order=desc&_limit=3`
     );
     const top3Data = await top3Res.json();
 

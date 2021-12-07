@@ -536,7 +536,11 @@ const CoursePage = () => {
 
   let deleteCourseBtn = null;
 
-  if (user.type === "registrar" && termInfo.phase === "set-up") {
+  if (
+    isCorrectTerm &&
+    user.type === "registrar" &&
+    termInfo.phase === "set-up"
+  ) {
     deleteCourseBtn = <DeleteCourseBtn courseId={courseInfo.id} />;
   }
 
