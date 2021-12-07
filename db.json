@@ -30,7 +30,7 @@
       "graduated": false,
       "removed": false,
       "honorRoll": [],
-      "GPA": null,
+      "GPA": "1.33",
       "applyGrad": true
     },
     {
@@ -90,7 +90,7 @@
       "specReg": false,
       "graduated": false,
       "honorRoll": [],
-      "GPA": null,
+      "GPA": "2.57",
       "applyGrad": false
     },
     {
@@ -105,7 +105,7 @@
       "specReg": false,
       "graduated": false,
       "honorRoll": [],
-      "GPA": null,
+      "GPA": "3.30",
       "applyGrad": false
     },
     {
@@ -120,7 +120,7 @@
       "specReg": false,
       "graduated": false,
       "honorRoll": [],
-      "GPA": null,
+      "GPA": "3.85",
       "applyGrad": false
     },
     {
@@ -135,7 +135,7 @@
       "specReg": false,
       "graduated": false,
       "honorRoll": [],
-      "GPA": null,
+      "GPA": "2.30",
       "applyGrad": false
     },
     {
@@ -150,7 +150,7 @@
       "specReg": false,
       "graduated": false,
       "honorRoll": [],
-      "GPA": null,
+      "GPA": "1.90",
       "applyGrad": false
     },
     {
@@ -165,7 +165,7 @@
       "specReg": false,
       "graduated": false,
       "honorRoll": [],
-      "GPA": null,
+      "GPA": "3.50",
       "applyGrad": false
     },
     {
@@ -195,7 +195,7 @@
       "specReg": false,
       "graduated": false,
       "honorRoll": [],
-      "GPA": null,
+      "GPA": "2.00",
       "applyGrad": false
     },
     {
@@ -207,7 +207,7 @@
       "warningCnt": 0,
       "suspended": false,
       "removed": false,
-      "rating": null
+      "rating": 1
     },
     {
       "id": "81db7f41-504d-4e06-a90c-8c73b9e01d00",
@@ -218,7 +218,7 @@
       "warningCnt": 0,
       "suspended": false,
       "removed": false,
-      "rating": null
+      "rating": 3.7
     },
     {
       "id": "24c949ba-af1e-4c6f-9aca-5d5b1161c66b",
@@ -357,7 +357,7 @@
       "specReg": false,
       "graduated": false,
       "honorRoll": [],
-      "GPA": null,
+      "GPA": "4.00",
       "applyGrad": false
     },
     {
@@ -628,7 +628,7 @@
       "department": "Computer Science",
       "code": "I0600",
       "name": "Advanced Algorithms",
-      "rating": null
+      "rating": 1
     },
     {
       "id": "19e428c9-fb2b-483d-9b47-57ffee078a48",
@@ -649,7 +649,7 @@
       "department": "Computer Science",
       "code": "I9606",
       "name": "Concurrent Shared Memory Systems",
-      "rating": null
+      "rating": 3.7
     },
     {
       "id": "c7bdcc4d-4be3-4e4d-a6ca-f7fdf4f09f0e",
@@ -779,7 +779,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "capacity": {
         "max": 5,
@@ -813,7 +813,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "capacity": {
         "max": 5,
@@ -847,7 +847,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "capacity": {
         "max": 5,
@@ -915,7 +915,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "capacity": {
         "max": 5,
@@ -949,7 +949,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "capacity": {
         "max": 5,
@@ -983,7 +983,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "capacity": {
         "max": 5,
@@ -1017,7 +1017,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "capacity": {
         "max": 5,
@@ -1182,7 +1182,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "capacity": {
         "max": 5,
@@ -1685,7 +1685,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "grade": "F"
     },
@@ -1706,7 +1706,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "grade": "B"
     },
@@ -1727,7 +1727,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "grade": "A-"
     },
@@ -1748,7 +1748,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "grade": "B+"
     },
@@ -1769,7 +1769,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "grade": "C+"
     },
@@ -1790,7 +1790,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "grade": "B-"
     },
@@ -1811,7 +1811,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "grade": "B"
     },
@@ -1832,7 +1832,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "grade": "A"
     },
@@ -1853,7 +1853,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "grade": "F"
     },
@@ -1874,7 +1874,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "grade": "C"
     },
@@ -1937,7 +1937,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "grade": "A-"
     },
@@ -1958,7 +1958,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "grade": "B+"
     },
@@ -1979,7 +1979,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "grade": "C"
     },
@@ -2000,7 +2000,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "grade": "C"
     },
@@ -2126,7 +2126,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "grade": "W"
     },
@@ -2252,7 +2252,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "grade": "B-"
     },
@@ -2336,7 +2336,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "grade": "C"
     },
@@ -2420,7 +2420,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "grade": "A"
     },
@@ -2441,7 +2441,7 @@
       },
       "term": {
         "semester": "Spring",
-        "year": 2021
+        "year": 2020
       },
       "grade": "A"
     }
@@ -2570,10 +2570,7 @@
   "tabooWords": [
     {
       "id": "taboolist",
-      "tabooList": [
-        "simp",
-        "ass"
-      ]
+      "tabooList": ["simp", "ass"]
     }
   ],
   "term": [
@@ -2629,7 +2626,7 @@
         "id": "81db7f41-504d-4e06-a90c-8c73b9e01d00",
         "name": "David Ifa"
       },
-      "student": {
+      "reviewer": {
         "id": "3a1405de-8a77-4783-8def-1c95bb38f381",
         "name": "Gilberte Apollonius"
       },
