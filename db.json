@@ -2495,6 +2495,20 @@
       "name": "John Doe",
       "email": "johndoe@gmail.com",
       "gpa": 3.56
+    },
+    {
+      "id": "e45112f4-2545-4c64-8175-b091413f2295",
+      "type": "student",
+      "name": "Zeus",
+      "email": "zeus@gmail.com",
+      "gpa": 3.2
+    },
+    {
+      "id": "ffc678c6-2770-48be-bd4c-3bec066c109c",
+      "type": "instructor",
+      "name": "Daniel Hernandez",
+      "email": "dhernan@gmail.com",
+      "description": "N/A"
     }
   ],
   "complaints": [
@@ -2556,7 +2570,10 @@
   "tabooWords": [
     {
       "id": "taboolist",
-      "tabooList": ["simp", "ass"]
+      "tabooList": [
+        "simp",
+        "ass"
+      ]
     }
   ],
   "term": [

@@ -32,6 +32,7 @@ import Instructors from "./components/pages/Instructors";
 import AllCourses from "./components/pages/Courses/AllCourses";
 import CourseHub from "./components/pages/Courses/CourseHub";
 import RefreshStats from "./components/RegisterView/RefreshStats";
+import FooterPage from "./components/UI/Footer/Footer";
 
 const App = () => {
   return (
@@ -108,6 +109,7 @@ const App = () => {
           <Route path="*" component={NotFound} />
         </Switch>
       </div>
+      <FooterPage />
     </Router>
   );
 };
