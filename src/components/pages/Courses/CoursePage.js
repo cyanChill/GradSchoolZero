@@ -64,6 +64,7 @@ const CoursePage = () => {
   });
   const [alertObj, setAlertObj] = useState(null);
   const [show, setShow] = useState(false);
+  const [isCorrectTerm, setIsCorrectTerm] = useState(false);
 
   useEffect(() => {
     const populateData = async () => {
@@ -126,6 +127,15 @@ const CoursePage = () => {
 
     populateData();
   }, []);
+
+  useEffect(() => {
+    if (courseInfo.term && termInfo.semester) {
+      setIsCorrectTerm(
+        courseInfo.term.semester === termInfo.semester &&
+          courseInfo.term.year === termInfo.year
+      );
+    }
+  }, [courseInfo, termInfo]);
 
   const handleEnrollment = async () => {
     const response = await enrollCourse(user, courseInfo, termInfo);
@@ -345,12 +355,11 @@ const CoursePage = () => {
 
   // Setting the student widgets for the page
   const studentWidgets = studentsList.map((stud) => {
-    if (stdCourseRel.isCourseProf || user.type === "registrar") {
-      if (
-        termInfo.phase === "grading" &&
-        courseInfo.term.semester === termInfo.semester &&
-        courseInfo.term.year === termInfo.year
-      ) {
+    if (
+      isCorrectTerm &&
+      (stdCourseRel.isCourseProf || user.type === "registrar")
+    ) {
+      if (termInfo.phase === "grading") {
         return (
           <StudentGradeWidget
             key={stud.id}
@@ -386,7 +395,7 @@ const CoursePage = () => {
 
   // Setting the waitlist widgets for the page
   const waitlistWidgets =
-    termInfo.phase === "registration" || user.type === "registrar"
+    isCorrectTerm && termInfo.phase === "registration"
       ? waitlist.map((std) => (
           <WaitlistWidget
             key={std.id}
@@ -503,15 +512,17 @@ const CoursePage = () => {
           <Tab eventKey="reviews" title="Reviews">
             {reviewWidgets}
           </Tab>
-          {(stdCourseRel.isCourseProf || user.type === "registrar") && (
-            <Tab eventKey="waitlist" title="Waitlist">
-              {waitlistWidgets.length > 0 ? (
-                waitlistWidgets
-              ) : (
-                <p>There are no students in the waitlist.</p>
-              )}
-            </Tab>
-          )}
+          {isCorrectTerm &&
+            (stdCourseRel.isCourseProf || user.type === "registrar") &&
+            termInfo.phase === "registration" && (
+              <Tab eventKey="waitlist" title="Waitlist">
+                {waitlistWidgets.length > 0 ? (
+                  waitlistWidgets
+                ) : (
+                  <p>There are no students in the waitlist.</p>
+                )}
+              </Tab>
+            )}
         </Tabs>
 
         <ReviewModal
