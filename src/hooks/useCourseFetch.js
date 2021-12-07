@@ -844,7 +844,7 @@ const useCourseFetch = () => {
   // Function to get the top 3 and bottom 3 rated classes
   const getProgramClassStats = async () => {
     const top3Res = await fetch(
-      `http://localhost:2543/courses?_sort=rating&_order=desc&_limit=3&rating_ne=null`
+      `http://localhost:2543/courses?_sort=rating&rating_ne=null&_order=desc&_limit=3&rating_ne=null`
     );
     const top3Data = await top3Res.json();
 

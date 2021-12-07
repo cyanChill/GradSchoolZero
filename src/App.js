@@ -1,3 +1,8 @@
+import { useContext } from "react";
+import { GlobalContext } from "./GlobalContext";
+
+import { Alert, Container } from "react-bootstrap";
+
 import "./styles/App.scss";
 
 /* For page routing */
@@ -35,6 +40,22 @@ import RefreshStats from "./components/RegisterView/RefreshStats";
 import FooterPage from "./components/UI/Footer/Footer";
 
 const App = () => {
+  const { userHook } = useContext(GlobalContext);
+  const { user } = userHook;
+
+  if (user.removed === true) {
+    return (
+      <Container>
+        <Alert variant="danger">
+          <Alert.Heading>
+            You are {user.type === "student" ? "expelled" : "fired"} and cannot
+            access anything on the site.
+          </Alert.Heading>
+        </Alert>
+      </Container>
+    );
+  }
+
   return (
     <Router>
       <NavBar />

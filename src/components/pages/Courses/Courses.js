@@ -76,12 +76,9 @@ const Courses = () => {
 };
 
 const Statistics = () => {
-  const { userHook } = useContext(GlobalContext);
-  const { getProgramStudStats } = userHook;
   const { getProgramClassStats } = useCourseFetch();
   const [topRated, setTopRated] = useState([]);
   const [bottomRated, setBottomRated] = useState([]);
-  const [topStuds, setTopStuds] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -95,10 +92,6 @@ const Statistics = () => {
         classStats.top3.every((topcourse) => topcourse.id !== course.id)
       );
       setBottomRated(filteredBottom);
-
-      const studStats = await getProgramStudStats();
-      const filteredStud = studStats.top3.filter((stud) => stud.GPA);
-      setTopStuds(filteredStud);
 
       setLoading(false);
     };
@@ -116,49 +109,21 @@ const Statistics = () => {
     <TopBottomCourseWidget key={course.id} classInfo={course} />
   ));
 
-  const topStudList = topStuds.map((stud) => {
-    const leftCol = (
-      <Link to={`/profile/${stud.id}`} className={classes.link}>
-        {stud.name}
-      </Link>
-    );
-    const rightCol = (
-      <span className="text-muted text-monospace">{stud.GPA}</span>
-    );
-
-    return (
-      <DualColWidget
-        key={stud.id}
-        leftCol={{ body: leftCol }}
-        rightCol={{ body: rightCol, breakPoints: { xs: "auto" } }}
-      />
-    );
-  });
-
-  const hasTable =
-    topClassList.length > 0 ||
-    bottomClassList.length > 0 ||
-    topStudList.length > 0;
+  const hasTable = topClassList.length > 0 || bottomClassList.length > 0;
 
   return (
     <Row>
       {hasTable && <hr className="my-2" />}
       {topClassList.length > 0 && (
-        <Col xs="12" lg="4">
+        <Col xs="12" lg="6">
           <h2>Top Rated Courses</h2>
           {topClassList}
         </Col>
       )}
       {bottomClassList.length > 0 && (
-        <Col xs="12" lg="4">
+        <Col xs="12" lg="6">
           <h2>Bottom Rated Courses</h2>
           {bottomClassList}
-        </Col>
-      )}
-      {topStudList.length > 0 && (
-        <Col xs="12" lg="4">
-          <h2>Top Rated Students</h2>
-          {topStudList}
         </Col>
       )}
       {hasTable && <hr className="my-2" />}

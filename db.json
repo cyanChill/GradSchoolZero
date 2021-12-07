@@ -316,7 +316,7 @@
       "password": "password",
       "warningCnt": 0,
       "suspended": false,
-      "removed": false,
+      "removed": true,
       "rating": null
     },
     {
@@ -635,14 +635,14 @@
       "department": "Computer Science",
       "code": "I0802",
       "name": "Web/Geographical Information Systems",
-      "rating": null
+      "rating": 3.5
     },
     {
       "id": "7425d8ab-9a10-46a4-b6d0-90c1b1dda2de",
       "department": "Computer Science",
       "code": "I4200",
       "name": "Computer Architecture",
-      "rating": null
+      "rating": 4
     },
     {
       "id": "f968b316-173b-4030-af15-81b71953787f",
@@ -656,7 +656,7 @@
       "department": "Computer Science",
       "code": "I4300",
       "name": "Computer Communications",
-      "rating": null
+      "rating": 2
     },
     {
       "id": "eebe6a46-d632-4db4-92dc-b8679943a13d",
@@ -670,7 +670,7 @@
       "department": "Electrical Engineering",
       "code": "G3300",
       "name": "Mobile Robotics",
-      "rating": null
+      "rating": 1.5
     },
     {
       "id": "0430da69-589e-461a-b834-641693786830",
@@ -2576,7 +2576,7 @@
   "term": [
     {
       "id": "terminfo",
-      "phase": "registration",
+      "phase": "set-up",
       "semester": "Fall",
       "year": 2021,
       "specReg": false
