@@ -102,6 +102,7 @@ const CoursePage = () => {
       const isWaitlist = courseInfoData.courseData.waitList.some(
         (std) => std.id === user.id
       );
+
       const wroteReview = courseInfoData.reviewsData.some(
         (review) => review.reviewer.id === user.id
       );
@@ -373,6 +374,7 @@ const CoursePage = () => {
         key={stud.id}
         to={`/profile/${stud.id}`}
         text={stud.name}
+        className="my-2"
       />
     );
   });
@@ -457,6 +459,7 @@ const CoursePage = () => {
                   <Col xs="auto">
                     {!stdCourseRel.enrolled &&
                       !stdCourseRel.waitlist &&
+                      termInfo.year === courseInfo.term.year &&
                       (termInfo.phase === "registration" ||
                         (termInfo.phase !== "registration" &&
                           user.specReg)) && (

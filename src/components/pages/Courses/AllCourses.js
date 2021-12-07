@@ -41,7 +41,7 @@ const AllCourses = () => {
     <>
       {Object.keys(groupedCourseList).map((department) => (
         <div key={department}>
-          <h2>{department}</h2>
+          <h2 className="my-3">{department}</h2>
           {courseWidgets(groupedCourseList[department])}
         </div>
       ))}
@@ -58,7 +58,7 @@ const AllCourses = () => {
 
 const courseWidgets = (courseList) => {
   return (
-    <Row>
+    <Row className="my-3">
       {courseList.map((course) => (
         <Col key={course.id} sm="12" md="6" lg="4" className="my-2">
           <LinkBoxWidget to={`/allcourses/${course.id}`} text={course.name} />
