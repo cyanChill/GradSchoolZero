@@ -460,7 +460,8 @@ const CoursePage = () => {
               }
             />
             {/* Enroll & Write Review Buttons Row*/}
-            {!user.suspended &&
+            {isCorrectTerm &&
+              !user.suspended &&
               !user.graduated &&
               !user.removed &&
               (user.type === "student" || user.type === "registrar") && (

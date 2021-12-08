@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "./GlobalContext";
 
 import { Alert, Container } from "react-bootstrap";
@@ -38,12 +38,36 @@ import AllCourses from "./components/pages/Courses/AllCourses";
 import CourseHub from "./components/pages/Courses/CourseHub";
 import RefreshStats from "./components/RegisterView/RefreshStats";
 import FooterPage from "./components/UI/Footer/Footer";
+import CenterSpinner from "./components/UI/CenterSpinner";
 
 const App = () => {
   const { userHook } = useContext(GlobalContext);
-  const { user } = userHook;
+  const { user, getUserInfractions } = userHook;
+  const [loading, setLoading] = useState(true);
+  const [userInfrac, setUserInfrac] = useState([]);
+
+  useEffect(() => {
+    const handlePopulation = async () => {
+      if (user.id) {
+        setLoading(true);
+        const userInfractions = await getUserInfractions(user.id);
+        setUserInfrac(userInfractions);
+        setLoading(false);
+      } else {
+        setLoading(false);
+      }
+    };
+
+    handlePopulation();
+  }, [user.id]);
+
+  if (loading) {
+    return <CenterSpinner />;
+  }
 
   if (user.removed === true) {
+    const { latest3Warnings } = userInfrac;
+
     return (
       <Container>
         <Alert variant="danger">
@@ -51,6 +75,19 @@ const App = () => {
             You are {user.type === "student" ? "expelled" : "fired"} and cannot
             access anything on the site.
           </Alert.Heading>
+          <hr />
+          {latest3Warnings.length > 0 && (
+            <>
+              <p className="my-2">
+                Your previous {latest3Warnings.length} warnings were:
+              </p>
+              {latest3Warnings.map((warning) => (
+                <p key={warning.id} className="my-2 text-muted font-monospace">
+                  ({new Date(warning.date).toDateString()}) {warning.reason}
+                </p>
+              ))}
+            </>
+          )}
         </Alert>
       </Container>
     );
