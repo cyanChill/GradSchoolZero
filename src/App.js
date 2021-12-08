@@ -66,7 +66,7 @@ const App = () => {
   }
 
   if (user.removed === true) {
-    const { latest3Warnings } = userInfrac;
+    const { latest5Warnings } = userInfrac;
 
     return (
       <Container>
@@ -76,12 +76,12 @@ const App = () => {
             access anything on the site.
           </Alert.Heading>
           <hr />
-          {latest3Warnings.length > 0 && (
+          {latest5Warnings.length > 0 && (
             <>
               <p className="my-2">
-                Your previous {latest3Warnings.length} warnings were:
+                Your previous {latest5Warnings.length} warnings were:
               </p>
-              {latest3Warnings.map((warning) => (
+              {latest5Warnings.map((warning) => (
                 <p key={warning.id} className="my-2 text-muted font-monospace">
                   ({new Date(warning.date).toDateString()}) {warning.reason}
                 </p>
