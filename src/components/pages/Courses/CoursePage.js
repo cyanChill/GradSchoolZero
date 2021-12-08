@@ -108,7 +108,7 @@ const CoursePage = () => {
         (review) => review.reviewer.id === user.id
       );
       const hasGrade = courseInfoData.enrolledInfo.some(
-        (enrolled) => enrolled.id === user.id && enrolled.StudentGradeWidget
+        (enrolled) => enrolled.id === user.id && enrolled.grade
       );
       const isCourseProf =
         user.type === "instructor" &&
