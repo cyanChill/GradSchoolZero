@@ -333,7 +333,7 @@ const Profile = () => {
 
   return (
     <Container>
-      {alertObj && (
+      {!id && alertObj && (
         <Alert
           className="my-3"
           variant={alertObj.type}
@@ -344,9 +344,17 @@ const Profile = () => {
           {alertObj.message}
         </Alert>
       )}
+
       <h1 className="text-center my-3">
         {profileInfo.userData.name}'s Profile
       </h1>
+
+      {!id && user.specReg && (
+        <Alert className="my-3" variant="success">
+          You current can enroll into classes as one of your class has been
+          canceled.
+        </Alert>
+      )}
 
       {/* Display conditionally information */}
       {!id &&
