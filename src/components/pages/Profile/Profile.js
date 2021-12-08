@@ -336,11 +336,11 @@ const Profile = () => {
   if (userInfracInfo) {
     const { warningCnt, latest3Warnings } = userInfracInfo;
 
-    let headingMsg = `You currently have ${warningCnt} warnings. You are ${
+    let headingMsg = `You currently have a warning count of ${warningCnt}. You are ${
       3 - warningCnt
     } warnings away from being suspended.`;
     if (warningCnt >= 3) {
-      headingMsg = `You currently have ${warningCnt} warnings. You will be suspended in the next semester`;
+      headingMsg = `You currently have a warning count of ${warningCnt}. You will be suspended in the next semester`;
     }
 
     formattedWarningInfo = (
