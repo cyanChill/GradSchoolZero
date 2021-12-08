@@ -276,7 +276,7 @@ const useUserFetch = () => {
     if (data.GPA < 2) {
       // Expell student if their GPA is < 2
       await removeUser(id, "User has GPA < 2");
-    } else if (data.GPA > 2 && data.GPA < 2.25) {
+    } else if (data.GPA >= 2 && data.GPA <= 2.25) {
       // Notify user that a meeting is required if their GPA is between 2 and 2.25
       await addWarning(
         data,

@@ -103,7 +103,7 @@ const useTermInfo = () => {
       // Indicate Special Registration Has Started In Database
       await setSpecRegFlag(true);
 
-      // Warning all students with <2 courses this semester
+      // Warning all students who are taking <2 courses this semester [people who don't enrolled are considered "inactive"]
       await warnAllStudForLessCourse(termInfo.semester, termInfo.year);
 
       // Cancel all classes with <5 enrolled students
