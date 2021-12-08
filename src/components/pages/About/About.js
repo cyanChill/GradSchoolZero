@@ -88,19 +88,59 @@ const About = () => {
         </div>
 
         <div className="custom-bottomCover"></div>
-        <div className="meet-our-team">
-          <p>Meet The Team</p>
-        </div>
 
+
+        <div calssName="meetTheTeam">
+          <h2>Meet The Team</h2></div>
         {/* //profile links #######################*/}
-        <div className="card">
-          <div className="cardImg"></div>
+        <section className="lastDiv">
 
-          <div class="container">
-            <h4><b>John Doe</b></h4>
-            <p>Architect & Engineer</p>
+
+          <div className="profileCards">
+            <div className="profileImage image1"></div>
+            <h4>Anil Bhushal</h4>
+            <p>CSC 322 || CCNY </p>
+            <a href="">LinkedIn</a>
           </div>
-        </div>
+
+          <div className="profileCards">
+            <div className="profileImage image2"></div>
+            <h4>Anthony Liang</h4>
+            <p>CSC 322 || CCNY </p>
+            <a href="">LinkedIn</a>
+
+          </div>
+
+          <div className="profileCards">
+            <div className="profileImage image3"></div>
+            <h4>David Jimenez</h4>
+            <p>CSC 322 || CCNY </p>
+            <a href="">LinkedIn</a>
+          </div>
+
+          <div className="profileCards">
+            <div className="profileImage image4"></div>
+            <h4>Moshahid Kallol</h4>
+            <p>CSC 322 || CCNY </p>
+            <a href="">LinkedIn</a>
+          </div>
+
+
+          <div className="profileCards">
+            <div className="profileImage image5"></div>
+            <h4>Nafis Khan</h4>
+            <p>CSC 322 || CCNY </p>
+            <a href="">LinkedIn</a>
+          </div>
+
+
+
+
+
+        </section>
+
+
+
 
 
 
@@ -116,7 +156,10 @@ const About = () => {
 
 
       </Container >
+
     </div >
+
+
   );
 };
 
