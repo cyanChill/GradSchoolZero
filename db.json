@@ -119,7 +119,12 @@
       "removed": false,
       "specReg": false,
       "graduated": false,
-      "honorRoll": [{ "semester": "Spring", "year": 2020 }],
+      "honorRoll": [
+        {
+          "semester": "Spring",
+          "year": 2020
+        }
+      ],
       "GPA": "3.85",
       "applyGrad": false
     },
@@ -164,7 +169,12 @@
       "removed": false,
       "specReg": false,
       "graduated": false,
-      "honorRoll": [{ "semester": "Spring", "year": 2020 }],
+      "honorRoll": [
+        {
+          "semester": "Spring",
+          "year": 2020
+        }
+      ],
       "GPA": "3.50",
       "applyGrad": false
     },
@@ -1049,7 +1059,7 @@
         "year": 2021
       },
       "capacity": {
-        "max": 5,
+        "max": 7,
         "available": 2
       },
       "time": [
@@ -2444,6 +2454,48 @@
         "year": 2021
       },
       "grade": "A"
+    },
+    {
+      "id": "0e8ac3e2-007b-41da-9dbc-091a372144c2",
+      "course": {
+        "code": "I4200",
+        "id": "da800807-15c8-4288-b2e0-07a4223039e2",
+        "name": "Computer Architecture"
+      },
+      "instructor": {
+        "id": "24c949ba-af1e-4c6f-9aca-5d5b1161c66b",
+        "name": "Behnam Sidsel"
+      },
+      "student": {
+        "id": "c4f05e4a-06b1-4ec1-be80-95c615398899",
+        "name": "Jharana "
+      },
+      "term": {
+        "semester": "Fall",
+        "year": 2021
+      },
+      "grade": ""
+    },
+    {
+      "id": "3cec9ee3-fa3b-4714-967a-f85a50625f4f",
+      "course": {
+        "code": "I4200",
+        "id": "da800807-15c8-4288-b2e0-07a4223039e2",
+        "name": "Computer Architecture"
+      },
+      "instructor": {
+        "id": "24c949ba-af1e-4c6f-9aca-5d5b1161c66b",
+        "name": "Behnam Sidsel"
+      },
+      "student": {
+        "id": "683b37c0-154e-488a-b09a-014784d48501",
+        "name": "Sanjay Nikša"
+      },
+      "term": {
+        "semester": "Fall",
+        "year": 2021
+      },
+      "grade": ""
     }
   ],
   "applications": [
@@ -2515,13 +2567,13 @@
     {
       "id": "af57f0c9-5d56-44e6-986c-194aa0ac34b8",
       "reporter": {
-        "id": "37798a5b-413a-4c1e-9e32-34a57f71d17e",
-        "name": "Student",
+        "id": "3a1405de-8a77-4783-8def-1c95bb38f381",
+        "name": "Gilberte Apollonius",
         "type": "student"
       },
       "offender": {
-        "id": "185d11e4-87e1-48ef-9bf9-20db45cf6cc8",
-        "name": "George Simon",
+        "id": "24c949ba-af1e-4c6f-9aca-5d5b1161c66b",
+        "name": "Behnam Sidsel",
         "type": "instructor"
       },
       "reason": "Test complaint",
@@ -2533,44 +2585,44 @@
     {
       "id": "297a7b91-72ee-4788-877d-f6c53f35763c",
       "reporter": {
-        "id": "185d11e4-87e1-48ef-9bf9-20db45cf6cc8",
-        "name": "George Simon",
+        "id": "24c949ba-af1e-4c6f-9aca-5d5b1161c66b",
+        "name": "Behnam Sidsel",
         "type": "instructor"
       },
       "offender": {
-        "id": "37798a5b-413a-4c1e-9e32-34a57f71d17e",
-        "name": "Student",
+        "id": "3a1405de-8a77-4783-8def-1c95bb38f381",
+        "name": "Gilberte Apollonius",
         "type": "student"
       },
       "reason": "Test complaint",
       "extra": {
         "outcome": "de-registration",
-        "courseId": "61f18133-b4a8-43c7-97ae-d99cbb8eaa5e"
+        "courseId": "da800807-15c8-4288-b2e0-07a4223039e2"
       }
     },
     {
       "id": "246c57e2-9225-4fb2-a7cd-55a36d61e8f9",
       "reporter": {
-        "id": "185d11e4-87e1-48ef-9bf9-20db45cf6cc8",
-        "name": "George Simon",
+        "id": "24c949ba-af1e-4c6f-9aca-5d5b1161c66b",
+        "name": "Behnam Sidsel",
         "type": "instructor"
       },
       "offender": {
-        "id": "37798a5b-413a-4c1e-9e32-34a57f71d17e",
-        "name": "Student",
+        "id": "3a1405de-8a77-4783-8def-1c95bb38f381",
+        "name": "Gilberte Apollonius",
         "type": "student"
       },
       "reason": "Test complaint",
       "extra": {
         "outcome": "warning",
-        "courseId": "61f18133-b4a8-43c7-97ae-d99cbb8eaa5e"
+        "courseId": "da800807-15c8-4288-b2e0-07a4223039e2"
       }
     }
   ],
   "tabooWords": [
     {
       "id": "taboolist",
-      "tabooList": ["knife", "suicide"]
+      "tabooList": []
     }
   ],
   "term": [
