@@ -250,6 +250,12 @@ const Profile = () => {
   if (profileInfo.userData.type === "instructor") {
     body = (
       <>
+        <h3>
+          Current Rating:{" "}
+          <span className="font-monospace text-muted">
+            {profileInfo.userData.rating || "No Rating Avaliable"}
+          </span>
+        </h3>
         <h2>Currently Teaching:</h2>
         <Row>
           {currTeachWdgt.length > 0 ? (

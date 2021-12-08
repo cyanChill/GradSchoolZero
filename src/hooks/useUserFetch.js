@@ -169,6 +169,7 @@ const useUserFetch = () => {
         removed: userData.removed,
         graduated: userData.graduated,
         GPA: userData.GPA,
+        rating: userData.rating,
       },
       gradeData,
       taughtData,
