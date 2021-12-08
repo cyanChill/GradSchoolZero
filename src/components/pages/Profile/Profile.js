@@ -219,6 +219,18 @@ const Profile = () => {
   let body = null;
 
   if (profileInfo.userData.type === "student") {
+    const honorRollArr = profileInfo.userData.honorRoll;
+
+    const honorRollWidgets = honorRollArr.map((role) => (
+      <Col key={`${role.semseter}${role.year}`} md="6" className="my-2">
+        <Card className={classes.widget}>
+          <Card.Body clasName="my-2">
+            {role.semester} {role.year}
+          </Card.Body>
+        </Card>
+      </Col>
+    ));
+
     body = (
       <>
         <h3>
@@ -227,6 +239,7 @@ const Profile = () => {
             {profileInfo.userData.GPA || "No GPA Avaliable"}
           </span>
         </h3>
+
         <h3 className="my-3">Currently Taking:</h3>
         <Row>
           {currCourseWdgt.length > 0 ? (
@@ -235,12 +248,22 @@ const Profile = () => {
             <p>User is currently not taking any courses.</p>
           )}
         </Row>
+
         <h3 className="my-3">Previously Taken:</h3>
         <Row>
           {prevCourseWdgt.length > 0 ? (
             prevCourseWdgt
           ) : (
             <p>User have not taken any courses in the past.</p>
+          )}
+        </Row>
+
+        <h3 className="my-3">Honor Roll History:</h3>
+        <Row>
+          {honorRollWidgets.length > 0 ? (
+            honorRollWidgets
+          ) : (
+            <p>User have not been an honor student.</p>
           )}
         </Row>
       </>
