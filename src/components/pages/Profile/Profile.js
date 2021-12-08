@@ -323,7 +323,7 @@ const Profile = () => {
     formattedWarningInfo = (
       <Alert variant={warningCnt > 1 ? "danger" : "warning"} className="my-3">
         <Alert.Heading>{headingMsg}</Alert.Heading>
-        {warningCnt > 0 && (
+        {latest3Warnings.length > 0 && (
           <>
             <p className="my-2">Your current warnings include:</p>
             {latest3Warnings.map((warning) => (
