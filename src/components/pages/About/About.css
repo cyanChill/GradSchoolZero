@@ -93,6 +93,7 @@
   background-color: cadetblue;
   border-style: groove;
   width: 100%;
+  margin-bottom: 25px;
 }
 
 /* ....show more..... */
@@ -157,18 +158,7 @@
 
 
 
-/* new cards ########################## */
 
-
-
-
-
-
-
-
-
-
-/* new cards ############################## */
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800&display=swap");
 * {
@@ -317,15 +307,12 @@
 }
 
 
-
-
-
-
 .lastDiv{
   background-color: rgb(27, 27, 27);
   display:flex;
   justify-content: center;
   flex-wrap:wrap;
+  margin-top:15px;
  
   
 }
@@ -395,9 +382,6 @@
   text-decoration: none;
   font-weight:500;
 }
-
-
-
 
 
 /* last cover image */
