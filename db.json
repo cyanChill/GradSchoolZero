@@ -1349,7 +1349,7 @@
     },
     {
       "id": "2dd1bcd5-338b-47d7-b2ba-f76015c4bfe2",
-      "section": "F21S0003",
+      "section": "F21S0002",
       "course": {
         "id": "65bd754b-9a81-4591-9907-f50e5c8eeab1",
         "code": "I0600",
@@ -1378,7 +1378,7 @@
     },
     {
       "id": "597f443b-1740-4654-ac67-ff7547ab3f65",
-      "section": "F21S0000",
+      "section": "F21S0002",
       "course": {
         "id": "7425d8ab-9a10-46a4-b6d0-90c1b1dda2de",
         "code": "I4200",
@@ -1407,7 +1407,7 @@
     },
     {
       "id": "5e432ff0-4467-4e28-8b1c-cda18b76f96e",
-      "section": "F21S0003",
+      "section": "F21S0002",
       "course": {
         "id": "c7bdcc4d-4be3-4e4d-a6ca-f7fdf4f09f0e",
         "code": "I4300",
@@ -1581,7 +1581,7 @@
     },
     {
       "id": "bf1bc7ba-2ed8-4428-b7ae-076f6780e317",
-      "section": "F21S0000",
+      "section": "F21S0002",
       "course": {
         "id": "689bdd87-ff4a-4985-857e-322bee90e7ef",
         "code": "I2800",
