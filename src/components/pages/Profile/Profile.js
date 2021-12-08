@@ -334,7 +334,7 @@ const Profile = () => {
   let formattedWarningInfo = null;
 
   if (userInfracInfo) {
-    const { warningCnt, latest3Warnings } = userInfracInfo;
+    const { warningCnt, latest5Warnings } = userInfracInfo;
 
     let headingMsg = `You currently have a warning count of ${warningCnt}. You are ${
       3 - warningCnt
@@ -346,10 +346,10 @@ const Profile = () => {
     formattedWarningInfo = (
       <Alert variant={warningCnt > 1 ? "danger" : "warning"} className="my-3">
         <Alert.Heading>{headingMsg}</Alert.Heading>
-        {latest3Warnings.length > 0 && (
+        {latest5Warnings.length > 0 && (
           <>
             <p className="my-2">Your current warnings include:</p>
-            {latest3Warnings.map((warning) => (
+            {latest5Warnings.map((warning) => (
               <p key={warning.id} className="my-2 text-muted font-monospace">
                 ({new Date(warning.date).toDateString()}) {warning.reason}
               </p>

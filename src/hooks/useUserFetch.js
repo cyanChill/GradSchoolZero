@@ -364,11 +364,11 @@ const useUserFetch = () => {
     const userData = await userRes.json();
 
     const warningsRes = await fetch(
-      `http://localhost:2543/warnings?user.id=${id}&_sort=date&_order=desc&_limit=3`
+      `http://localhost:2543/warnings?user.id=${id}&_sort=date&_order=desc&_limit=5`
     );
     const warningsData = await warningsRes.json();
 
-    return { warningCnt: userData.warningCnt, latest3Warnings: warningsData };
+    return { warningCnt: userData.warningCnt, latest5Warnings: warningsData };
   };
 
   // Get the top 3 student gpas
