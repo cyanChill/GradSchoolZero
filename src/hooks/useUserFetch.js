@@ -170,6 +170,7 @@ const useUserFetch = () => {
         graduated: userData.graduated,
         GPA: userData.GPA,
         rating: userData.rating,
+        honorRoll: userData.honorRoll || [],
       },
       gradeData,
       taughtData,

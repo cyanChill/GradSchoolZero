@@ -119,7 +119,7 @@
       "removed": false,
       "specReg": false,
       "graduated": false,
-      "honorRoll": [],
+      "honorRoll": [{ "semester": "Spring", "year": 2020 }],
       "GPA": "3.85",
       "applyGrad": false
     },
@@ -164,7 +164,7 @@
       "removed": false,
       "specReg": false,
       "graduated": false,
-      "honorRoll": [],
+      "honorRoll": [{ "semester": "Spring", "year": 2020 }],
       "GPA": "3.50",
       "applyGrad": false
     },
@@ -2570,7 +2570,7 @@
   "tabooWords": [
     {
       "id": "taboolist",
-      "tabooList": ["simp", "ass"]
+      "tabooList": ["knife", "suicide"]
     }
   ],
   "term": [
