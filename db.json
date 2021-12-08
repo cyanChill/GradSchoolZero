@@ -703,7 +703,7 @@
     {
       "id": "2cfd6045-2404-46fc-9faa-2853d67c4374",
       "department": "Biomedical Engineering",
-      "code": "I4300",
+      "code": "I4301",
       "name": "Physiology for Biomedical Engineers",
       "rating": null
     },
@@ -1555,7 +1555,7 @@
       "section": "F21S0000",
       "course": {
         "id": "2cfd6045-2404-46fc-9faa-2853d67c4374",
-        "code": "I4300",
+        "code": "I4301",
         "name": "Physiology for Biomedical Engineers"
       },
       "instructor": {
