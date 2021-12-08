@@ -44,7 +44,7 @@ const useInstructorFetch = () => {
     });
     setInstructorList(newInstructorList);
 
-    const res = await removeUser(instructorId);
+    const res = await removeUser(instructorId, "Instructor was fired");
     return res;
   };
 
