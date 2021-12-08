@@ -157,10 +157,11 @@ const useTermInfo = () => {
   // Function to remove special registration flag from students
   const endSpecialRegistration = async () => {
     // Fetch all students with the "specReg" flag
+    setLoading(true);
     const studRes = await fetch("http://localhost:2543/users?specReg=true");
     const studData = await studRes.json();
 
-    await studData.forEach(async (stud) => {
+    for (const stud of studData) {
       await fetch(`http://localhost:2543/users/${stud.id}`, {
         method: "PATCH",
         headers: {
@@ -168,10 +169,11 @@ const useTermInfo = () => {
         },
         body: JSON.stringify({ ...stud, specReg: false }),
       });
-    });
+    }
 
     // End Special Registration
     await setSpecRegFlag(false);
+    setLoading(false);
   };
 
   // Function to get the new values for phase, semester, and year

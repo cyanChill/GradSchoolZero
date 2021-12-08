@@ -82,7 +82,9 @@ const SemesterManagement = () => {
         headerTitle="Semester Management"
       />
 
-      {termInfo.specReg && <SpecRegAlert handleEnd={handleEndSpecReg} />}
+      {!loading && termInfo.specReg && (
+        <SpecRegAlert handleEnd={handleEndSpecReg} />
+      )}
       {body}
 
       <Modal show={show} onHide={handleClose} centered>
