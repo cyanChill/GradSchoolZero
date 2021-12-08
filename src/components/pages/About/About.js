@@ -1,7 +1,6 @@
 import { Container } from "react-bootstrap";
 import "./About.css";
 
-
 const About = () => {
   return (
     <div className="custom-body">
@@ -89,77 +88,54 @@ const About = () => {
 
         <div className="custom-bottomCover"></div>
 
-
         <div calssName="meetTheTeam">
-          <h2>Meet The Team</h2></div>
+          <h2>Meet The Team</h2>
+        </div>
         {/* //profile links #######################*/}
         <section className="lastDiv">
-
-
           <div className="profileCards">
             <div className="profileImage image1"></div>
-            <h4>Anil Bhushal</h4>
+            <h4> Anil Bhushal</h4>
             <p>CSC 322 || CCNY </p>
-            <a href="">LinkedIn</a>
+            <a href="https://www.linkedin.com/in/anil-b-ba8636196/?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAC4DCjABymY9LYRXR2V0B1OrayXERVtPdtg">
+              LinkedIn
+            </a>
           </div>
 
           <div className="profileCards">
             <div className="profileImage image2"></div>
-            <h4>Anthony Liang</h4>
+            <h4> Anthony Liang</h4>
             <p>CSC 322 || CCNY </p>
-            <a href="">LinkedIn</a>
-
+            <a href="https://www.linkedin.com/in/anthonyliang9/">LinkedIn</a>
           </div>
 
           <div className="profileCards">
             <div className="profileImage image3"></div>
-            <h4>David Jimenez</h4>
+            <h4> David Jimenez</h4>
             <p>CSC 322 || CCNY </p>
-            <a href="">LinkedIn</a>
+            <a href="https://www.linkedin.com/in/david-j-b863a7228/">
+              LinkedIn
+            </a>
           </div>
 
           <div className="profileCards">
             <div className="profileImage image4"></div>
-            <h4>Moshahid Kallol</h4>
+            <h4> Moshahid Kallol</h4>
             <p>CSC 322 || CCNY </p>
-            <a href="">LinkedIn</a>
+            <a href="https://github.com/mkallol">LinkedIn</a>
           </div>
-
 
           <div className="profileCards">
             <div className="profileImage image5"></div>
-            <h4>Nafis Khan</h4>
+            <h4> Nafis Khan</h4>
             <p>CSC 322 || CCNY </p>
-            <a href="">LinkedIn</a>
+            <a href="https://www.linkedin.com/in/nafisrk/">LinkedIn</a>
           </div>
-
-
-
-
-
         </section>
 
-
-
-
-
-
-
-
-
-
         {/* //profile links######################### */}
-
-
-
-
-
-
-      </Container >
-
-    </div >
-
-
+      </Container>
+    </div>
   );
 };
 
