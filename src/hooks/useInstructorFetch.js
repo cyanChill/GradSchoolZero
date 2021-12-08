@@ -57,7 +57,7 @@ const useInstructorFetch = () => {
 
     for (const inst of instData) {
       const instCoursesRes = await fetch(
-        `http://localhost:2543/classes?instructor.id=${inst.id}&semester=${semester}&year=${year}`
+        `http://localhost:2543/classes?instructor.id=${inst.id}&term.semester=${semester}&term.year=${year}`
       );
       const instCoursesData = await instCoursesRes.json();
 
@@ -150,7 +150,7 @@ const useInstructorFetch = () => {
   // Function to check if an instructor have given grades that resulted in a suspicious class gpa
   const instructorWithSuspiciousClassGPA = async (instId, semester, year) => {
     const instCoursesRes = await fetch(
-      `http://localhost:2543/classes?instructor.id=${instId}&semester=${semester}&year=${year}`
+      `http://localhost:2543/classes?instructor.id=${instId}&term.semester=${semester}&term.year=${year}`
     );
     const instCoursesData = await instCoursesRes.json();
 

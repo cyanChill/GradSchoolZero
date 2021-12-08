@@ -10,12 +10,13 @@ import { GlobalContext } from "../../../GlobalContext";
 import classes from "./ComplaintsPage.module.css";
 
 const ComplaintsPage = () => {
-  const { complaintHook } = useContext(GlobalContext);
+  const { complaintHook, termHook } = useContext(GlobalContext);
   const { complaintsList, resolveComplaint, loading, refreshComplaintsList } =
     complaintHook;
+  const { termInfo } = termHook;
 
   const handleResult = async (complaintInfo, resultType) => {
-    await resolveComplaint(complaintInfo, resultType);
+    await resolveComplaint(complaintInfo, resultType, termInfo);
   };
 
   const complaints = complaintsList.map((complaint) => (

@@ -185,7 +185,7 @@ const useUserFetch = () => {
 
     for (const stud of studData) {
       const studGradRes = await fetch(
-        `http://localhost:2543/grades?student.id=${stud.id}&semester=${semester}&year=${year}`
+        `http://localhost:2543/grades?student.id=${stud.id}&term.semester=${semester}&term.year=${year}`
       );
       const studGradData = await studGradRes.json();
 

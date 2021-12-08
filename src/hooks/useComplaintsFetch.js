@@ -11,7 +11,7 @@ const useComplaintsFetch = () => {
     Removes the complaint from the database and take certain actions based on the
     outcome decided
   */
-  const resolveComplaint = async (complaintInfo, outcome) => {
+  const resolveComplaint = async (complaintInfo, outcome, termInfo) => {
     let warningInfo = null;
 
     if (outcome === "approve") {
@@ -24,15 +24,26 @@ const useComplaintsFetch = () => {
           `http://localhost:2543/grades?student.id=${complaintInfo.offender.id}&course.id=${complaintInfo.extra.courseId}`
         );
         const courseData = await courseRes.json();
-        let updatedInfo = { ...courseData[0], grade: "DW" };
 
-        await fetch(`http://localhost:2543/grades/${updatedInfo.id}`, {
-          method: "PATCH",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify(updatedInfo),
-        });
+        if (courseData.length > 0) {
+          const gradeEntry = courseData[0];
+          const { semester, year } = termInfo;
+          const {
+            term: { semester: gSemester, year: gYear },
+          } = gradeEntry;
+
+          if (gSemester === semester && +gYear === +year) {
+            let updatedInfo = { ...gradeEntry, grade: "DW" };
+
+            await fetch(`http://localhost:2543/grades/${updatedInfo.id}`, {
+              method: "PATCH",
+              headers: {
+                "Content-type": "application/json",
+              },
+              body: JSON.stringify(updatedInfo),
+            });
+          }
+        }
       } else {
         warningInfo = {
           user: complaintInfo.offender,
