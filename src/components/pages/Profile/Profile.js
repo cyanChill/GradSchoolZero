@@ -380,8 +380,8 @@ const Profile = () => {
 
       {!id && user.specReg && (
         <Alert className="my-3" variant="success">
-          You current can enroll into classes as one of your class has been
-          canceled.
+          You can currently enroll into classes during this Special Registration
+          Phase as one of your class has been canceled.
         </Alert>
       )}
 
