@@ -395,7 +395,7 @@ const CoursePage = () => {
 
   // Setting the waitlist widgets for the page
   const waitlistWidgets =
-    isCorrectTerm && termInfo.phase === "registration"
+    isCorrectTerm && (termInfo.phase === "registration" || termInfo.specReg)
       ? waitlist.map((std) => (
           <WaitlistWidget
             key={std.id}
@@ -514,7 +514,7 @@ const CoursePage = () => {
           </Tab>
           {isCorrectTerm &&
             (stdCourseRel.isCourseProf || user.type === "registrar") &&
-            termInfo.phase === "registration" && (
+            (termInfo.phase === "registration" || termInfo.specReg) && (
               <Tab eventKey="waitlist" title="Waitlist">
                 {waitlistWidgets.length > 0 ? (
                   waitlistWidgets
