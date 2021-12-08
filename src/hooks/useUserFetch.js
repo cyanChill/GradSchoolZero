@@ -196,9 +196,13 @@ const useUserFetch = () => {
   };
 
   // Function to expell a student
-  const removeUser = async (userId) => {
+  const removeUser = async (userId, reason) => {
     const res = await fetch(`http://localhost:2543/users/${userId}`);
     const data = await res.json();
+
+    if (reason) {
+      await addWarning({ id: userId, name: res.name }, reason, 0);
+    }
 
     const patchRes = await fetch(`http://localhost:2543/users/${userId}`, {
       method: "PATCH",
@@ -271,7 +275,7 @@ const useUserFetch = () => {
 
     if (data.GPA < 2) {
       // Expell student if their GPA is < 2
-      await removeUser(id);
+      await removeUser(id, "User has GPA < 2");
     } else if (data.GPA > 2 && data.GPA < 2.25) {
       // Notify user that a meeting is required if their GPA is between 2 and 2.25
       await addWarning(
@@ -331,7 +335,7 @@ const useUserFetch = () => {
 
     if (failedCourseTwice) {
       // Expel Student
-      await removeUser(id);
+      await removeUser(id, "Student failed course twice");
     }
 
     return failedCourseTwice;
