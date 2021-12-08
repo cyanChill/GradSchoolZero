@@ -266,7 +266,10 @@ const CoursePage = () => {
         message: response.message,
       });
 
-      setReviewsList((prev) => [response.review, ...prev]);
+      if (response.review.show) {
+        setReviewsList((prev) => [response.review, ...prev]);
+      }
+
       setStdCourseRel((prev) => ({ ...prev, reviewed: true }));
     } else {
       // Error with submitting review to server
