@@ -2664,7 +2664,7 @@
   "tabooWords": [
     {
       "id": "taboolist",
-      "tabooList": []
+      "tabooList": ["knife", "suicide", "kill"]
     }
   ],
   "term": [
