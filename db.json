@@ -1094,7 +1094,7 @@
       },
       "capacity": {
         "max": 5,
-        "available": 3
+        "available": 1
       },
       "time": [
         {
@@ -2490,6 +2490,48 @@
       "student": {
         "id": "683b37c0-154e-488a-b09a-014784d48501",
         "name": "Sanjay Nikša"
+      },
+      "term": {
+        "semester": "Fall",
+        "year": 2021
+      },
+      "grade": ""
+    },
+    {
+      "id": "53b96caf-ee09-427e-a5fa-fc4997906d3d",
+      "course": {
+        "code": "I0600",
+        "id": "61f18133-b4a8-43c7-97ae-d99cbb8eaa5e",
+        "name": "Advanced Algorithms"
+      },
+      "instructor": {
+        "id": "185d11e4-87e1-48ef-9bf9-20db45cf6cc8",
+        "name": "George Simon"
+      },
+      "student": {
+        "id": "f9032099-a8a3-4f53-9672-dad63f6e5d30",
+        "name": "David Luned"
+      },
+      "term": {
+        "semester": "Fall",
+        "year": 2021
+      },
+      "grade": ""
+    },
+    {
+      "id": "f964c206-571d-4eb4-8366-6f5becfc3f38",
+      "course": {
+        "code": "I0600",
+        "id": "61f18133-b4a8-43c7-97ae-d99cbb8eaa5e",
+        "name": "Advanced Algorithms"
+      },
+      "instructor": {
+        "id": "185d11e4-87e1-48ef-9bf9-20db45cf6cc8",
+        "name": "George Simon"
+      },
+      "student": {
+        "id": "2bcae42f-037d-415d-b2ee-39d54b9b7825",
+        "name": "Velimir Baishan"
       },
       "term": {
         "semester": "Fall",
