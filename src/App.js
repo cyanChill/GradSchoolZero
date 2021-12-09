@@ -45,6 +45,7 @@ const App = () => {
   const { user, getUserInfractions } = userHook;
   const [loading, setLoading] = useState(true);
   const [userInfrac, setUserInfrac] = useState([]);
+  const [loadedInfrac, setLoadedInfrac] = useState(false);
 
   useEffect(() => {
     const handlePopulation = async () => {
@@ -52,12 +53,14 @@ const App = () => {
         setLoading(true);
         const userInfractions = await getUserInfractions(user.id);
         setUserInfrac(userInfractions);
+        setLoadedInfrac(true);
         setLoading(false);
       } else {
         setLoading(false);
       }
     };
 
+    setLoading(true);
     handlePopulation();
   }, [user.id]);
 
@@ -65,7 +68,8 @@ const App = () => {
     return <CenterSpinner />;
   }
 
-  if (user.removed === true) {
+  if (user.removed === true && loadedInfrac) {
+    console.log(user);
     const { latest5Warnings } = userInfrac;
 
     return (
