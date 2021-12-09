@@ -117,7 +117,7 @@ const useTermInfo = () => {
       await suspendAllInstructorsNoCourse(termInfo.semester, termInfo.year);
     } else if (nextTerm.phase === "grading") {
       // End Special Registration In Case It's Still Enabled
-      await setSpecRegFlag(false);
+      await endSpecialRegistration();
     }
 
     await fetch(`http://localhost:2543/term/terminfo`, {

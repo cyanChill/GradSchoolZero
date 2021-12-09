@@ -208,7 +208,7 @@ const CoursePage = () => {
       }
 
       setAlertObj({
-        type: "error",
+        type: "danger",
         title: "Error",
         message: response.message,
       });

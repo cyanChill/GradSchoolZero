@@ -30,7 +30,7 @@
       "graduated": false,
       "removed": false,
       "honorRoll": [],
-      "GPA": "1.33",
+      "GPA": "1.00",
       "applyGrad": true
     },
     {
@@ -2009,10 +2009,10 @@
         "name": "student"
       },
       "term": {
-        "semester": "Spring",
+        "semester": "Fall",
         "year": 2021
       },
-      "grade": "C"
+      "grade": ""
     },
     {
       "id": "4d9c5b1c-ab42-42e1-9781-210e99e77e9a",
