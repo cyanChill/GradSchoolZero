@@ -472,6 +472,7 @@ const useCourseFetch = () => {
       }
     }
 
+    // Auto enrollment from waitlist only during registration phase
     if (phase === "registration") {
       // Updating Course Info [add waitlist person (given they don't have time conflicts & have < 4 courses) or then increment avaliable to 1]
       const courseInfoRes = await fetch(
@@ -574,10 +575,11 @@ const useCourseFetch = () => {
         message: "Student is already taking the maximum number of courses",
       };
 
-    const allCourseTimes = stdCourses.reduce(
-      (allCourses, newCourse) => allCourses.concat(newCourse.time),
-      courseInfoData.time
-    );
+    const allCourseTimes =
+      stdCourses.reduce(
+        (allCourses, newCourse) => allCourses.concat(newCourse.time),
+        courseInfoData.time
+      ) || courseInfoData.time;
     const conflicts = checkConflicts(allCourseTimes);
 
     if (conflicts)
