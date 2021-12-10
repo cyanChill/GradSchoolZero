@@ -12,7 +12,7 @@ Make sure to have Node.js and NPM installed. Download it [here](https://nodejs.o
 
 We require 2 different terminals to be open and to be in the project's directory (in `...\GradSchoolZero`) for both of these:
 
-1. In one of the terminals terminal, run: `npm start` (starts the react project)
+1. In one of the terminals, run: `npm start` (starts the react project)
 2. In the other terminal, run: `npm run serve` (starts the database server the react project uses)
 
 > **Note:** There may be some issues with using this project in macOS as we discovered later on related to the database calls made by this system [there may be some sort of limitation in macOS not seen in Windows as it works fine in Windows (we're not sure if running Windows via Bootcamp in macOS will yield the same problems)].
