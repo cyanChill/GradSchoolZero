@@ -16,3 +16,63 @@ We require 2 different terminals to be open and to be in the project's directory
 2. In the other terminal, run: `npm run serve` (starts the database server the react project uses)
 
 > **Note:** There may be some issues with using this project in macOS as we discovered later on related to the database calls made by this system [there may be some sort of limitation in macOS not seen in Windows as it works fine in Windows (we're not sure if running Windows via Bootcamp in macOS will yield the same problems)].
+
+# Some Users:
+
+You can see the full list of users with email & password in the `db.json` file [look in the "users" property in this JSON object]
+
+1. **Registrar** [Type Registrar]
+
+   ```
+       email: registrar@gradschoolzero.edu
+       password: password
+   ```
+
+2. **George Simon** [Type Instructor]
+
+   ```
+       email: gsimon@gradschoolzero.edu
+       password: password
+   ```
+
+3. **David Ifa** [Type Instructor]
+
+   ```
+       email: difa@gradschoolzero.edu
+       password: password
+   ```
+
+4. **Behnam Sidsel** [Type Instructor]
+
+   ```
+       email: bsidsel@gradschoolzero.edu
+       password: password
+   ```
+
+5. **Student** [Type Student]
+
+   ```
+       email: student@gradschoolzero.edu
+       password: password
+   ```
+
+6. **Jeffrey Mina** [Type Student]
+
+   ```
+       email: jmina@gradschoolzero.edu
+       password: password
+   ```
+
+7. **Sanjay Nikša** [Type Student]
+
+   ```
+       email: sniksa@gradschoolzero.edu
+       password: password
+   ```
+
+8. **Ioses Mirko** [Type Student]
+
+   ```
+       email: imirko@gradschoolzero.edu
+       password: password
+   ```
