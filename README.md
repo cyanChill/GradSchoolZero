@@ -2,6 +2,11 @@
 
 Make sure to have Node.js and NPM installed. Download it [here](https://nodejs.org/en/) and select the LTS option.
 
+## Demo
+
+https://github.com/cyanChill/GradSchoolZero/assets/83375816/2192523a-597f-4ab2-8cfe-a4c45c024868
+
+
 # To Setup the Project For Local Use:
 
 1. In the directory where you want the project, run `git clone https://github.com/CityDevsCCNY/GradSchoolZero`
