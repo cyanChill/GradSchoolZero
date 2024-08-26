@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { generate } from "generate-password";
+import { generate } from "generate-password-browser";
 import { v4 as uuidv4 } from "uuid";
 import { Button, Form, Card, Container, Alert } from "react-bootstrap";
 import FormAlerts from "../../UI/FormAlerts";
